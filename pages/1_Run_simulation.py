@@ -16,6 +16,15 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 sys.path.insert(0, str(Path(__file__).parent.parent / "core"))
 
 import streamlit as st
+st.set_page_config(page_title="Run simulation", page_icon="⚙️", layout="wide")
+
+st.markdown("""
+<style>
+h1,h2,h3{white-space:nowrap!important;overflow:visible!important;}
+.block-container{padding-top:1rem;}
+</style>
+""", unsafe_allow_html=True)
+
 import pandas as pd
 import numpy as np
 
@@ -93,89 +102,102 @@ def _save_results(results: list):
     MULTI_FILE.write_text(json.dumps(results, indent=2, default=str))
 
 # ─────────────────────────────────────────────────────────────────────────────
-st.title("⚙️ Run simulation")
+# ── Page header ──────────────────────────────────────────────────────────────
+clim_label_disp = st.session_state.get("climate_label","(no climate selected)")
+p51_info = st.session_state.get("climate_p51_info",{})
+_clim_src = st.session_state.get("climate_source","")
+if _clim_src == "local" and p51_info:
+    _clim_detail = (f"{p51_info.get('start','')[:4]}-{p51_info.get('end','')[:4]}"
+                    f"  ({p51_info.get('years','?')} yr)  ~{p51_info.get('rain',0):.0f} mm/yr")
+elif _clim_src == "silo":
+    _stn = load_station()
+    _clim_detail = f"({_stn['lat']:.3f}, {_stn['lon']:.3f})" if _stn else ""
+else:
+    _clim_detail = ""
+
+st.markdown(f"### Step 1:  {clim_label_disp}  ·  {_clim_detail}")
+if st.button("← Change climate", help="Return to Home to select a different climate"):
+    st.switch_page("app.py")
+st.divider()
+st.markdown("### Step 2:  Select scenarios")
 
 # ══════════════════════════════════════════════════════════════════════════════
-# STEP 1 — Climate (read from session state, set on Home page)
 # ══════════════════════════════════════════════════════════════════════════════
-clim_source = st.session_state.get("climate_source")   # "silo" or "local"
-station     = load_station()                            # set on Home page
-
-with st.container(border=True):
-    st.subheader("Step 1 — Climate")
-
-    if clim_source == "silo" and station:
-        rel_df = _load_rel()
-        pct = None
-        if rel_df is not None:
-            try:
-                pct = float(rel_df.loc[int(station["id"]), "pct_observed"])
-            except Exception:
-                pass
-        st.success(
-            f"🌐 **{station['name']}**  [{station.get('state','')}]  "
-            f"({station['lat']:.3f}, {station['lon']:.3f})  ·  "
-            f"{reliability_label(pct)}"
-        )
-        if st.button("← Change climate source", key="change_clim"):
-            st.switch_page("app.py")
-
-    elif clim_source == "local":
-        p51_path  = st.session_state.get("climate_p51_path")
-        p51_info  = st.session_state.get("climate_p51_info", {})
-        clim_label_ss = st.session_state.get("climate_label", "Local P51")
-        if p51_path:
-            st.success(
-                f"📂 **{clim_label_ss}**  ·  "
-                f"{p51_info.get('start','?')} → {p51_info.get('end','?')}  "
-                f"·  {p51_info.get('years','?')} years  "
-                f"·  ~{p51_info.get('rain','?'):.0f} mm/yr"
-            )
-        if st.button("← Change climate source", key="change_clim"):
-            st.switch_page("app.py")
-
-    else:
-        st.warning("No climate source selected.")
-        st.page_link("app.py", label="← Go to Home to select a climate source")
-        st.stop()
-
+# STEP 1 — Climate + date range (combined)
 # ══════════════════════════════════════════════════════════════════════════════
-# STEP 2 — Date range (only shown once climate is selected)
-# ══════════════════════════════════════════════════════════════════════════════
-if clim_source is None:
-    st.info("Select a climate station or P51 file above to continue.")
+clim_source = st.session_state.get("climate_source")
+station     = load_station()
+
+if not clim_source:
+    st.warning("No climate selected.")
+    st.page_link("app.py", label="← Go to Home to select a climate source")
     st.stop()
 
+# Determine date bounds from P51 if local
+p51_info    = st.session_state.get("climate_p51_info", {})
+clim_label_ss = st.session_state.get("climate_label", "")
+if clim_source == "local":
+    avail_start = int(p51_info.get("start","1900")[:4])
+    avail_end   = int(p51_info.get("end","2026")[:4])
+else:
+    avail_start = 1900
+    avail_end   = 2026
+
 with st.container(border=True):
-    st.subheader("Step 2 — Simulation period")
+    cc1, cc2 = st.columns([3, 2])
 
-    # Determine available date bounds
-    if clim_source == "local":
-        p51_info    = st.session_state.get("climate_p51_info", {})
-        avail_start = int(p51_info.get("start","1900")[:4])
-        avail_end   = int(p51_info.get("end","2026")[:4])
-        st.caption(f"P51 file covers {avail_start}–{avail_end}")
-    else:
-        avail_start = 1900
-        avail_end   = 2026
+    with cc1:
+        # Climate confirmation
+        if clim_source == "silo" and station:
+            rel_df = _load_rel()
+            pct = None
+            if rel_df is not None:
+                try:
+                    pct = float(rel_df.loc[int(station["id"]), "pct_observed"])
+                except Exception:
+                    pass
+            st.markdown(
+                f"**Climate:** 🌐 {station['name']}  [{station.get('state','')}]  "
+                f"·  {reliability_label(pct)}"
+            )
+            # Background prefetch
+            _ck = f"_climate_prefetched_{station['id']}"
+            if not st.session_state.get(_ck):
+                with st.spinner("Fetching SILO data..."):
+                    try:
+                        ensure_climate_cached(
+                            station["id"], lat=station["lat"], lon=station["lon"],
+                            session_state=st.session_state,
+                        )
+                        st.session_state[_ck] = True
+                    except Exception as _e:
+                        st.warning(f"Prefetch failed — will retry on run: {_e}")
+        elif clim_source == "local":
+            st.markdown(
+                f"**Climate:** 📂 {clim_label_ss}  "
+                f"·  {p51_info.get('start','?')[:4]}–{p51_info.get('end','?')[:4]}  "
+                f"·  ~{p51_info.get('rain',0):.0f} mm/yr"
+            )
+        if st.button("← Change", key="change_clim", help="Return to Home to change climate"):
+            st.switch_page("app.py")
 
-    c1, c2 = st.columns(2)
-    with c1:
-        yr_start = st.number_input(
-            "Start year", avail_start, avail_end,
-            max(1975, avail_start), step=1, key="yr_start",
-        )
-    with c2:
-        yr_end = st.number_input(
-            "End year", avail_start, avail_end,
-            min(2000, avail_end), step=1, key="yr_end",
-        )
-
-    if yr_start >= yr_end:
-        st.error("Start year must be before end year.")
-        st.stop()
-
-    st.caption(f"→ {yr_end - yr_start + 1} years  ({yr_start}–{yr_end})")
+    with cc2:
+        # Date range
+        dy1, dy2 = st.columns(2)
+        with dy1:
+            yr_start = st.number_input(
+                "Start year", avail_start, avail_end,
+                max(1975, avail_start), step=1, key="yr_start",
+            )
+        with dy2:
+            yr_end = st.number_input(
+                "End year", avail_start, avail_end,
+                min(2000, avail_end), step=1, key="yr_end",
+            )
+        if yr_start >= yr_end:
+            st.error("Start year must be before end year.")
+            st.stop()
+        st.caption(f"{yr_end - yr_start + 1} years  ({yr_start}–{yr_end})")
 
 # ══════════════════════════════════════════════════════════════════════════════
 # STEP 3 — Soil, vegetation, single vs multiple
@@ -322,6 +344,18 @@ def _run_one(met_df, profile, get_state, nyears):
 # ── Monthly chart helper ──────────────────────────────────────────────────────
 def _monthly_chart(mon, ann, clim_label, soil_name, vege_name, yr_start, yr_end):
     import plotly.graph_objects as go
+
+    # ── Header strip: Climate / Soil / Vegetation ─────────────────────────────
+    st.markdown(
+        f"<div style='background:#f0f0f0;padding:8px 16px;border-radius:6px;"
+        f"font-size:1.1rem;font-weight:600;margin-bottom:4px;white-space:nowrap;'>"
+        f"Climate: &nbsp;{clim_label} &nbsp;&nbsp;&nbsp;&nbsp;"
+        f"Soil type: &nbsp;{soil_name} &nbsp;&nbsp;&nbsp;&nbsp;"
+        f"Vegetation: &nbsp;{vege_name}"
+        f"</div>",
+        unsafe_allow_html=True,
+    )
+
     MO = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
     fig = go.Figure()
     fig.add_trace(go.Bar(
@@ -358,7 +392,7 @@ def _monthly_chart(mon, ann, clim_label, soil_name, vege_name, yr_start, yr_end)
     rm = float(ann["rain"].mean())
     fig.update_layout(
         title=dict(
-            text=(f"Water balance summary  {yr_start}–{yr_end}  ·  "
+            text=(f"Water balance summary  {yr_start}-{yr_end}  ·  "
                   f"Rain {rm:.0f}mm  "
                   f"Runoff {ann['runoff'].mean():.0f}mm  "
                   f"Evap {ann['soil_evap'].mean():.0f}mm  "
@@ -366,8 +400,8 @@ def _monthly_chart(mon, ann, clim_label, soil_name, vege_name, yr_start, yr_end)
                   f"Drain {ann['drainage'].mean():.0f}mm"),
             x=0.5, xanchor="center", font=dict(size=13),
         ),
-        height=420, margin=dict(l=55, r=60, t=60, b=90),
-        legend=dict(orientation="h", x=0.5, xanchor="center", y=-0.25,
+        height=430, margin=dict(l=55, r=60, t=55, b=90),
+        legend=dict(orientation="h", x=0.5, xanchor="center", y=-0.22,
                     font=dict(size=11)),
         plot_bgcolor="white", paper_bgcolor="white",
         hovermode="x unified", bargap=0.25,
@@ -377,44 +411,68 @@ def _monthly_chart(mon, ann, clim_label, soil_name, vege_name, yr_start, yr_end)
                     rangemode="tozero", showgrid=False, tickfont=dict(size=11)),
         xaxis=dict(showgrid=False, tickfont=dict(size=12)),
     )
-    # Config labels below chart
     st.plotly_chart(fig, width="stretch")
-    cc1, cc2, cc3 = st.columns(3)
-    cc1.caption(f"🌍 **Climate:** {clim_label}")
-    cc2.caption(f"🪨 **Soil:** {soil_name}")
-    cc3.caption(f"🌿 **Vegetation:** {vege_name}")
 
 # ── Annual summary table helper ───────────────────────────────────────────────
-def _ann_table(ann):
+def _ann_table(ann, vege_path=None):
     rain_m = float(ann["rain"].mean())
     rows = []
+
+    # Water balance components - integers, % rain without % symbol
     for k, label in [("rain","Rainfall"),("runoff","Runoff"),
                      ("soil_evap","Soil evaporation"),("transp","Transpiration"),
                      ("et","Total ET"),("drainage","Deep drainage")]:
         v  = float(ann[k].mean())
         cv = float(ann[k].std() / max(ann[k].mean(), 0.1) * 100)
-        rows.append({"Component": label,
-                     "Mean mm/yr": round(v,1),
-                     "% rain": f"{v/rain_m*100:.1f}%",
-                     "CV%": f"{cv:.0f}%",
-                     "Min": round(float(ann[k].min()),1),
-                     "Max": round(float(ann[k].max()),1)})
+        rows.append({
+            "Component":   label,
+            "Mean mm/yr":  int(round(v)),
+            "% rain":      f"{v/rain_m*100:.0f}",
+            "CV":          f"{cv:.0f}",
+            "Min":         int(round(float(ann[k].min()))),
+            "Max":         int(round(float(ann[k].max()))),
+        })
+
+    # Erosion - 2 dp
     if "sediment" in ann.columns:
         sv = float(ann["sediment"].mean())
-        rows.append({"Component": "Erosion (t/ha)",
-                     "Mean mm/yr": round(sv,2), "% rain":"—",
-                     "CV%": f"{float(ann['sediment'].std()/max(sv,0.01)*100):.0f}%",
-                     "Min": round(float(ann["sediment"].min()),2),
-                     "Max": round(float(ann["sediment"].max()),2)})
-    yd = ann.attrs.get("annual_yield",{})
+        rows.append({
+            "Component":   "Erosion (t/ha)",
+            "Mean mm/yr":  round(sv, 2),
+            "% rain":      "—",
+            "CV":          f"{float(ann['sediment'].std()/max(sv,0.01)*100):.0f}",
+            "Min":         round(float(ann["sediment"].min()), 2),
+            "Max":         round(float(ann["sediment"].max()), 2),
+        })
+
+    # Yield - 2 dp, mean transpiration x WUE x HI
+    yd = ann.attrs.get("annual_yield", {})
     if yd:
-        yv = list(yd.values())
-        rows.append({"Component": "Yield (t/ha)",
-                     "Mean mm/yr": round(float(np.mean(yv)),2), "% rain":"—",
-                     "CV%": f"{float(np.std(yv)/max(np.mean(yv),0.01)*100):.0f}%",
-                     "Min": round(float(np.min(yv)),2),
-                     "Max": round(float(np.max(yv)),2)})
-    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+        yv = [v for v in yd.values() if v > 0]   # only years with a harvest
+        if yv:
+            rows.append({
+                "Component":   "Yield (t/ha)",
+                "Mean mm/yr":  round(float(np.mean(yv)), 2),
+                "% rain":      "—",
+                "CV":          f"{float(np.std(yv)/max(np.mean(yv),0.01)*100):.0f}",
+                "Min":         round(float(np.min(yv)), 2),
+                "Max":         round(float(np.max(yv)), 2),
+            })
+
+    df_tbl = pd.DataFrame(rows)
+    st.dataframe(
+        df_tbl,
+        width="stretch",
+        hide_index=True,
+        column_config={
+            "Component":  st.column_config.TextColumn("Component", width="medium"),
+            "Mean mm/yr": st.column_config.NumberColumn("Mean", format="%g"),
+            "% rain":     st.column_config.TextColumn("% rain", width="small"),
+            "CV":         st.column_config.TextColumn("CV%",    width="small"),
+            "Min":        st.column_config.NumberColumn("Min",   format="%g"),
+            "Max":        st.column_config.NumberColumn("Max",   format="%g"),
+        },
+    )
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SINGLE SIMULATION
@@ -467,6 +525,64 @@ if not multiple:
                            mon.to_csv().encode(),
                            f"{safe}_monthly.csv", "text/csv",
                            width="stretch")
+
+    # Balance error
+    if abs(err) < 0.001:
+        st.caption(f"Balance error = {err:+.5f} mm/yr  ✅ Water balance OK")
+    else:
+        st.warning(f"Balance error = {err:+.5f} mm/yr  ⚠️")
+
+    # Soil and vegetation specification viewer
+    st.divider()
+    sv1, sv2 = st.columns(2)
+    with sv1:
+        with st.expander("View soil specification"):
+            try:
+                import sys as _sys
+                _sys.path.insert(0, str(Path(__file__).parent.parent))
+                from core.input_summaries import make_soil_summary
+                import tempfile, os
+                with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as _t:
+                    _tp = _t.name
+                make_soil_summary(profile, out_path=_tp)
+                st.image(_tp, width="stretch")
+                os.unlink(_tp)
+            except Exception as _e:
+                rows_s = [
+                    {"Parameter":"Name",      "Value": str(profile.name)},
+                    {"Parameter":"Layers",    "Value": str(len(profile.layers))},
+                    {"Parameter":"PAWC mm",   "Value": f"{profile.pawc_total:.0f}"},
+                    {"Parameter":"CN2 bare",  "Value": str(profile.cn2_bare)},
+                    {"Parameter":"Cona",      "Value": str(profile.cona)},
+                    {"Parameter":"U mm",      "Value": str(profile.u)},
+                    {"Parameter":"K erod.",   "Value": str(profile.musle_k)},
+                    {"Parameter":"Slope %",   "Value": str(profile.slope_pct)},
+                ]
+                for i, l in enumerate(profile.layers):
+                    rows_s.append({"Parameter":f"L{i+1} depth mm","Value":f"{l.depth_mm:.0f}"})
+                    rows_s.append({"Parameter":f"L{i+1} PAWC mm", "Value":f"{l.pawc:.0f}"})
+                st.dataframe(pd.DataFrame(rows_s), hide_index=True, width="stretch")
+    with sv2:
+        with st.expander("View vegetation specification"):
+            try:
+                import sys as _sys2
+                _sys2.path.insert(0, str(Path(__file__).parent.parent))
+                from core.input_summaries import make_vege_summary
+                import tempfile, os
+                _vobj = None
+                if vege_path.suffix.lower() == ".vege":
+                    from core.vege import read_vege
+                    _vobj = read_vege(vege_path)
+                else:
+                    from core.cover_excel import read_cover_excel
+                    _vobj = read_cover_excel(vege_path)
+                with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as _t:
+                    _tp = _t.name
+                make_vege_summary(_vobj, out_path=_tp)
+                st.image(_tp, width="stretch")
+                os.unlink(_tp)
+            except Exception as _e:
+                st.info(f"Vegetation: {vege_path.stem}  ({_e})")
 
 # ══════════════════════════════════════════════════════════════════════════════
 # MULTIPLE SIMULATIONS
@@ -579,7 +695,7 @@ else:
 
     sel = st.dataframe(
         df_disp,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         height=min(500, 60 + len(df_disp)*40),
         on_select="rerun",
@@ -593,7 +709,7 @@ else:
         "⬇ Download summary (CSV)",
         df_new.to_csv(index=False).encode(),
         f"{group_name}_summary.csv", "text/csv",
-        use_container_width=False,
+        width="content",
     )
 
     # ── Individual drill-down ─────────────────────────────────────────────────
