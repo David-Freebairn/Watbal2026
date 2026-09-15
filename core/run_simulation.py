@@ -14,23 +14,20 @@ Usage:
 import sys, json, numpy as np, pandas as pd
 from pathlib import Path
 
-# Ensure all sibling modules (cover_excel, soil, vege etc.) are importable
-# regardless of how this file is loaded.
-_here = Path(__file__).resolve().parent
-for _p in [str(_here), str(Path.cwd().resolve())]:
-    if _p not in sys.path:
-        sys.path.insert(0, _p)
+sys.path.insert(0, str(Path(__file__).parent))
 
-try:
-    from silo_fetch   import fetch_silo
-    from soil         import read_prm, init_sw
-    from vege         import read_vege, get_vege_state
-    from waterbalance import daily_water_balance
-except ImportError:
-    from core.silo    import fetch_datadrill as fetch_silo
-    from core.soil    import read_prm, init_sw
-    from core.vege    import read_vege, get_vege_state
-    from core.waterbalance import daily_water_balance
+from core.soil         import read_prm, init_sw
+from core.vege         import read_vege, get_vege_state
+from core.cover_excel  import read_cover_excel, get_cover_state
+from core.waterbalance import daily_water_balance
+
+# Lazy silo import — only needed for run_from_config (not used by Streamlit pages)
+def _get_silo_fetch():
+    try:
+        from core.silo import ensure_climate_cached
+        return ensure_climate_cached
+    except ImportError:
+        return None
 
 
 # ── helpers ────────────────────────────────────────────────────────────────
@@ -90,18 +87,33 @@ def _run_daily(met_df, profile, get_state_fn):
         residue_pct = round(max(0.0, total - green) * 100.0, 1)
 
         # Yield: accumulate transpiration while green cover > 0
-        # On the day green drops to zero, compute and record yield for that day
+        # Harvest triggered when green drops to zero OR at end of each calendar year
         year = date.year
         day_yield = 0.0
+
+        # Safety: force harvest at year boundary if still in season
+        if in_season and year != getattr(get_state_fn, '_prev_year', year):
+            wue = getattr(get_state_fn, '_wue', 0.0)
+            hi  = getattr(get_state_fn, '_hi',  0.0)
+            prev_year = getattr(get_state_fn, '_prev_year', year - 1)
+            if wue > 0 and hi > 0 and season_transp > 0:
+                biomass_t_ha = season_transp * wue / 1000.0
+                day_yield    = round(biomass_t_ha * hi, 3)
+                annual_yield[prev_year] = day_yield
+            season_transp = 0.0
+            in_season     = False
+            day_yield     = 0.0
+        get_state_fn._prev_year = year
+
         if green > 0.01:
             in_season = True
             season_transp += float(out['transp'])
         elif in_season and prev_green > 0.01:
-            # Green cover just dropped to zero — this IS the harvest day
+            # Green cover just dropped to zero — harvest day
             wue = getattr(get_state_fn, '_wue', 0.0)
             hi  = getattr(get_state_fn, '_hi',  0.0)
             if wue > 0 and hi > 0:
-                biomass_t_ha = season_transp * wue / 1000.0   # g/m2 -> t/ha
+                biomass_t_ha = season_transp * wue / 1000.0
                 day_yield    = round(biomass_t_ha * hi, 3)
             annual_yield[year] = day_yield
             season_transp = 0.0
@@ -222,7 +234,6 @@ def _make_vege_fn(vege_obj):
 
 def _make_cover_fn(cover_obj):
     """Returns a get_state(doy) function from a parsed Excel cover object."""
-    from cover_excel import get_cover_state  # local import avoids module-level path issues
     def fn(doy):
         green, total, roots = get_cover_state(cover_obj, doy)
         return green, total, roots
@@ -334,8 +345,12 @@ def run_from_config(config):
     cache   = f"/home/claude/perfect/cache/silo_{lat:.3f}_{lon:.3f}_{start}_{end}.csv"
 
     print(f"Fetching SILO: ({lat}, {lon}) {start}–{end}")
-    _, met_df = fetch_silo(lat=lat, lon=lon, start=start, end=end,
-                           email=email, cache_path=cache)
+    try:
+        from core.silo import _fetch_datadrill as _fdd
+        met_df = _fdd(lat, lon, start, end, None)
+    except Exception:
+        from core.silo import fetch_station_met
+        _, met_df = fetch_station_met(0, start, end, lat=lat, lon=lon)
     nyears = met_df.index.year.nunique()
     print(f"  {len(met_df)} days, {nyears} years")
 
@@ -355,7 +370,6 @@ def run_from_config(config):
             vege_obj = read_vege(fname)
             get_state = _make_vege_fn(vege_obj)
         else:
-            from cover_excel import read_cover_excel  # local import
             cover_obj = read_cover_excel(fname)
             get_state = _make_cover_fn(cover_obj)
     elif 'schedule' in vege_cfg:
