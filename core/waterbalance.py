@@ -41,16 +41,17 @@ def calc_cn(cn2, cover_frac, cn_cover_reduction, tillage_reduction=0.0):
 def calc_runoff(rain_mm, cn2, cover_frac, cn_cover_reduction,
                 tillage_reduction=0.0, sw_ratio=None):
     """
-    SCS-CN runoff for a single day.
+    SCS-CN runoff — HowLeaky V5 implementation.
+
+    Uses the CREAMS/HowLeaky approach (eq 3-9):
+        S = smx * (1 - sumh20)
+    where smx is maximum S under dry conditions (from CN1),
+    and sumh20 is the layer-weighted soil wetness (passed as sw_ratio).
 
     sw_ratio : float or None
-        Antecedent moisture condition — ratio of current available water
-        to PAWC, i.e. (sw_total - ll_total) / (dul_total - ll_total).
-        Range 0 (dry, at WP) to 1 (full, at DUL); values >1 possible
-        if profile is above DUL.
-        If None, uses fixed CN2 (original PERFECT behaviour).
-        If provided, interpolates between CN1 (dry) and CN3 (wet) based
-        on soil wetness — the standard HowLeaky/PERFECT v3 AMC approach.
+        sumh20 — layer-weighted soil water ratio from airdry to SAT.
+        Range 0 (airdry) to 1 (saturated).
+        If None, uses fixed CN2 (bare soil / no AMC).
 
     Returns runoff (mm).
     """
@@ -61,14 +62,15 @@ def calc_runoff(rain_mm, cn2, cover_frac, cn_cover_reduction,
                                   tillage_reduction)
 
     if sw_ratio is not None:
-        # AMC adjustment: interpolate CN between CN1 (dry) and CN3 (wet)
-        r = max(0.0, min(1.0, sw_ratio))
-        cn_eff = cn1 + r * (cn3 - cn1)
+        # HowLeaky eq 3-12: smx = 254*(100/cn1 - 1)
+        smx = 254.0 * (100.0 / max(cn1, 1.0) - 1.0)
+        # HowLeaky eq 3-9: S = smx * (1 - sumh20)
+        sumh20 = max(0.0, min(1.0, sw_ratio))
+        s = smx * (1.0 - sumh20)
     else:
-        cn_eff = cn2_eff
+        s = 254.0 * (100.0 / cn2_eff - 1.0)
 
-    s  = 254.0 * (100.0 / cn_eff - 1.0)   # potential maximum retention (mm)
-    ia = 0.2 * s                             # initial abstraction
+    ia = 0.2 * s
     if rain_mm <= ia:
         return 0.0
     runoff = (rain_mm - ia) ** 2 / (rain_mm - ia + s)
@@ -133,56 +135,92 @@ def infiltrate_and_drain(sw, layers, infil_mm):
 
 def calc_soil_evap(sw, layers, eos, u, cona, sumes1, sumes2, t_since_wet):
     """
-    Ritchie two-stage soil evaporation.
+    Ritchie two-stage soil evaporation — exact HowLeaky V5 implementation.
+    (HowLeaky Manual 2018, equations 3-32 to 3-39)
 
-    eos          : potential soil evaporation (mm/day)
-    u            : stage-I limit (mm)
-    cona         : stage-II coefficient (mm/day^0.5)
-    sumes1       : cumulative stage-I evaporation since last wetting
-    sumes2       : cumulative stage-II evaporation since last wetting
-    t_since_wet  : days since last significant wetting event
+    Uses sse1 (Stage I accumulator) and sse2 (Stage II accumulator).
+    dsr (days since rain) is derived from sse2: dsr = (sse2/Cona)^2
 
-    Returns (es, sumes1, sumes2, t_since_wet) where es is actual soil evap (mm).
+    sumes1 = sse1, sumes2 = sse2, t_since_wet unused (dsr computed from sse2).
+
+    eos   : potential soil evaporation (mm/day)
+    u     : Stage I upper limit = Stage1SoilEvapLimit (mm)
+    cona  : Stage II coefficient (mm/day^0.5)
+
+    Returns (es, sumes1, sumes2, t_since_wet).
     """
     if eos <= 0:
         return 0.0, sumes1, sumes2, t_since_wet
 
-    # Stage I: evaporation limited only by supply (up to U mm cumulative)
-    if sumes1 < u:
-        es1 = min(eos, u - sumes1)
-        sumes1 += es1
-        es = es1
-        if sumes1 >= u:
-            # Transition to stage II — reset day counter
-            t_since_wet = 0.0
-        return es, sumes1, sumes2, t_since_wet
+    sse1 = sumes1
+    sse2 = sumes2
 
-    # Stage II: evaporation proportional to sqrt(t)
-    t_since_wet += 1.0
-    es2_potential = cona * (t_since_wet ** 0.5 - (t_since_wet - 1.0) ** 0.5)
-    es2 = min(eos, es2_potential)
+    # Available water for evaporation from layers 1 and 2
+    paw0      = max(0.0, sw[0] - layers[0].airdry_mm)           # layer 1 to airdry
+    paw0_ad   = layers[0].airdry_mm                              # airdry layer 1
+    if len(layers) > 1:
+        l2_limit = layers[1].airdry_mm + 0.5*(layers[1].ll_mm - layers[1].airdry_mm)
+        paw1     = max(0.0, sw[1] - l2_limit)                   # layer 2 to midpoint
+        paw1_ad  = l2_limit
+    else:
+        paw1 = 0.0; paw1_ad = 0.0
 
-    # Limit by water available in top layer above air-dry — BEFORE updating accumulator
-    avail_top = max(0.0, sw[0] - layers[0].airdry_mm)
-    es2 = min(es2, avail_top)
+    # ── Stage I (eq 3-32, 3-33) ──────────────────────────────────────────────
+    se1 = min(eos, u - sse1)                                     # eq 3-32
+    se1 = max(0.0, min(se1, paw0 + paw0_ad))                    # eq 3-33 (layer 1)
+    sse1 += se1                                                  # eq 3-34
 
-    # Only accumulate what was actually evaporated
-    sumes2 += es2
-    es = es2
+    se2 = 0.0
+    # ── Stage II — only if Stage I demand not fully met (eq 3-35/3-36) ──────
+    if eos > se1:
+        # dsr = days since rain, computed from sse2 (eq 3-31)
+        dsr = (sse2 / cona) ** 2 if sse2 > 0 else 0.0
+        if sse2 > 0:
+            # Increment dsr by 1 day, compute new cumulative potential
+            # se2 = Cona*sqrt(dsr+1) - sse2  (daily increment of sqrt curve)
+            # eq 3-35
+            se2 = min(eos - se1, cona * ((dsr + 1.0) ** 0.5) - sse2)
+            se2 = max(0.0, se2)
+        else:
+            # First entry into Stage II: use transition constant 0.6 (eq 3-36)
+            se2 = 0.6 * (eos - se1)
+            se2 = max(0.0, se2)
 
-    return es, sumes1, sumes2, t_since_wet
+        # Distribute se2 across layers 1 and 2 (eq 3-37, 3-38, 3-39)
+        se21 = max(0.0, min(se2, paw0 + paw0_ad))
+        se22 = max(0.0, min(se2 - se21, paw1 + paw1_ad))
+        se2  = se21 + se22                                       # eq 3-39
+        sse2 += se2
+
+    es = se1 + se2
+    return es, sse1, sse2, t_since_wet
 
 
-def reset_evap_accumulators(rain_mm, sumes1, sumes2, t_since_wet, u):
+def reset_evap_accumulators(rain_mm, sumes1, sumes2, t_since_wet, u, infil_mm=None):
     """
-    Reset evaporation stage accumulators after a wetting event.
-    PERFECT resets when daily rain > 10 mm (approximate threshold).
+    Reset evaporation accumulators after infiltration.
+    HowLeaky V5 equations 3-29 and 3-30:
+
+        sse2 = max(0, sse2 - max(0, infiltration - sse1))
+        sse1 = max(0, sse1 - infiltration)
+
+    Stage I is reduced by infiltration first. Any excess infiltration
+    beyond sse1 then reduces sse2. This means small rains only reset
+    Stage I (partial), while large rains also reduce Stage II.
     """
-    if rain_mm >= 10.0:
-        sumes1 = 0.0
-        sumes2 = 0.0
-        t_since_wet = 0.0
-    return sumes1, sumes2, t_since_wet
+    infil = infil_mm if infil_mm is not None else rain_mm
+    if infil <= 0:
+        return sumes1, sumes2, t_since_wet
+
+    sse1 = sumes1
+    sse2 = sumes2
+
+    # eq 3-29: sse2 reduced by infiltration exceeding sse1
+    sse2 = max(0.0, sse2 - max(0.0, infil - sse1))
+    # eq 3-30: sse1 reduced by infiltration
+    sse1 = max(0.0, sse1 - infil)
+
+    return sse1, sse2, t_since_wet
 
 
 # ---------------------------------------------------------------------------
@@ -255,7 +293,10 @@ def partition_et(epan, green_cover, crop_factor=1.0):
     Transpiration demand is proportional to green cover fraction.
     """
     pet = epan * crop_factor
-    eos = pet * (1.0 - green_cover)
+    # HowLeaky eq 3-25: eos = pan_evap * (1 - total_cover * 0.87)
+    # green_cover here is passed as total_cover when green > 0
+    # For bare soil (green_cover=0) total_cover=0 so eos=pet
+    eos = pet * (1.0 - green_cover * 0.87)
     ep  = pet * green_cover
     return eos, ep
 
@@ -377,19 +418,35 @@ def daily_water_balance(
     """
 
     # -- 1. Runoff — uses TOTAL cover (green + residue) -----------------------
-    # Antecedent moisture condition: how full is the profile relative to PAWC?
-    ll_total  = sum(l.ll_mm  for l in layers)
-    dul_total = sum(l.dul_mm for l in layers)
-    pawc_eff  = dul_total - ll_total
-    sw_ratio  = (sw.sum() - ll_total) / pawc_eff if pawc_eff > 0 else 0.5
+    # HowLeaky AMC: sumh20 = layer-weighted soil water from airdry to SAT (eq 3-17)
+    # sumh20 = Σ WFi × (PAWi + AirDryLimit_i) / (SatLimit_i + AirDryLimit_i)
+    # WFi = 1.016 * (exp(-4.16*depth_i/depth_max) - exp(-4.16*depth_{i+1}/depth_max))
+    # Only applied when crop is actively growing; bare soil uses fixed CN2.
+    if green_cover > 0.01:
+        depth_max = layers[-1].depth_mm
+        sumh20 = 0.0
+        for i, l in enumerate(layers):
+            depth_i   = layers[i-1].depth_mm if i > 0 else 0.0
+            depth_i1  = l.depth_mm
+            wfi = 1.016 * (np.exp(-4.16 * depth_i  / depth_max) -
+                           np.exp(-4.16 * depth_i1 / depth_max))
+            paw_i    = max(0.0, sw[i] - l.airdry_mm)
+            sat_lim  = l.sat_mm + l.airdry_mm
+            if sat_lim > 0:
+                sumh20 += wfi * (paw_i + l.airdry_mm) / sat_lim
+        sw_ratio = max(0.0, min(1.0, sumh20))
+    else:
+        sw_ratio = None   # bare/fallow — use fixed CN2 (no AMC)
     runoff = calc_runoff(rain, soil.cn2_bare, total_cover,
                          soil.cn_cover_reduction, tillage_cn_reduction,
                          sw_ratio=sw_ratio)
     infil = max(0.0, rain - runoff)
 
     # -- 2. Reset evap accumulators if significant rain -----------------------
+    # Reset evap accumulators based on actual infiltration (rain - runoff)
+    _infil_for_reset = max(0.0, rain - runoff)
     sumes1, sumes2, t_since_wet = reset_evap_accumulators(
-        rain, sumes1, sumes2, t_since_wet, soil.u)
+        rain, sumes1, sumes2, t_since_wet, soil.u, infil_mm=_infil_for_reset)
 
     # -- 3. Infiltrate and drain ----------------------------------------------
     # overflow = water the profile cannot absorb (SAT exceeded) → add to runoff
@@ -398,12 +455,31 @@ def daily_water_balance(
     infil  -= overflow          # adjust infil to what actually entered
 
     # -- 4. Partition ET — uses GREEN cover for transpiration demand ----------
-    eos, ep = partition_et(epan, green_cover, crop_factor)
+    # HowLeaky uses total_cover (not green_cover) for eos reduction (eq 3-25)
+    eos, ep = partition_et(epan, total_cover, crop_factor)
 
     # -- 5. Soil evaporation --------------------------------------------------
     es, sumes1, sumes2, t_since_wet = calc_soil_evap(
         sw, layers, eos, soil.u, soil.cona, sumes1, sumes2, t_since_wet)
-    sw[0] = max(sw[0] - es, layers[0].airdry_mm)
+    # Extract es from layers 1 and 2:
+    # Layer 1: down to airdry; Layer 2: down to midpoint between airdry and LL
+    avail_l1 = max(0.0, sw[0] - layers[0].airdry_mm)
+    if len(layers) > 1:
+        l2_limit = layers[1].airdry_mm + 0.5*(layers[1].ll_mm - layers[1].airdry_mm)
+        avail_l2 = max(0.0, sw[1] - l2_limit)
+    else:
+        avail_l2 = 0.0
+
+    # Take from layer 1 first, then layer 2
+    take_l1   = min(es, avail_l1)
+    take_l2   = min(es - take_l1, avail_l2)
+    es_actual = take_l1 + take_l2
+
+    sw[0] = max(sw[0] - take_l1, layers[0].airdry_mm)
+    if len(layers) > 1:
+        l2_limit = layers[1].airdry_mm + 0.5*(layers[1].ll_mm - layers[1].airdry_mm)
+        sw[1] = max(sw[1] - take_l2, l2_limit)
+    es = es_actual
 
     # -- 6. Transpiration -----------------------------------------------------
     transp, sw = calc_transpiration(sw, layers, ep, root_depth_mm)
