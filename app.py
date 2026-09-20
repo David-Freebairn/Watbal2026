@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).parent / "core"))
 import streamlit as st
 
 st.set_page_config(
-    page_title="Waterbal2026",
+    page_title="Start",
     page_icon="💧",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -118,6 +118,13 @@ with hcol2:
     if st.button("Info", use_container_width=True):
         st.session_state["_show_info"] = not st.session_state.get("_show_info", False)
 
+st.markdown(
+    "<p style='text-align:center;color:#666;font-size:0.95rem;margin-top:-12px;'>"
+    "A reenactment of PERFECT/HowLeaky models for comparing water balance and water quality "
+    "for different locations, soil types and land management</p>",
+    unsafe_allow_html=True
+)
+
 if st.session_state.get("_show_info"):
     st.info(
         "**Waterbal2026** — PERFECT/HowLeaky soil water balance model for dryland cropping. "
@@ -158,7 +165,7 @@ if current_label:
         st.success(f"**Current climate:** {current_label}{_period}")
     with bcol2:
         if st.button("Run →", type="primary", use_container_width=True):
-            st.switch_page("pages/1_Run_simulation.py")
+            st.switch_page("pages/1_Simulate.py")
     st.divider()
 
 c1, c2 = st.columns(2)
@@ -223,13 +230,17 @@ if mode == "local":
             last_idx = i
             break
 
-    sel_idx = st.selectbox(
-        "Select climate file",
-        range(len(p51_files)),
-        index=last_idx,
-        format_func=lambda i: file_labels[i],
-        key="p51_sel",
-    )
+    # Dropdown + year selectors in one row
+    _p51_row = st.columns([3, 1, 1])
+    with _p51_row[0]:
+        sel_idx = st.selectbox(
+            "Climate file",
+            range(len(p51_files)),
+            index=last_idx,
+            format_func=lambda i: file_labels[i],
+            key="p51_sel",
+            label_visibility="collapsed",
+        )
     chosen_file = p51_files[sel_idx]
     chosen_info = file_infos[sel_idx]
 
@@ -237,7 +248,22 @@ if mode == "local":
         st.error(f"Cannot read: {chosen_info['error']}")
         st.stop()
 
-    # Auto-store selection and start prefetch immediately on change
+    _avail_s = int(chosen_info.get("start","1900")[:4])
+    _avail_e = int(chosen_info.get("end","2026")[:4])
+    with _p51_row[1]:
+        _yr_start = st.number_input("Start year", _avail_s, _avail_e,
+                                     max(_avail_s, min(_avail_e,
+                                     st.session_state.get("_last_yr_start", max(1975,_avail_s)))),
+                                     step=1, key="home_yr_start")
+        st.session_state["_last_yr_start"] = _yr_start
+    with _p51_row[2]:
+        _yr_end = st.number_input("End year", _avail_s, _avail_e,
+                                   max(_avail_s, min(_avail_e,
+                                   st.session_state.get("_last_yr_end", min(2000,_avail_e)))),
+                                   step=1, key="home_yr_end")
+        st.session_state["_last_yr_end"] = _yr_end
+
+    # Auto-store on change
     prev_path = st.session_state.get("climate_p51_path", "")
     if str(chosen_file) != prev_path:
         st.session_state["climate_source"]   = "local"
@@ -247,13 +273,13 @@ if mode == "local":
         st.session_state.pop("we_station", None)
         _save_session()
 
-    if st.button("Go to Single simulation →", type="primary", width="stretch"):
+    if st.button("Go to Simulate →", type="primary", width="stretch"):
         st.session_state["climate_source"]   = "local"
         st.session_state["climate_p51_path"] = str(chosen_file)
         st.session_state["climate_p51_info"] = chosen_info
         st.session_state["climate_label"]    = chosen_file.stem
         _save_session()
-        st.switch_page("pages/1_Run_simulation.py")
+        st.switch_page("pages/1_Simulate.py")
 
 # ══════════════════════════════════════════════════════════════════════════════
 # SILO MODE
@@ -337,13 +363,26 @@ elif mode == "silo":
         else:
             st.caption("Climate data cached and ready.")
 
-        bcol1, bcol2 = st.columns(2)
-        with bcol1:
-            if st.button("Go to Single simulation →", type="primary", width="stretch"):
-                st.switch_page("pages/1_Run_simulation.py")
-        with bcol2:
-            if st.button("Go to Matrix simulations →", width="stretch"):
-                st.switch_page("pages/2_Matrix_simulations.py")
+        # Year selectors — same row style as P51
+        _silo_yr_cols = st.columns([2, 1, 1])
+        with _silo_yr_cols[1]:
+            _silo_yr_s = st.number_input("Start year", 1889, 2026,
+                                          max(1889, min(2026,
+                                          st.session_state.get("_last_yr_start", 1976))),
+                                          step=1, key="home_silo_yr_start")
+            st.session_state["_last_yr_start"] = _silo_yr_s
+        with _silo_yr_cols[2]:
+            _silo_yr_e = st.number_input("End year", 1889, 2026,
+                                          max(1889, min(2026,
+                                          st.session_state.get("_last_yr_end", 1993))),
+                                          step=1, key="home_silo_yr_end")
+            st.session_state["_last_yr_end"] = _silo_yr_e
+        yrs = _silo_yr_e - _silo_yr_s + 1
+        if yrs > 0:
+            st.caption(f"{yrs} years  ({_silo_yr_s}–{_silo_yr_e})")
+
+        if st.button("Go to Simulate →", type="primary", width="stretch"):
+            st.switch_page("pages/1_Simulate.py")
 
         if st.button("Change station", key="change_stn"):
             st.session_state.pop("we_station", None)
