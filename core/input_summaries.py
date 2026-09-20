@@ -397,9 +397,12 @@ def make_vege_summary(vege, out_path, created='', modified=''):
 
     # ── TUE / HI parameter rows below the schedule table ────────────────
     if wue is not None and hi is not None:
+        sw_prop = getattr(vege, 'sw_prop_no_stress',
+                          getattr(vege, 'SWPropForNoStress', 0.2))
         param_rows = [
             ('Transpiration use efficiency (TUE)', f'{wue:.1f}', 'g/m² per mm transpiration'),
             ('Harvest index (HI)',          f'{hi:.2f}', '(0-1)  →  Yield = Transpiration × TUE × HI / 1000  (t/ha)'),
+            ('PAW no-stress threshold',     f'{float(sw_prop):.2f}', 'fraction of PAWC — transpiration reduced below this level'),
         ]
         pr_rh = RH2 * 1.1
         pr_y  = hdr_y - (n_pts + 1.5) * RH2 - pr_rh * 0.5

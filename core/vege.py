@@ -96,6 +96,9 @@ def get_vege_state(vege: VegeTemplate, doy: int):
     Total cover uses the fractional cover model:
         total = green + (1 - green) * residue
     where residue = total_cover (from schedule) - green_cover.
+
+    Root depth is held at the seasonal maximum while green cover is
+    still present — it should not decline before harvest.
     """
     green = float(np.interp(doy, vege.doy, vege.green_cover))
     total_sched = float(np.interp(doy, vege.doy, vege.total_cover))
@@ -107,6 +110,18 @@ def get_vege_state(vege: VegeTemplate, doy: int):
     # fractional cover model: residue covers only the bare fraction
     total = green + (1.0 - green) * residue
     total = np.clip(total, 0.0, vege.max_total_cover)
+
+    # Root depth: hold at seasonal maximum while green cover is still present.
+    # Only allow root depth to decline once green cover starts dropping from peak.
+    # This matches HowLeaky behaviour (root depth held at max until maturity).
+    if green > 0.01:
+        # Find the maximum root depth anywhere in the full schedule
+        max_root_ever = max(vege.root_depth)
+        # Find max root depth in schedule up to and including this doy
+        past_roots = [r for d, r in zip(vege.doy, vege.root_depth) if d <= doy]
+        seasonal_max = max(past_roots) if past_roots else 0.0
+        # Hold at seasonal max while green cover is present
+        roots = max(roots, seasonal_max)
     roots = max(0.0, roots)
     return green, total, roots
 

@@ -1,155 +1,137 @@
 """
-Excel cover data reader for PERFECT-Python water balance model
+core/cover_excel.py
+===================
+Reader for Excel-format vegetation/cover schedule files.
 
-Reads the 'Cover data for Howleaky' Excel format:
-  Sheet: Main
+Expected layout (sheet "Main"):
   Row 0:  Title
-  Row 1:  Count
-  Row 2:  Header: Day/Month | Day No | Green Cover % | Residue Cover % | Root Depth mm | ...
-  Row 3+: Data rows — one per breakpoint
-
-Columns used:
-  'Day No'          → day of year (1–365)
-  'Green Cover %'   → green canopy cover (0–100)
-  'Residue Cover %' → surface residue cover (0–100)
-  'Root Depth mm'   → rooting depth (mm)
-
-Total cover for runoff = min(green + residue, 100) %
-Green cover for ET partitioning = green %
+  Row 1:  Count, N
+  Row 2:  Headers (Day/Month | Day No | Green Cover % | Residue Cover % | Root Depth mm | Plot)
+  Row 3+: Data rows (N rows)
+  Then parameter rows (any order, matched by label):
+    Plant day                  | value | units
+    Days to harvest            | value | units
+    Transpiration efficiency   | value | kg/ha/mm
+    Harvest index              | value | fraction
+    PAW no crop stress         | value | fraction  (SWPropForNoStress)
+    Green cover multiplier     | value |
+    Residue cover multiplier   | value |
+    Root depth multiplier      | value |
 """
 
+from __future__ import annotations
 import numpy as np
 import pandas as pd
+from dataclasses import dataclass, field
 from pathlib import Path
-from dataclasses import dataclass
 
 
 @dataclass
 class CoverSchedule:
-    """Cover and root depth schedule read from Excel."""
-    name         : str
-    source_file  : str
-    doy          : np.ndarray   # day of year breakpoints
-    green_cover  : np.ndarray   # fraction (0–1)
-    residue_cover: np.ndarray   # fraction (0–1)
-    total_cover  : np.ndarray   # fraction (0–1)  = min(green+residue, 1)
-    root_depth   : np.ndarray   # mm
-    n_points     : int
-    tue          : float = 0.0  # transpiration use efficiency (g/m²/mm)
-    hi           : float = 0.0  # harvest index (0–1)
+    name:          str
+    source_file:   str
+    n_points:      int
+    doy:           np.ndarray   # day of year
+    green_cover:   np.ndarray   # fraction 0-1
+    residue_cover: np.ndarray   # fraction 0-1
+    total_cover:   np.ndarray   # fractional cover (green + residue*(1-green))
+    root_depth:    np.ndarray   # mm
+    # crop parameters
+    plant_day:     int   = 150
+    days_to_harvest: int = 150
+    tue:           float = 30.0   # transpiration use efficiency kg/ha/mm
+    hi:            float = 0.4    # harvest index
+    sw_prop_no_stress: float = 0.2  # PAW fraction below which stress begins
+    # multipliers
+    green_mult:    float = 1.0
+    residue_mult:  float = 1.0
+    root_mult:     float = 1.0
 
 
-def read_cover_excel(filepath, sheet_name='Main') -> CoverSchedule:
-    """
-    Parse a Howleaky-format Excel cover data file.
+def _find_param(df: pd.DataFrame, *labels) -> float | None:
+    """Search all rows for a parameter by label keyword(s), return first numeric value found."""
+    labels_lower = [l.lower() for l in labels]
+    for _, row in df.iterrows():
+        cell0 = str(row.iloc[0]).lower()
+        if all(k in cell0 for k in labels_lower):
+            for v in row.iloc[1:]:
+                try:
+                    f = float(v)
+                    if f == f:   # NaN check
+                        return f
+                except (ValueError, TypeError):
+                    pass
+    return None
 
-    Parameters
-    ----------
-    filepath   : path to .xlsx file
-    sheet_name : sheet to read (default 'Main')
 
-    Returns
-    -------
-    CoverSchedule
-    """
-    filepath = Path(filepath)
-    df_raw = pd.read_excel(filepath, sheet_name=sheet_name, header=None)
+def read_cover_excel(path: str | Path) -> CoverSchedule:
+    """Read an Excel vegetation/cover schedule file."""
+    path = Path(path)
+    df = pd.read_excel(path, sheet_name=0, header=None)
 
-    # Row 2 is the header row
-    header_row = 2
-    df = pd.read_excel(filepath, sheet_name=sheet_name, header=header_row)
-
-    # Normalise column names
-    df.columns = [str(c).strip() for c in df.columns]
-
-    # Filter to valid schedule rows:
-    #   - Day No must be numeric and 1-365
-    #   - Day/Month column must look like a date string (contains '-')
-    #     This excludes TUE/HI rows whose Day/Month is a label string
-    df['_doy_num'] = pd.to_numeric(df['Day No'], errors='coerce')
-    day_month_col  = df.columns[0]   # first column is Day/Month
-    is_date_row    = df[day_month_col].astype(str).str.contains('-', na=False)
-    df = df[df['_doy_num'].notna() &
-            (df['_doy_num'] >= 1) &
-            (df['_doy_num'] <= 365) &
-            is_date_row].copy()
-    df['Day No'] = df['_doy_num'].astype(int)
-    df = df.drop(columns=['_doy_num'])
-
-    n_points = len(df)   # actual schedule rows
-
-    doy           = df['Day No'].values
-    green_pct     = pd.to_numeric(df['Green Cover %'],   errors='coerce').fillna(0).values
-    residue_pct   = pd.to_numeric(df['Residue Cover %'], errors='coerce').fillna(0).values
-    root_mm       = pd.to_numeric(df['Root Depth mm'],   errors='coerce').fillna(0).values
-
-    # Convert to fractions, cap total at 1.0
-    green   = np.clip(green_pct   / 100.0, 0.0, 1.0)
-    residue = np.clip(residue_pct / 100.0, 0.0, 1.0)
-    # Fractional cover model: residue only covers bare-soil fraction
-    # total = green + (1 - green) * residue
-    total   = np.clip(green + (1.0 - green) * residue, 0.0, 1.0)
-
-    # ── Read TUE and HI from rows below the last date entry ─────────────
-    # Layout: last date row, blank row, TUE row (+2), HI row (+3).
-    # Strategy 1: search col 0 for label keywords — robust to any schedule length.
-    # Strategy 2: positional fallback using header_row + n_points + offset.
-    tue_val = 0.0
-    hi_val  = 0.0
-
-    col0 = df_raw.iloc[:, 0].astype(str).str.lower()
-    tue_mask = col0.str.contains("transpir", na=False) | col0.str.contains("effic", na=False)
-    hi_mask  = col0.str.contains("harvest",  na=False)
-
-    def _extract_scalar(row_idx):
-        """Try columns 1, 2, 3 in order for the first numeric value in a row."""
-        for col_idx in [1, 2, 3]:
+    # ── Count ─────────────────────────────────────────────────────────────────
+    n = 14
+    for _, row in df.iterrows():
+        if str(row.iloc[0]).strip().lower() == 'count':
             try:
-                v = float(df_raw.iloc[row_idx, col_idx])
-                if v == v:   # not NaN
-                    return v
-            except (ValueError, TypeError, IndexError):
-                continue
-        return 0.0
-
-    if tue_mask.any():
-        tue_val = _extract_scalar(tue_mask.idxmax())
-
-    if hi_mask.any():
-        hi_val = _extract_scalar(hi_mask.idxmax())
-
-    # Positional fallback if label search found nothing
-    if tue_val == 0.0:
-        for offset in [2, 3]:
-            try:
-                tue_val = _extract_scalar(header_row + n_points + offset)
-                if tue_val != 0.0:
-                    break
-            except (IndexError, TypeError):
+                n = int(float(row.iloc[1]))
+            except (ValueError, TypeError):
                 pass
+            break
 
-    if hi_val == 0.0:
-        for offset in [3, 4]:
-            try:
-                hi_val = _extract_scalar(header_row + n_points + offset)
-                if hi_val != 0.0:
-                    break
-            except (IndexError, TypeError):
-                pass
+    # ── Find header row ───────────────────────────────────────────────────────
+    header_row = None
+    for i, row in df.iterrows():
+        if 'day no' in str(row.iloc[1]).lower() or 'day no' in str(row.iloc[0]).lower():
+            header_row = i
+            break
+    if header_row is None:
+        header_row = 2
 
-    print(f"  Cover schedule: {filepath.stem}  n_points={n_points}  "          f"TUE={tue_val:.1f} g/m²/mm  HI={hi_val:.2f}")
+    # ── Data rows ─────────────────────────────────────────────────────────────
+    data = df.iloc[header_row + 1: header_row + 1 + n].reset_index(drop=True)
+
+    doy     = data.iloc[:, 1].astype(float).values
+    green   = data.iloc[:, 2].astype(float).values / 100.0
+    residue = data.iloc[:, 3].astype(float).values / 100.0
+    roots   = data.iloc[:, 4].astype(float).values
+
+    # ── Parameters from labelled rows ─────────────────────────────────────────
+    params_df = df.iloc[header_row + 1 + n:]
+
+    plant_day        = _find_param(params_df, 'plant', 'day')           or 150
+    days_to_harvest  = _find_param(params_df, 'days', 'harvest')        or 150
+    tue              = _find_param(params_df, 'transpiration', 'effic') or 30.0
+    hi               = _find_param(params_df, 'harvest', 'index')       or 0.4
+    sw_prop          = _find_param(params_df, 'paw', 'stress')          or 0.2
+    green_mult       = _find_param(params_df, 'green', 'mult')          or 1.0
+    residue_mult     = _find_param(params_df, 'residue', 'mult')        or 1.0
+    root_mult        = _find_param(params_df, 'root', 'mult')           or 1.0
+
+    # Apply multipliers
+    green   = np.clip(green   * green_mult,   0.0, 1.0)
+    residue = np.clip(residue * residue_mult, 0.0, 1.0)
+    roots   = roots * root_mult
+
+    total = green + (1.0 - green) * residue
 
     return CoverSchedule(
-        name          = filepath.stem,
-        source_file   = str(filepath),
-        doy           = doy,
-        green_cover   = green,
-        residue_cover = residue,
-        total_cover   = total,
-        root_depth    = root_mm,
-        n_points      = n_points,
-        tue           = tue_val,
-        hi            = hi_val,
+        name            = path.stem,
+        source_file     = str(path),
+        n_points        = n,
+        doy             = doy,
+        green_cover     = green,
+        residue_cover   = residue,
+        total_cover     = total,
+        root_depth      = roots,
+        plant_day       = int(plant_day),
+        days_to_harvest = int(days_to_harvest),
+        tue             = float(tue),
+        hi              = float(hi),
+        sw_prop_no_stress = float(sw_prop),
+        green_mult      = float(green_mult),
+        residue_mult    = float(residue_mult),
+        root_mult       = float(root_mult),
     )
 
 
@@ -157,50 +139,17 @@ def get_cover_state(schedule: CoverSchedule, doy: int):
     """
     Interpolate green cover (fraction), total cover (fraction),
     and root depth (mm) for a given day of year.
-
-    Returns (green_cover, total_cover, root_depth_mm)
+    Root depth is held at seasonal maximum while green cover is present.
+    Returns (green_cover, total_cover, root_depth_mm).
     """
     green = float(np.interp(doy, schedule.doy, schedule.green_cover))
     total = float(np.interp(doy, schedule.doy, schedule.total_cover))
     roots = float(np.interp(doy, schedule.doy, schedule.root_depth))
+
+    # Hold root depth at seasonal maximum while green cover present
+    if green > 0.01:
+        past_roots = [r for d, r in zip(schedule.doy, schedule.root_depth) if d <= doy]
+        if past_roots:
+            roots = max(roots, max(past_roots))
+    roots = max(0.0, roots)
     return green, total, roots
-
-
-def cover_schedule_to_vege(schedule: CoverSchedule, out_path=None):
-    """
-    Export a CoverSchedule as a simple CSV for inspection or archive.
-    """
-    df = pd.DataFrame({
-        'doy'          : schedule.doy,
-        'green_cover_pct'  : (schedule.green_cover   * 100).round(1),
-        'residue_cover_pct': (schedule.residue_cover * 100).round(1),
-        'total_cover_pct'  : (schedule.total_cover   * 100).round(1),
-        'root_depth_mm'    : schedule.root_depth,
-    })
-    if out_path:
-        df.to_csv(out_path, index=False)
-        print(f"Saved: {out_path}")
-    return df
-
-
-if __name__ == '__main__':
-    sch = read_cover_excel('/mnt/user-data/uploads/Cover_data_for_Howleaky.xlsx')
-
-    print(f"Name        : {sch.name}")
-    print(f"Source      : {sch.source_file}")
-    print(f"Breakpoints : {sch.n_points}")
-    print()
-    print(f"{'DOY':>5}  {'Green%':>7}  {'Residue%':>9}  {'Total%':>7}  {'Root mm':>8}")
-    print("-" * 45)
-    for i in range(len(sch.doy)):
-        print(f"{sch.doy[i]:>5}  {sch.green_cover[i]*100:>7.1f}  "
-              f"{sch.residue_cover[i]*100:>9.1f}  {sch.total_cover[i]*100:>7.1f}  "
-              f"{sch.root_depth[i]:>8.0f}")
-
-    print()
-    print("Sample interpolated values (mid-month):")
-    print(f"{'Month':<6} {'DOY':>4}  {'Green%':>7}  {'Total%':>7}  {'Root mm':>8}")
-    for m, d in zip(['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-                    [15,  46,  74, 105, 135, 152, 182, 213, 244, 274, 305, 335]):
-        g, t, r = get_cover_state(sch, d)
-        print(f"{m:<6} {d:>4}  {g*100:>7.1f}  {t*100:>7.1f}  {r:>8.0f}")

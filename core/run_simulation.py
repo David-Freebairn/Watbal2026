@@ -64,6 +64,10 @@ def _run_daily(met_df, profile, get_state_fn):
         doy = int(row['doy'])
 
         green, total, root_depth = get_state_fn(doy)
+        # PAW stress threshold — from vege schedule if available, else soil default
+        sw_prop_no_stress = getattr(get_state_fn, '_sw_prop_no_stress', None)
+        if sw_prop_no_stress is None:
+            sw_prop_no_stress = getattr(profile, 'sw_prop_no_stress', 0.2)
 
         out = daily_water_balance(
             sw=sw, layers=layers, soil=profile,
@@ -71,6 +75,7 @@ def _run_daily(met_df, profile, get_state_fn):
             green_cover=green, total_cover=total,
             root_depth_mm=root_depth, crop_factor=1.0,
             sumes1=sumes1, sumes2=sumes2, t_since_wet=t_since_wet,
+            sw_prop_no_stress=sw_prop_no_stress,
         )
         sw          = out['sw']
         sumes1      = out['sumes1']
@@ -132,6 +137,10 @@ def _run_daily(met_df, profile, get_state_fn):
             'residue_cover': residue_pct,
             'root_depth': round(root_depth, 1),
             'yield'     : day_yield,
+            'cn2_eff'   : out.get('cn2_eff', 0.0),    # effective CN (cover+soilwater)
+            'cn2_cover' : out.get('cn2_cover', 0.0),  # CN after cover only
+            'S_value'   : out.get('S_value', 0.0),    # actual S used (mm)
+            'sumh20'    : out.get('sumh20', 0.0),
             # kept for internal use (balance check, monthly summaries)
             'epan'     : epan,
             'et'       : out['et'],
@@ -224,9 +233,9 @@ def _make_vege_fn(vege_obj):
     def fn(doy):
         green, total, roots = get_vege_state(vege_obj, doy)
         return green, total, roots
-    # Attach yield parameters so _run_daily can access them
-    fn._wue  = float(vege_obj.water_use_effic)
-    fn._hi   = float(vege_obj.harvest_index)
+    fn._wue               = float(vege_obj.water_use_effic)
+    fn._hi                = float(vege_obj.harvest_index)
+    fn._sw_prop_no_stress = float(getattr(vege_obj, 'sw_prop_no_stress', 0.2))
     fn._name = (vege_obj.name if isinstance(vege_obj.name, str)
                 else "".join(vege_obj.name))
     return fn
@@ -237,9 +246,10 @@ def _make_cover_fn(cover_obj):
     def fn(doy):
         green, total, roots = get_cover_state(cover_obj, doy)
         return green, total, roots
-    fn._wue  = float(getattr(cover_obj, "tue", 0.0))
-    fn._hi   = float(getattr(cover_obj, "hi",  0.0))
-    fn._name = cover_obj.name
+    fn._wue               = float(getattr(cover_obj, "tue", 0.0))
+    fn._hi                = float(getattr(cover_obj, "hi",  0.0))
+    fn._sw_prop_no_stress = float(getattr(cover_obj, "sw_prop_no_stress", 0.2))
+    fn._name              = cover_obj.name
     return fn
 
 

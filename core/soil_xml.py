@@ -75,20 +75,19 @@ def read_soil_xml(filepath):
         ksat = drain_d[i] / 24.0
 
         layer = SoilLayer(
-            depth_mm        = depth,
-            thickness       = thick,
-            airdry          = ad,
-            ll              = l,
-            dul             = d,
-            sat             = s,
-            ksat            = ksat,
-            ll_mm           = l  * thick,
-            dul_mm          = d  * thick,
-            sat_mm          = s  * thick,
-            airdry_mm       = ad * thick,
-            airdry_below_wp = (l - ad) * thick,   # mm below WP to air-dry
-            pawc            = (d - l)  * thick,
-            bulk_density    = bulk_d[i],
+            depth_mm     = depth,
+            thickness    = thick,
+            airdry       = ad,
+            ll           = l,
+            dul          = d,
+            sat          = s,
+            ksat         = ksat,
+            ll_mm        = l * thick,
+            dul_mm       = d * thick,
+            sat_mm       = s * thick,
+            airdry_mm    = ad * thick,
+            pawc         = (d - l) * thick,
+            bulk_density = bulk_d[i],
         )
         layers.append(layer)
         prev_depth = depth
@@ -127,8 +126,10 @@ def read_soil_xml(filepath):
         cracking            = cracking,
         crack_infil         = crack_infil,
     )
-    profile.total_depth = depths[-1]
-    profile.pawc_total  = sum(l.pawc for l in layers)
+    profile.total_depth       = depths[-1]
+    profile.pawc_total        = sum(l.pawc for l in layers)
+    profile.pawc              = profile.pawc_total   # alias for compatibility with soil_excel.py
+    profile.sw_prop_no_stress = 0.2                  # default SWPropForNoStress
     return profile
 
 
