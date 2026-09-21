@@ -1,5 +1,5 @@
 """
-pages/4_Climate_summary.py
+pages/3_Climate_summary.py
 ============================
 Long-term monthly climate averages for the selected SILO station —
 rainfall, evaporation, and min/max temperature.
@@ -17,14 +17,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
 st.set_page_config(page_title="Climate summary", page_icon="📅", layout="wide")
-
-st.markdown("""
-<style>
-h1,h2,h3{white-space:nowrap!important;overflow:visible!important;}
-.block-container{padding-top:1rem;}
-</style>
-""", unsafe_allow_html=True)
-
 
 from core.styles import apply_styles, load_station
 from core.nav import HOME
@@ -44,7 +36,7 @@ clim_source  = st.session_state.get("climate_source")
 clim_label   = st.session_state.get("climate_label", "")
 
 if clim_source == "silo" and station:
-    with st.spinner(f"Loading climate data for {clim_label}…"):
+    with st.spinner(f"Loading climate data for {station['name']}…"):
         try:
             df = ensure_climate_cached(
                 station["id"], lat=station["lat"], lon=station["lon"],
@@ -56,13 +48,13 @@ if clim_source == "silo" and station:
         except Exception as e:
             st.error(f"Data fetch failed: {e}")
             st.stop()
-    st.success(f"🌐 {station.get('label', clim_label)}")
+    st.success(f"🌐 {station.get('label', station['name'])}")
 
 elif clim_source == "local":
     p51_path = st.session_state.get("climate_p51_path")
     if not p51_path or not Path(p51_path).exists():
         st.warning("Local P51 file not found. Please re-select on Home page.")
-        st.page_link("app.py", label="← Home")
+        st.page_link("pages/1_Setup_scenarios.py", label="← Setup scenarios")
         st.stop()
     with st.spinner(f"Loading {clim_label}…"):
         try:
@@ -74,13 +66,17 @@ elif clim_source == "local":
     st.success(f"📂 {clim_label}")
 
 else:
-    st.info("No climate selected. Go to the Home page to select a station or P51 file.")
-    st.page_link("app.py", label="← Home")
+    st.info("No climate selected. Go to Setup scenarios to select a station or P51 file.")
+    st.page_link("pages/1_Setup_scenarios.py", label="← Setup scenarios")
     st.stop()
 
 start_year = int(df["year"].min())
 end_year   = int(df["year"].max())
 available  = sorted(df["year"].unique())
+
+# Safe name for titles and filenames — works for both SILO and local P51
+_site_name = (station["name"] if station else clim_label) or "Climate"
+_site_slug = _site_name.replace(" ", "_")
 
 # ── Monthly averages ──────────────────────────────────────────────────────────
 monthly_rain = (df.groupby(["year","month"])["rain"].sum()
@@ -122,8 +118,8 @@ fig.add_trace(go.Scatter(
 ))
 fig.update_layout(
     title=dict(
-        text=(f"Monthly average: {clim_label}  "
-              f"{start_year}-{end_year}  "
+        text=(f"Monthly average: {_site_name}, "
+              f"{start_year}–{end_year}  "
               f"(Rain {monthly_rain.sum():.0f}mm  "
               f"Evap {monthly_evap.sum():.0f}mm/yr)"),
         x=0.5, xanchor="center", font=dict(size=15),
@@ -169,7 +165,7 @@ with st.expander("📅 Yearly rainfall grid (monthly totals)"):
     st.download_button(
         "⬇ Download grid (CSV)",
         grid.to_csv().encode(),
-        f"{clim_label.replace(' ','_')}_monthly_rain_grid.csv",
+        f"{_site_slug}_monthly_rain_grid.csv",
         "text/csv",
     )
 
@@ -199,7 +195,7 @@ def _build_jpeg() -> io.BytesIO:
     ax2.set_ylabel("Temperature (°C)", fontsize=10)
     ax2.set_ylim(bottom=0); ax2.spines[["top"]].set_visible(False)
     fig_m.suptitle(
-        f"Monthly average: {clim_label}, {start_year}–{end_year}",
+        f"Monthly average: {_site_name}, {start_year}–{end_year}",
         fontsize=14, y=0.98,
     )
     h1,l1 = ax1.get_legend_handles_labels()
@@ -218,11 +214,61 @@ d1, d2 = st.columns(2)
 with d1:
     st.download_button("⬇ Monthly averages (CSV)",
                        csv_df.to_csv(index=False).encode(),
-                       f"{clim_label.replace(' ','_')}_monthly_avg.csv",
+                       f"{_site_slug}_monthly_avg.csv",
                        "text/csv", width="stretch")
 with d2:
     with st.spinner("Generating chart…"):
         jpeg_buf = _build_jpeg()
     st.download_button("🖼 Download chart (JPEG)", jpeg_buf,
-                       f"{clim_label.replace(' ','_')}_monthly_avg.jpg",
+                       f"{_site_slug}_monthly_avg.jpg",
                        "image/jpeg", width="stretch")
+
+# ── P51 download ──────────────────────────────────────────────────────────────
+def _build_p51(df: pd.DataFrame, site_name: str,
+               station_id=None, lat=None, lon=None) -> bytes:
+    """
+    Reconstruct a SILO-style P51 text file from the in-memory DataFrame.
+    Line 1 format expected by read_p51:  lat lon station_no NAME
+    """
+    sid  = station_id or 0
+    _lat = lat  if lat  is not None else -25.0
+    _lon = lon  if lon  is not None else 150.0
+    lines = []
+    # Line 1: lat lon station_id NAME  (what read_p51 expects)
+    lines.append(f"{_lat:.4f} {_lon:.4f}  {sid}  {site_name.upper()}")
+    lines.append("       date  jday  rain   evap   tmax   tmin")
+    for _, row in df.iterrows():
+        try:
+            dt   = pd.Timestamp(year=int(row["year"]), month=int(row["month"]),
+                                day=int(row["day"]))
+            date = dt.strftime("%Y%m%d")
+            jday = dt.timetuple().tm_yday
+        except Exception:
+            continue
+        rain = float(row.get("rain", 0.0))
+        evap = float(row.get("epan", row.get("evap", 0.0)))
+        tmax = float(row.get("tmax", 0.0))
+        tmin = float(row.get("tmin", 0.0))
+        lines.append(f"{date:>11}  {jday:4d}  {rain:5.1f}  {evap:5.1f}  "
+                     f"{tmax:5.1f}  {tmin:5.1f}")
+    return "\n".join(lines).encode()
+
+st.divider()
+st.markdown("#### ⬇ Download P51 climate file")
+st.caption("Saves the full daily SILO dataset as a local P51 file — "
+           "use it as a 'Local P51' source on the Setup scenarios page.")
+
+_p51_bytes = _build_p51(
+    df,
+    site_name  = _site_name,
+    station_id = station["id"]  if station else None,
+    lat        = station["lat"] if station else None,
+    lon        = station["lon"] if station else None,
+)
+st.download_button(
+    f"⬇ Download P51  ({_site_name}  {start_year}–{end_year})",
+    _p51_bytes,
+    f"{_site_slug}_{start_year}_{end_year}.p51",
+    "text/plain",
+    width="stretch",
+)
