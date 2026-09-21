@@ -15,11 +15,24 @@ import sys, json, numpy as np, pandas as pd
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from core.soil         import read_prm, init_sw
-from core.vege         import read_vege, get_vege_state
-from core.cover_excel  import read_cover_excel, get_cover_state
-from core.waterbalance import daily_water_balance
+try:
+    from .soil         import read_prm, init_sw
+    from .vege         import read_vege, get_vege_state
+    from .cover_excel  import read_cover_excel, get_cover_state
+    from .waterbalance import daily_water_balance
+except ImportError:
+    try:
+        from core.soil         import read_prm, init_sw
+        from core.vege         import read_vege, get_vege_state
+        from core.cover_excel  import read_cover_excel, get_cover_state
+        from core.waterbalance import daily_water_balance
+    except ImportError:
+        from soil         import read_prm, init_sw
+        from vege         import read_vege, get_vege_state
+        from cover_excel  import read_cover_excel, get_cover_state
+        from waterbalance import daily_water_balance
 
 # Lazy silo import — only needed for run_from_config (not used by Streamlit pages)
 def _get_silo_fetch():
@@ -276,7 +289,13 @@ def _make_soil_from_dict(soil_dict):
     Build a SoilProfile object from the inline dict sent by the frontend.
     Mirrors the structure produced by soil.read_prm().
     """
-    from soil import SoilProfile, SoilLayer
+    try:
+        from .soil import SoilProfile, SoilLayer
+    except ImportError:
+        try:
+            from core.soil import SoilProfile, SoilLayer
+        except ImportError:
+            from soil import SoilProfile, SoilLayer
 
     raw_layers = soil_dict.get('layers', [])
     layers = []

@@ -20,12 +20,10 @@ class SoilLayer:
     sat        : float   # saturation (fraction)
     ksat       : float   # saturated hydraulic conductivity (mm/hr)
     # derived
-    ll_mm           : float = 0.0   # ll in mm water (wilting point)
-    dul_mm          : float = 0.0   # dul in mm water (field capacity)
-    sat_mm          : float = 0.0   # sat in mm water
-    airdry_mm       : float = 0.0   # absolute air-dry water content (mm)
-    airdry_below_wp : float = 0.0   # distance BELOW wilting point to air-dry (mm)
-                                    # = ll_mm - airdry_mm  (used by HowLeaky evap)
+    ll_mm      : float = 0.0   # ll in mm water
+    dul_mm     : float = 0.0   # dul in mm water
+    sat_mm     : float = 0.0   # sat in mm water
+    airdry_mm  : float = 0.0
     pawc         : float = 0.0   # plant available water capacity (mm)
     bulk_density : float = 1.4   # bulk density (g/cm3)
 
@@ -89,19 +87,18 @@ def read_prm(filepath):
         sat = float(p[4]) / 100.0
         ks  = float(p[5])
         layer = SoilLayer(
-            depth_mm        = depth,
-            thickness       = thick,
-            airdry          = ad,
-            ll              = ll,
-            dul             = dul,
-            sat             = sat,
-            ksat            = ks,
-            ll_mm           = ll  * thick,
-            dul_mm          = dul * thick,
-            sat_mm          = sat * thick,
-            airdry_mm       = ad  * thick,
-            airdry_below_wp = (ll - ad) * thick,   # mm below WP to air-dry
-            pawc            = (dul - ll) * thick,
+            depth_mm  = depth,
+            thickness = thick,
+            airdry    = ad,
+            ll        = ll,
+            dul       = dul,
+            sat       = sat,
+            ksat      = ks,
+            ll_mm     = ll  * thick,
+            dul_mm    = dul * thick,
+            sat_mm    = sat * thick,
+            airdry_mm = ad  * thick,
+            pawc      = (dul - ll) * thick,
         )
         layers.append(layer)
         prev_depth = depth

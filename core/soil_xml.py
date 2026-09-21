@@ -10,7 +10,13 @@ Scalar parameters (Cona, U, CN2 etc.) are stored as text content of their tags.
 import xml.etree.ElementTree as ET
 import numpy as np
 from pathlib import Path
-from soil import SoilProfile, SoilLayer
+try:
+    from .soil import SoilProfile, SoilLayer
+except ImportError:
+    try:
+        from core.soil import SoilProfile, SoilLayer
+    except ImportError:
+        from soil import SoilProfile, SoilLayer
 
 
 def _get_values(st, tag, n):

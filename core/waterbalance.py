@@ -751,7 +751,13 @@ def run_simulation(met_df, profile, cover_frac=0.0, root_depth_mm=300.0,
 
     Returns a DataFrame of daily outputs.
     """
-    from soil import init_sw
+    try:
+        from .soil import init_sw
+    except ImportError:
+        try:
+            from core.soil import init_sw
+        except ImportError:
+            from soil import init_sw
     import pandas as pd
 
     layers = profile.layers
