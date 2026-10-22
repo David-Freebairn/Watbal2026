@@ -48,22 +48,26 @@ Only the top (n−1) layers are included (HowLeaky source, line 1066).
 
 `sumh20` ranges from 0 (all layers at LL) to ~0.6 (all layers at DUL) because the denominator is (SAT−LL), not (DUL−LL).
 
-**S calculation:**
+**S calculation** (`amc_retention()`):
 
 ```
-smx = 254 × (100/CN1 − 1)     # S at CN1 (CREAMS polynomial dry condition)
-S₂  = 254 × (100/CN2 − 1)     # S at user-entered CN2
-S   = int(min(S₂, smx × (1 − sumh20)))
+smx = 254 × (100/CN1 − 1)            # S at CN1 (dry profile)
+S   = int(smx × (1 − sumh20))                  # amc_mode = "howleaky"
+S   = min(S(CN2), int(smx × (1 − sumh20)))     # amc_mode = "capped" (default)
 ```
 
-The cap at S₂ means soil wetness can only *increase* runoff above the CN2 baseline — a dry profile generates CN2-level runoff, not less. This preserves CN2 as the physically meaningful "normal antecedent moisture" parameter.
+The "howleaky" form follows HowLeaky/CREAMS: a dry profile produces less runoff than CN2 and a wet one more. The capped form limits S to S(CN2), so wetness can only add runoff. With the CN1 formula below, `smx × (1 − sumh20)` stays above S(CN2) until the profile is wetter than DUL, so the capped form behaves as a near-constant curve number. Against the Wallumbilla tilled and minimum-till catchments (1983–1997) the uncapped form fitted runoff clearly better (pooled 3-day NSE 0.72 uncapped, at most about 0.60 capped). Large storms on wet profiles were under-predicted by about half with the cap. Select it per soil with `<AMCMode>howleaky</AMCMode>` in the .soil/.xml file (or `profile.amc_mode`). The default remains "capped" because CN2 values in existing soil files were tuned for it. Under "howleaky" the same CN2 gives much less runoff: about 6–7 CN units higher was needed at Wallumbilla (CN2 83 → 90).
 
-### CN1 (CREAMS polynomial)
+### CN1 and CN3
+
+As implemented in `calc_cn()`:
 
 ```
-CN1 = −16.91 + 1.348×CN2 − 0.01379×CN2² + 0.0001177×CN2³
+CN1 = CN2 / (2.383 − 0.0123 × CN2)
 CN3 = CN2 × exp(0.00673 × (100 − CN2))
 ```
+
+(Earlier versions of this document quoted the CREAMS polynomial CN1 = −16.91 + 1.348·CN2 − 0.01379·CN2² + 0.0001177·CN2³. The code has never used it.)
 
 ### Cover reduction
 
@@ -82,7 +86,10 @@ Ritchie (1972) two-stage model, ported from `HowLeakyEngine.cpp CalculateSoilEva
 
 ```
 eos = pan_evap × (1 − total_cover × 0.87)
+total_cover = residue + (1 − residue) × green      (fractions)
 ```
+
+Potential soil evaporation and the runoff curve number respond to **total** cover. Potential transpiration responds to **green** cover only (see below). Before Oct 2026 transpiration demand also used total cover, so stubble transpired whenever roots were present.
 
 ### Stage 1 (energy-limited)
 
@@ -226,6 +233,18 @@ K     = soil erodibility factor (from soil file)
 
 ---
 
+## Vegetation schedule (CropFactorMatrix)
+
+Each row is DOY (x), green cover % (y), **residue** cover % (z), root depth mm (a). Total cover is combined as fractions:
+
+```
+total = residue + (1 − residue) × green
+```
+
+Total cover drives the curve number, erosion and potential soil evaporation. Green cover alone drives potential transpiration. (Before Oct 2026 the z column was read as total cover and green was subtracted from it.)
+
+**Crop season:** from PanPlantDay for DaysPlantingToHarvest days. Within it, root depth is held at the season's maximum so roots do not retreat before harvest. Season transpiration accumulates for yield, and harvest is the day the season ends. Green cover outside the season (fallow weeds) transpires using its own root depth but is not counted as crop. If a schedule has no plant day, or a season length of a year or more (many files carry 10000), the older rule applies: the season runs while green cover > 1 %.
+
 ## Yield
 
 Cover model biomass accumulation (daily):
@@ -247,6 +266,8 @@ Dry matter resets at planting. A safety harvest occurs at year boundary if green
 ---
 
 ## Water Balance Check
+
+Evaporation and transpiration are computed from the same start-of-day soil water. When together they would take a layer below its floor (air-dry for layer 1, midway AD–LL for layer 2, LL below), the excess is trimmed from transpiration first, then soil evaporation. The reported fluxes always equal the water removed. (Before Oct 2026 the layer was simply reset to its floor, which created water. The soil cracking routine, since removed, also lost rain it could not place in cracks.)
 
 The daily balance is verified by:
 
@@ -296,9 +317,9 @@ An annual balance error < 0.01 mm/yr confirms numerical integrity. This is repor
 
 | Feature | HowLeaky | Watbal2026 | Notes |
 |---------|----------|-----------|-------|
-| AMC (dry baseline) | S from CN1 | S from CN2, cap at CN2 | CN2 more intuitive as dry baseline |
+| AMC | S from CN1 | Cap at S(CN2) by default; HowLeaky form per soil | `<AMCMode>howleaky</AMCMode>`; CN2 ≈ 6–7 higher |
+| Potential transpiration | Green cover | Green cover (fixed Oct 2026; was total cover) | Soil evaporation and CN use total cover |
 | Transpiration stress | Per-layer supply only | Profile factor + per-layer | More gradual seasonal drawdown |
-| Soil cracking | Optional | Not implemented | Removed from HL-Core 2022 |
-| Crack flow | Optional | Not implemented | Minor effect; increases complexity |
+| Root extraction rate | — | Optional `kl` (fraction of layer PAW per day) | `profile.kl`; off by default |
+| Soil cracking | Optional | Removed (Oct 2026) | Rarely mattered; `<SoilCrack>` is ignored |
 | Irrigation | Yes | No | Future development |
-| CN value offset | CN83 | CN80–81 | To achieve equivalent runoff |
