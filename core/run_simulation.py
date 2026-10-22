@@ -110,7 +110,9 @@ def _run_daily(met_df, profile, get_state_fn):
         day_yield = 0.0
 
         # Safety: force harvest at year boundary if still in season
-        if in_season and year != getattr(get_state_fn, '_prev_year', year):
+        _season_by_dates = (getattr(get_state_fn, '_plant_day', 0) > 0 and
+                            0 < getattr(get_state_fn, '_days_ph', 0) < 365)
+        if in_season and not _season_by_dates and year != getattr(get_state_fn, '_prev_year', year):
             wue = getattr(get_state_fn, '_wue', 0.0)
             hi  = getattr(get_state_fn, '_hi',  0.0)
             prev_year = getattr(get_state_fn, '_prev_year', year - 1)
@@ -123,7 +125,26 @@ def _run_daily(met_df, profile, get_state_fn):
             day_yield     = 0.0
         get_state_fn._prev_year = year
 
-        if green > 0.01:
+        plant_day = getattr(get_state_fn, '_plant_day', 0)
+        days_ph   = getattr(get_state_fn, '_days_ph', 0)
+        if plant_day > 0 and 0 < days_ph < 365:
+            # Crop season from the vege file's plant day and season length. Green cover
+            # outside it (fallow weeds) is not crop and does not trigger harvest.
+            dsp = (doy - plant_day) % 365
+            if dsp < days_ph:
+                if dsp == 0:
+                    season_transp = 0.0
+                in_season = True
+                season_transp += float(out['transp'])
+            elif in_season:
+                wue = getattr(get_state_fn, '_wue', 0.0)
+                hi  = getattr(get_state_fn, '_hi',  0.0)
+                if wue > 0 and hi > 0:
+                    day_yield = round(season_transp * wue / 1000.0 * hi, 3)
+                annual_yield[year] = day_yield
+                season_transp = 0.0
+                in_season     = False
+        elif green > 0.01:
             in_season = True
             season_transp += float(out['transp'])
         elif in_season and prev_green > 0.01:
@@ -249,6 +270,8 @@ def _make_vege_fn(vege_obj):
     fn._wue               = float(vege_obj.water_use_effic)
     fn._hi                = float(vege_obj.harvest_index)
     fn._sw_prop_no_stress = float(getattr(vege_obj, 'sw_prop_no_stress', 0.2))
+    fn._plant_day = int(getattr(vege_obj, 'pan_plant_day', 0) or 0)
+    fn._days_ph   = int(getattr(vege_obj, 'days_plant_harvest', 0) or 0)
     fn._name = (vege_obj.name if isinstance(vege_obj.name, str)
                 else "".join(vege_obj.name))
     return fn
