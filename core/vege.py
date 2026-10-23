@@ -89,39 +89,50 @@ def read_vege(filepath) -> VegeTemplate:
     )
 
 
+def in_crop_season(vege: VegeTemplate, doy: int) -> bool:
+    """True from PanPlantDay up to (not including) PanPlantDay + DaysPlantingToHarvest.
+    Handles seasons that cross the year end. False if either value is missing."""
+    plant, days = int(vege.pan_plant_day or 0), int(vege.days_plant_harvest or 0)
+    if plant <= 0 or not (0 < days < 365):      # e.g. 10000 = not a single annual crop
+        return False
+    return (doy - plant) % 365 < days
+
+
 def get_vege_state(vege: VegeTemplate, doy: int):
     """
-    Interpolate green cover (fraction), total cover (fraction),
-    and root depth (mm) for a given day of year.
-    Total cover uses the fractional cover model:
-        total = green + (1 - green) * residue
-    where residue = total_cover (from schedule) - green_cover.
+    Interpolate green cover, residue cover (fractions) and root depth (mm) for a day of year,
+    and return (green, total, roots).
 
-    Root depth is held at the seasonal maximum while green cover is
-    still present — it should not decline before harvest.
+    CropFactorMatrix columns are DOY (x), green cover % (y), RESIDUE cover % (z), root depth mm (a).
+    Total cover combines them as fractions:
+        total = residue + (1 - residue) * green
+    (Before Oct 2026 the z column was treated as total cover and green was subtracted from it.)
+
+    Root depth: inside the crop season (PanPlantDay to PanPlantDay + DaysPlantingToHarvest) it is
+    held at the season's maximum so roots do not retreat before harvest. Outside the season the
+    schedule is used as written, so fallow green cover (e.g. weeds) keeps its own root depth.
+    Without a plant day and a season shorter than a year (files often carry 10000 days), the older rule applies: hold while green cover > 1 %.
     """
     green = float(np.interp(doy, vege.doy, vege.green_cover))
-    total_sched = float(np.interp(doy, vege.doy, vege.total_cover))
+    residue = float(np.interp(doy, vege.doy, vege.total_cover))   # z column = residue cover
     roots = float(np.interp(doy, vege.doy, vege.root_depth))
 
-    green = np.clip(green, 0.0, vege.max_total_cover)
-    # residue = schedule total minus green (floored at 0)
-    residue = max(0.0, total_sched - green)
-    # fractional cover model: residue covers only the bare fraction
-    total = green + (1.0 - green) * residue
-    total = np.clip(total, 0.0, vege.max_total_cover)
+    green = float(np.clip(green, 0.0, vege.max_total_cover))
+    residue = float(np.clip(residue, 0.0, 1.0))
+    total = residue + (1.0 - residue) * green
+    total = float(np.clip(total, 0.0, vege.max_total_cover))
 
-    # Root depth: hold at seasonal maximum while green cover is still present.
-    # Only allow root depth to decline once green cover starts dropping from peak.
-    # This matches HowLeaky behaviour (root depth held at max until maturity).
-    if green > 0.01:
-        # Find the maximum root depth anywhere in the full schedule
-        max_root_ever = max(vege.root_depth)
-        # Find max root depth in schedule up to and including this doy
+    plant, days = int(vege.pan_plant_day or 0), int(vege.days_plant_harvest or 0)
+    if plant > 0 and 0 < days < 365:
+        if in_crop_season(vege, doy):
+            dsp = (doy - plant) % 365
+            past = [r for d, r in zip(vege.doy, vege.root_depth) if (d - plant) % 365 <= dsp]
+            if past:
+                roots = max(roots, max(past))
+    elif green > 0.01:
         past_roots = [r for d, r in zip(vege.doy, vege.root_depth) if d <= doy]
-        seasonal_max = max(past_roots) if past_roots else 0.0
-        # Hold at seasonal max while green cover is present
-        roots = max(roots, seasonal_max)
+        if past_roots:
+            roots = max(roots, max(past_roots))
     roots = max(0.0, roots)
     return green, total, roots
 

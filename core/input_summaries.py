@@ -248,8 +248,8 @@ def make_vege_summary(vege, out_path, created='', modified=''):
         # VegeTemplate from vege.py
         doys   = [int(d) for d in vege.doy]
         greens = [float(g) * 100 for g in vege.green_cover]
-        totals_sched = [float(t) * 100 for t in vege.total_cover]
-        resids = [max(0.0, t - g) for t, g in zip(totals_sched, greens)]
+        # CropFactorMatrix z column is residue cover (stored as vege.total_cover for history)
+        resids = [float(t) * 100 for t in vege.total_cover]
         # Fractional cover model for display
         roots  = [float(r) for r in vege.root_depth]
         name   = vege.name if isinstance(vege.name, str) else ''.join(vege.name)
@@ -265,7 +265,7 @@ def make_vege_summary(vege, out_path, created='', modified=''):
     g_d     = np.interp(doy_d, doys, greens)
     r_d     = np.interp(doy_d, doys, resids)
     root_d  = np.interp(doy_d, doys, roots)
-    total_d = g_d + r_d
+    total_d = r_d + (100 - r_d) / 100 * g_d      # residue + (1 - residue) * green
 
     # ── figure: 2 rows — chart (top) + table (bottom) ────────────────────
     fig = plt.figure(figsize=(12, 12))

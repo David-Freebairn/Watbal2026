@@ -154,8 +154,8 @@ def read_prm(filepath):
         slope_length= slope_len,
         rill_ratio  = rill,
         bulk_density= bulk_density,
-        cracking    = cracking,
-        crack_infil = crack_infil,
+        cracking    = False,      # cracking removed from engine (Oct 2026)
+        crack_infil = 0.0,
     )
     profile.total_depth = sum(l.thickness for l in layers)
     profile.pawc_total  = sum(l.pawc for l in layers)

@@ -110,9 +110,9 @@ def read_soil_xml(filepath):
     slope = _get_scalar(st, 'FieldSlope',            default=3.0)
     sl    = _get_scalar(st, 'SlopeLength',           default=100.0)
     rill  = _get_scalar(st, 'RillRatio',             default=1.0)
-    crack_el = st.find('SoilCrack')
-    cracking = crack_el is not None and crack_el.get('state','false').lower() == 'true'
-    crack_infil = _get_scalar(st, 'MaxInfiltIntoCracks', default=10.0)
+    # Soil cracking removed from the engine (Oct 2026); <SoilCrack> is ignored.
+    cracking = False
+    crack_infil = 0.0
 
     profile = SoilProfile(
         name                = name,
@@ -136,6 +136,22 @@ def read_soil_xml(filepath):
     profile.pawc_total        = sum(l.pawc for l in layers)
     profile.pawc              = profile.pawc_total   # alias for compatibility with soil_excel.py
     profile.sw_prop_no_stress = 0.2                  # default SWPropForNoStress
+    # Optional AMC form for curve-number runoff: "howleaky" (uncapped) or "capped"
+    amc_el = st.find('AMCMode')
+    if amc_el is not None and (amc_el.text or '').strip():
+        profile.amc_mode = amc_el.text.strip().lower()
+    # Optional storm-season factor (see waterbalance.daily_water_balance)
+    for tag, attr, cast in [('CoverEffectWinterFraction', 'cover_winter_frac', float),
+                            ('SedimentWinterFraction', 'sed_winter_frac', float),
+                            ('StormSeasonPeakDOY', 'storm_peak_doy', int),
+                            ('SedCoverCoef', 'sed_cover_coef', float)]:
+        el = st.find(tag)
+        if el is not None and (el.text or '').strip():
+            setattr(profile, attr, cast(float(el.text)))
+    # Optional root extraction-rate limit (fraction of layer PAW per day)
+    kl_el = st.find('RootExtractionKl')
+    if kl_el is not None and (kl_el.text or '').strip():
+        profile.kl = float(kl_el.text)
     return profile
 
 

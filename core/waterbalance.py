@@ -17,6 +17,16 @@ References:
 
 import numpy as np
 
+# AMC (antecedent moisture) options for the curve-number runoff:
+#   "howleaky" — S = Smax(CN1) * (1 - sumh20), no cap (HowLeaky / CREAMS eq 3-9).
+#                Dry profiles produce less runoff than CN2, wet profiles more.
+#   "capped"   — same formula but S limited to S(CN2), so wetness can only add runoff
+#                (Watbal2026 behaviour before Oct 2026).
+# A SoilProfile may override this with an `amc_mode` attribute (soil XML: <AMCMode>).
+# The default stays "capped" for now: CN2 values in existing soil files were tuned
+# for it and give much less runoff under "howleaky" (about 6-7 CN units higher needed).
+DEFAULT_AMC_MODE = "capped"
+
 
 # ---------------------------------------------------------------------------
 # 1. Runoff — SCS curve number
@@ -39,7 +49,7 @@ def calc_cn(cn2, cover_frac, cn_cover_reduction, tillage_reduction=0.0):
 
 
 def calc_runoff(rain_mm, cn2, cover_frac, cn_cover_reduction,
-                tillage_reduction=0.0, sw_ratio=None):
+                tillage_reduction=0.0, sw_ratio=None, amc_mode=None):
     """
     SCS-CN runoff — HowLeaky V5 implementation.
 
@@ -49,9 +59,10 @@ def calc_runoff(rain_mm, cn2, cover_frac, cn_cover_reduction,
     and sumh20 is the layer-weighted soil wetness (passed as sw_ratio).
 
     sw_ratio : float or None
-        sumh20 — layer-weighted soil water ratio from airdry to SAT.
+        sumh20 — layer-weighted soil water ratio from LL (wilting point) to SAT.
         Range 0 (airdry) to 1 (saturated).
         If None, uses fixed CN2 (bare soil / no AMC).
+    amc_mode : "howleaky" (uncapped) or "capped" — see DEFAULT_AMC_MODE.
 
     Returns runoff (mm).
     """
@@ -62,19 +73,7 @@ def calc_runoff(rain_mm, cn2, cover_frac, cn_cover_reduction,
                                   tillage_reduction)
 
     if sw_ratio is not None:
-        # AMC moisture adjustment:
-        # CN2 (user input) is the normal/dry baseline — sets the maximum S.
-        # Soil wetness (sumh20) can only INCREASE runoff above CN2, not reduce it.
-        # This is consistent with the SCS framework: CN2=normal, CN3=wet.
-        # The original HL approach (smx from CN1) over-reduced S on dry profiles
-        # because CN1 is 15-25 units below CN2, making even dry soils appear
-        # to generate less runoff than the user's entered CN2 would suggest.
-        smx    = 254.0 * (100.0 / max(cn1,    1.0) - 1.0)  # S(CN1) — wet-side floor
-        s2     = 254.0 * (100.0 / max(cn2_eff,1.0) - 1.0)  # S(CN2) — dry baseline
-        sumh20 = max(0.0, min(1.0, sw_ratio))
-        # HL formula scaled from CN1, capped at S(CN2)
-        s_amc  = float(int(smx * (1.0 - sumh20)))
-        s      = max(0.0, min(s2, s_amc))
+        s = amc_retention(cn1, cn2_eff, sw_ratio, amc_mode)
     else:
         s = 254.0 * (100.0 / cn2_eff - 1.0)
 
@@ -83,6 +82,31 @@ def calc_runoff(rain_mm, cn2, cover_frac, cn_cover_reduction,
         return 0.0
     runoff = (rain_mm - ia) ** 2 / (rain_mm - ia + s)
     return max(0.0, runoff)
+
+
+def amc_retention(cn1, cn2_eff, sw_ratio, amc_mode=None):
+    """Retention S (mm) adjusted for soil wetness.
+
+    smx  = S(CN1), the retention of a dry profile.
+    S    = int(smx * (1 - sumh20))                         (HowLeaky / CREAMS)
+    With amc_mode="capped", S is additionally limited to S(CN2), so a dry profile
+    behaves as CN2 and wetness can only increase runoff.
+
+    Calibration against the Wallumbilla catchments (Oct 2026) favoured the uncapped
+    form: with the cap, S(CN1)*(1-sumh20) stays above S(CN2) until the profile is wetter
+    than DUL, so the curve number was effectively constant and large events on wet
+    profiles were under-predicted by about half.
+    """
+    mode = amc_mode or DEFAULT_AMC_MODE
+    smx = 254.0 * (100.0 / max(cn1, 1.0) - 1.0)
+    sumh20 = max(0.0, min(1.0, sw_ratio))
+    s = max(0.0, float(int(smx * (1.0 - sumh20))))
+    if mode == "capped":
+        s2 = 254.0 * (100.0 / max(cn2_eff, 1.0) - 1.0)
+        s = min(s2, s)
+    elif mode != "howleaky":
+        raise ValueError(f"unknown amc_mode {mode!r}")
+    return s
 
 
 # ---------------------------------------------------------------------------
@@ -254,7 +278,7 @@ def reset_evap_accumulators(rain_mm, sumes1, sumes2, t_since_wet, u, infil_mm=No
 # 4. Transpiration / root water extraction
 # ---------------------------------------------------------------------------
 
-def calc_transpiration(sw, layers, ep, root_depth_mm, sw_prop_no_stress=0.2):
+def calc_transpiration(sw, layers, ep, root_depth_mm, sw_prop_no_stress=0.2, kl=None):
     """
     Transpiration extraction with whole-profile stress factor.
 
@@ -352,6 +376,10 @@ def calc_transpiration(sw, layers, ep, root_depth_mm, sw_prop_no_stress=0.2):
         # Limit to available water above LL
         sw_rel_wp = max(0.0, sw[i] - layers[i].ll_mm)
         layer_transp[i] = min(layer_transp[i], sw_rel_wp)
+        # Optional extraction-rate limit (APSIM-style kl): at most kl x available
+        # water per layer per day, so roots cannot strip a layer in a few days.
+        if kl is not None:
+            layer_transp[i] = min(layer_transp[i], kl * sw_rel_wp)
         psup += layer_transp[i]
 
     # Scale down if total supply exceeds potential
@@ -390,7 +418,8 @@ def partition_et(epan, green_cover, crop_factor=1.0):
     Transpiration demand is proportional to green cover fraction.
     """
     pet = epan * crop_factor
-    # HowLeaky: eos = pan_evap * (1 - total_cover * 0.87)  (eq 3-25)
+    # HowLeaky: eos = pan_evap * (1 - total_cover * 0.87)  (eq 3-25).
+    # daily_water_balance calls this twice: with total cover for eos, green cover for ep.
     eos = pet * (1.0 - green_cover * 0.87)
     eos = max(0.0, eos)
     # HowLeaky CalculatePotentialTranspiration:
@@ -443,7 +472,7 @@ def calc_ls_factor(slope_pct, slope_length_m, rill_ratio=1.0):
     return l_factor * s_factor * rill_ratio
 
 
-def calc_erosion(runoff_mm, total_cover_frac, ls_factor, kusle, pusle):
+def calc_erosion(runoff_mm, total_cover_frac, ls_factor, kusle, pusle, cover_coef=None):
     """
     PERFECT daily sediment yield (t/ha).
 
@@ -474,7 +503,11 @@ def calc_erosion(runoff_mm, total_cover_frac, ls_factor, kusle, pusle):
 
     cover = min(100.0, total_cover_frac * 100.0)
 
-    if cover < 50.0:
+    if cover_coef is not None:
+        # Optional exponential cover response (soil file <SedCoverCoef>, per % cover):
+        # same bare-soil concentration as PERFECT, decay rate fitted to site data.
+        conc = 16.52 * np.exp(-cover_coef * cover)
+    elif cover < 50.0:
         conc = 16.52 - 0.46 * cover + 0.0031 * cover * cover
     else:
         conc = -0.0254 * cover + 2.54
@@ -487,67 +520,6 @@ def calc_erosion(runoff_mm, total_cover_frac, ls_factor, kusle, pusle):
 # 6. Main daily step
 # ---------------------------------------------------------------------------
 
-def model_soil_cracking(sw, layers, rain, max_infilt):
-    """
-    HowLeakyEngine::ModelSoilCracking() — exact port of C++ source lines 920-988.
-
-    When the top 2 layers are < 30% of DUL, cracks allow rain to bypass
-    the surface and enter deeper layers directly. This:
-      - Reduces effective rain available for runoff
-      - Directly recharges lower layers
-
-    Returns (effective_rain, crack_additions) where crack_additions[i] is
-    the water (mm) added directly to layer i through cracks.
-    """
-    if max_infilt <= 0 or rain < 0.1:
-        return rain, [0.0] * len(layers)
-
-    n = len(layers)
-    red = [0.0] * n
-
-    # mcfc = soil water as fraction of DUL (relative to WP) per layer
-    mcfc = []
-    for i, l in enumerate(layers):
-        dul_rel = l.dul_mm - l.ll_mm   # DrainUpperLimit_rel_wp
-        if dul_rel > 0:
-            sw_rel = sw[i] - l.ll_mm   # SoilWater_rel_wp
-            mcfc.append(max(0.0, min(1.0, sw_rel / dul_rel)))
-        else:
-            mcfc.append(0.0)
-
-    # Cracks only if top 2 layers are < 30% of DUL
-    if mcfc[0] >= 0.3 or (len(mcfc) > 1 and mcfc[1] >= 0.3):
-        return rain, red
-
-    # Number of layers cracks extend to
-    nod = 1
-    for i in range(1, n):
-        if mcfc[i] >= 0.3:
-            break
-        nod += 1
-
-    # Fill cracks from lowest cracked layer first
-    # Each layer can receive up to 50% of its DUL above current SW
-    tred = min(max_infilt, rain)
-    for i in range(nod - 1, -1, -1):
-        l = layers[i]
-        dul_rel = l.dul_mm - l.ll_mm
-        sw_rel  = sw[i] - l.ll_mm
-        space   = max(0.0, dul_rel / 2.0 - sw_rel)
-        red[i]  = min(tred, space)
-        tred   -= red[i]
-        if tred <= 0:
-            break
-
-    # Effective rain: replace crack amount with layer 0 crack amount
-    # (layer 0 cracks are counted differently — bypass the surface entirely)
-    eff_rain = rain + red[0] - min(max_infilt, rain)
-    eff_rain = max(0.0, eff_rain)
-    red[0] = 0.0   # layer 0 crack water already accounted in effective_rain reduction
-
-    return eff_rain, red
-
-
 def daily_water_balance(
         sw, layers, soil,
         rain, epan,
@@ -555,6 +527,7 @@ def daily_water_balance(
         sumes1, sumes2, t_since_wet,
         tillage_cn_reduction=0.0,
         sw_prop_no_stress=None,
+        doy=None,
     ):
     """
     Run one day of the PERFECT soil water balance.
@@ -581,15 +554,21 @@ def daily_water_balance(
     dict of daily fluxes + updated state variables
     """
 
-    # -- 0. Soil cracking — reduces effective rain, recharges deep layers -----
-    # HowLeaky ModelSoilCracking(): when top layers < 30% DUL, rain bypasses
-    # surface and enters cracks directly, reducing effective rain for runoff.
-    _max_crack = getattr(soil, 'crack_infil', 0.0)
-    eff_rain, crack_red = model_soil_cracking(sw, layers, rain, _max_crack)
-    # Apply crack additions directly to layers (bypasses runoff/infiltration)
-    for _i, _cr in enumerate(crack_red):
-        if _cr > 0:
-            sw[_i] = min(sw[_i] + _cr, layers[_i].sat_mm)
+    # Storm-season factor (optional; off unless the soil sets a winter fraction < 1).
+    # Summer storms are more intense: cover matters more for runoff and sediment then.
+    _wcn  = getattr(soil, 'cover_winter_frac', 1.0)
+    _wsed = getattr(soil, 'sed_winter_frac', 1.0)
+    if doy is not None and (_wcn < 1.0 or _wsed < 1.0):
+        _peak   = getattr(soil, 'storm_peak_doy', 15)
+        _season = 0.5 * (1.0 + np.cos(2.0 * np.pi * (doy - _peak) / 365.0))
+    else:
+        _season = 1.0
+    _cn_red = soil.cn_cover_reduction * (_wcn + (1.0 - _wcn) * _season)
+
+    # Soil cracking (HowLeaky ModelSoilCracking) was removed in Oct 2026: it rarely
+    # mattered and added parameters. Any <SoilCrack>/<MaxInfiltIntoCracks> in a soil
+    # file is ignored.
+    eff_rain = rain
 
     # -- 1. Runoff — uses TOTAL cover (green + residue) -----------------------
     # HowLeaky applies AMC on ALL days including bare/fallow (no crop condition).
@@ -613,15 +592,15 @@ def daily_water_balance(
 
     # Capture effective CN and S for diagnostic output
     _cn1, _cn2_eff, _cn3 = calc_cn(soil.cn2_bare, total_cover,
-                                     soil.cn_cover_reduction, tillage_cn_reduction)
-    _smx  = 254.0 * (100.0 / max(_cn1, 1.0) - 1.0)
+                                     _cn_red, tillage_cn_reduction)
+    _amc  = getattr(soil, 'amc_mode', None) or DEFAULT_AMC_MODE
     _sh20 = max(0.0, min(1.0, sw_ratio)) if sw_ratio is not None else None
-    _S    = float(int(_smx * (1.0 - _sh20))) if _sh20 is not None else 254.0*(100.0/_cn2_eff-1.0)
-    _S    = max(0.0, _S)
+    _S    = (amc_retention(_cn1, _cn2_eff, sw_ratio, _amc) if sw_ratio is not None
+             else 254.0*(100.0/_cn2_eff-1.0))
     _cn_eff = 25400.0 / (_S + 254.0) if _S > 0 else _cn2_eff
     runoff = calc_runoff(eff_rain, soil.cn2_bare, total_cover,
-                         soil.cn_cover_reduction, tillage_cn_reduction,
-                         sw_ratio=sw_ratio)
+                         _cn_red, tillage_cn_reduction,
+                         sw_ratio=sw_ratio, amc_mode=_amc)
     infil = max(0.0, eff_rain - runoff)
 
     # -- 2. Reset evap accumulators if significant rain -----------------------
@@ -637,7 +616,15 @@ def daily_water_balance(
     #   if SW[i] > DUL: drain = swcon*(SW[i]-DUL); SW[i] -= drain
     #   if SW[i] > SAT: overflow back up
 
-    eos, ep = partition_et(epan, total_cover, crop_factor)
+    # Cover effects:
+    #   total cover = residue + (1 - residue) * green  (fractions; see get_vege_state)
+    #   - runoff curve number and erosion: total cover
+    #   - potential soil evaporation:      total cover  (HowLeaky eq 3-25)
+    #   - potential transpiration:         green cover only
+    # (Before Oct 2026 transpiration demand also used total cover, so stubble
+    #  transpired whenever roots were present.)
+    eos, _  = partition_et(epan, total_cover, crop_factor)
+    _,   ep = partition_et(epan, green_cover, crop_factor)
 
     # Step A: compute soil evap amounts (accumulators updated, amounts not yet applied)
     es, sumes1, sumes2, t_since_wet = calc_soil_evap(
@@ -654,7 +641,8 @@ def daily_water_balance(
     # Step B: compute transpiration per layer (not yet applied)
     ep_actual = ep
     _, sw_t = calc_transpiration(sw, layers, ep_actual, root_depth_mm,
-                                  sw_prop_no_stress=(sw_prop_no_stress if sw_prop_no_stress is not None else getattr(soil,'sw_prop_no_stress',0.2)))
+                                  sw_prop_no_stress=(sw_prop_no_stress if sw_prop_no_stress is not None else getattr(soil,'sw_prop_no_stress',0.2)),
+                                  kl=getattr(soil, 'kl', None))
     lt = np.maximum(0.0, sw - sw_t)       # LayerTranspiration[i]
 
     # Step C: UpdateWaterBalance seepage loop (exact C# port)
@@ -666,13 +654,26 @@ def daily_water_balance(
         # C#: SoilWaterRelWP[i] += Seepage[i] - ET[i]
         if i == 0:
             sw[i] += drain - (es - se22) - lt[i]     # se1 goes to layer 0
-            sw[i]  = max(sw[i], layer.airdry_mm)
+            floor  = layer.airdry_mm
         elif i == 1:
             sw[i] += drain - lt[i] - se22             # se22 goes to layer 1
-            sw[i]  = max(sw[i], l2_floor)
+            floor  = l2_floor
         else:
             sw[i] += drain - lt[i]
-            sw[i]  = max(sw[i], layer.ll_mm)
+            floor  = layer.ll_mm
+        # Evaporation and transpiration are computed from the same start-of-day
+        # water, so together they can overdraw a layer. Trim the overdraw from
+        # transpiration first, then from soil evaporation, so the reported fluxes
+        # stay equal to the water removed (closes the daily balance).
+        if sw[i] < floor:
+            short  = floor - sw[i]
+            cut    = min(short, lt[i]); lt[i] -= cut; short -= cut
+            if short > 0 and i <= 1:
+                cut  = min(short, se22 if i == 1 else es - se22)
+                es  -= cut; short -= cut
+                if i == 1:
+                    se22 -= cut
+            sw[i]  = floor - short    # any remaining deficit predates today; never create water
 
         # Drain only if above DUL
         if sw[i] > layer.dul_mm:
@@ -710,7 +711,9 @@ def daily_water_balance(
 
     # -- 7. Erosion -----------------------------------------------------------
     ls  = calc_ls_factor(soil.slope_pct, soil.slope_length, soil.rill_ratio)
-    sed = calc_erosion(runoff, total_cover, ls, soil.musle_k, soil.musle_p)
+    sed = calc_erosion(runoff, total_cover, ls, soil.musle_k, soil.musle_p,
+                       cover_coef=getattr(soil, 'sed_cover_coef', None))
+    sed *= (_wsed + (1.0 - _wsed) * _season)
 
     return {
         'sw'          : sw,
