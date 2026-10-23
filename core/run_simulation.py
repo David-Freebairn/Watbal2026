@@ -89,6 +89,7 @@ def _run_daily(met_df, profile, get_state_fn):
             root_depth_mm=root_depth, crop_factor=1.0,
             sumes1=sumes1, sumes2=sumes2, t_since_wet=t_since_wet,
             sw_prop_no_stress=sw_prop_no_stress,
+            doy=doy,
         )
         sw          = out['sw']
         sumes1      = out['sumes1']

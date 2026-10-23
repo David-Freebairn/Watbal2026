@@ -140,6 +140,14 @@ def read_soil_xml(filepath):
     amc_el = st.find('AMCMode')
     if amc_el is not None and (amc_el.text or '').strip():
         profile.amc_mode = amc_el.text.strip().lower()
+    # Optional storm-season factor (see waterbalance.daily_water_balance)
+    for tag, attr, cast in [('CoverEffectWinterFraction', 'cover_winter_frac', float),
+                            ('SedimentWinterFraction', 'sed_winter_frac', float),
+                            ('StormSeasonPeakDOY', 'storm_peak_doy', int),
+                            ('SedCoverCoef', 'sed_cover_coef', float)]:
+        el = st.find(tag)
+        if el is not None and (el.text or '').strip():
+            setattr(profile, attr, cast(float(el.text)))
     # Optional root extraction-rate limit (fraction of layer PAW per day)
     kl_el = st.find('RootExtractionKl')
     if kl_el is not None and (kl_el.text or '').strip():

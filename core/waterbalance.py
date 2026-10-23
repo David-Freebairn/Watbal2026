@@ -59,7 +59,7 @@ def calc_runoff(rain_mm, cn2, cover_frac, cn_cover_reduction,
     and sumh20 is the layer-weighted soil wetness (passed as sw_ratio).
 
     sw_ratio : float or None
-        sumh20 — layer-weighted soil water ratio from airdry to SAT.
+        sumh20 — layer-weighted soil water ratio from LL (wilting point) to SAT.
         Range 0 (airdry) to 1 (saturated).
         If None, uses fixed CN2 (bare soil / no AMC).
     amc_mode : "howleaky" (uncapped) or "capped" — see DEFAULT_AMC_MODE.
@@ -472,7 +472,7 @@ def calc_ls_factor(slope_pct, slope_length_m, rill_ratio=1.0):
     return l_factor * s_factor * rill_ratio
 
 
-def calc_erosion(runoff_mm, total_cover_frac, ls_factor, kusle, pusle):
+def calc_erosion(runoff_mm, total_cover_frac, ls_factor, kusle, pusle, cover_coef=None):
     """
     PERFECT daily sediment yield (t/ha).
 
@@ -503,7 +503,11 @@ def calc_erosion(runoff_mm, total_cover_frac, ls_factor, kusle, pusle):
 
     cover = min(100.0, total_cover_frac * 100.0)
 
-    if cover < 50.0:
+    if cover_coef is not None:
+        # Optional exponential cover response (soil file <SedCoverCoef>, per % cover):
+        # same bare-soil concentration as PERFECT, decay rate fitted to site data.
+        conc = 16.52 * np.exp(-cover_coef * cover)
+    elif cover < 50.0:
         conc = 16.52 - 0.46 * cover + 0.0031 * cover * cover
     else:
         conc = -0.0254 * cover + 2.54
@@ -523,6 +527,7 @@ def daily_water_balance(
         sumes1, sumes2, t_since_wet,
         tillage_cn_reduction=0.0,
         sw_prop_no_stress=None,
+        doy=None,
     ):
     """
     Run one day of the PERFECT soil water balance.
@@ -548,6 +553,17 @@ def daily_water_balance(
     -------
     dict of daily fluxes + updated state variables
     """
+
+    # Storm-season factor (optional; off unless the soil sets a winter fraction < 1).
+    # Summer storms are more intense: cover matters more for runoff and sediment then.
+    _wcn  = getattr(soil, 'cover_winter_frac', 1.0)
+    _wsed = getattr(soil, 'sed_winter_frac', 1.0)
+    if doy is not None and (_wcn < 1.0 or _wsed < 1.0):
+        _peak   = getattr(soil, 'storm_peak_doy', 15)
+        _season = 0.5 * (1.0 + np.cos(2.0 * np.pi * (doy - _peak) / 365.0))
+    else:
+        _season = 1.0
+    _cn_red = soil.cn_cover_reduction * (_wcn + (1.0 - _wcn) * _season)
 
     # Soil cracking (HowLeaky ModelSoilCracking) was removed in Oct 2026: it rarely
     # mattered and added parameters. Any <SoilCrack>/<MaxInfiltIntoCracks> in a soil
@@ -576,14 +592,14 @@ def daily_water_balance(
 
     # Capture effective CN and S for diagnostic output
     _cn1, _cn2_eff, _cn3 = calc_cn(soil.cn2_bare, total_cover,
-                                     soil.cn_cover_reduction, tillage_cn_reduction)
+                                     _cn_red, tillage_cn_reduction)
     _amc  = getattr(soil, 'amc_mode', None) or DEFAULT_AMC_MODE
     _sh20 = max(0.0, min(1.0, sw_ratio)) if sw_ratio is not None else None
     _S    = (amc_retention(_cn1, _cn2_eff, sw_ratio, _amc) if sw_ratio is not None
              else 254.0*(100.0/_cn2_eff-1.0))
     _cn_eff = 25400.0 / (_S + 254.0) if _S > 0 else _cn2_eff
     runoff = calc_runoff(eff_rain, soil.cn2_bare, total_cover,
-                         soil.cn_cover_reduction, tillage_cn_reduction,
+                         _cn_red, tillage_cn_reduction,
                          sw_ratio=sw_ratio, amc_mode=_amc)
     infil = max(0.0, eff_rain - runoff)
 
@@ -695,7 +711,9 @@ def daily_water_balance(
 
     # -- 7. Erosion -----------------------------------------------------------
     ls  = calc_ls_factor(soil.slope_pct, soil.slope_length, soil.rill_ratio)
-    sed = calc_erosion(runoff, total_cover, ls, soil.musle_k, soil.musle_p)
+    sed = calc_erosion(runoff, total_cover, ls, soil.musle_k, soil.musle_p,
+                       cover_coef=getattr(soil, 'sed_cover_coef', None))
+    sed *= (_wsed + (1.0 - _wsed) * _season)
 
     return {
         'sw'          : sw,
