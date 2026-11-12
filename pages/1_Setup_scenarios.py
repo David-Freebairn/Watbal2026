@@ -774,6 +774,23 @@ def _run_one(met_df, profile, get_state, nyears):
     ann.attrs["annual_yield"] = df_out.attrs.get("annual_yield", {})
     return ann, mon, err, df_out
 
+DAILY_COLS = ["rain", "runoff", "sediment", "soil_evap", "transp", "drainage",
+              "pasw", "green_cover", "residue_cover", "root_depth", "cn2_eff"]
+
+
+def _store_daily(df_out, soil_name, vege_name, safe):
+    """Keep the daily trace for Observed vs predicted and save it to results/."""
+    daily = df_out[[c for c in DAILY_COLS if c in df_out.columns]].copy()
+    daily.index.name = "date"
+    store = st.session_state.setdefault("scenario_daily", {})
+    store[f"{soil_name} × {vege_name}"] = daily
+    try:
+        daily.round(4).to_csv(RESULTS_DIR / f"{safe}_daily.csv")
+    except Exception:
+        pass
+    return daily
+
+
 def _monthly_chart(mon, ann, clim_label, soil_name, vege_name, yr_start, yr_end, key_suffix=""):
     import plotly.graph_objects as go
 
@@ -952,9 +969,10 @@ if not multiple:
     if yd:
         ann_out["yield_t_ha"] = ann_out.index.map(lambda y: round(yd.get(y, 0.0), 3))
     ann_out.to_csv(RESULTS_DIR / f"{safe}_annual.csv")
+    daily_out = _store_daily(df_out, profile.name, vege_path.stem, safe)
 
     st.divider()
-    d1, d2, d3 = st.columns(3)
+    d1, d2, d3, d4 = st.columns(4)
     with d1:
         st.download_button("⬇ Annual CSV",
                            ann_out.to_csv().encode(),
@@ -970,6 +988,12 @@ if not multiple:
                            df_ann_tbl.to_csv(index=False).encode(),
                            f"{safe}_summary.csv", "text/csv",
                            width="stretch")
+    with d4:
+        st.download_button("⬇ Daily CSV",
+                           daily_out.round(4).to_csv().encode(),
+                           f"{safe}_daily.csv", "text/csv",
+                           width="stretch")
+    st.caption("Daily output is kept for the **Observed vs predicted** page.")
 
     if abs(err) < 0.001:
         st.caption(f"Balance error = {err:+.5f} mm/yr  ✅ Water balance OK")
@@ -1094,6 +1118,7 @@ else:
                     ann_out["yield_t_ha"] = ann_out.index.map(
                         lambda y: round(yd.get(y, 0.0), 3))
                 ann_out.to_csv(RESULTS_DIR / f"{safe}_annual.csv")
+                _store_daily(df_out, profile.name, vege_path.stem, safe)
 
             except Exception as e:
                 st.warning(f"Sim {done} failed ({soil_path.stem} × {vege_path.stem}): {e}")
@@ -1105,7 +1130,8 @@ else:
     _save_results(saved)
     st.session_state["multi_run_store"] = run_store
 
-    st.success(f"✅ {len(new_rows)} simulation(s) completed and saved.")
+    st.success(f"✅ {len(new_rows)} simulation(s) completed and saved. "
+               "Daily output is kept for the Observed vs predicted page.")
 
     st.divider()
     st.subheader("📊 Simulation summary")
@@ -1187,5 +1213,13 @@ else:
                 yr_start, yr_end, key_suffix=f"_drill{row_idx}",
             )
             _ann_table(run_data["ann"], key_suffix=f"_drill{row_idx}")
+            _dd = (st.session_state.get("scenario_daily") or {}).get(
+                f"{row['soil']} × {row['vege']}")
+            if _dd is not None:
+                _dsafe = (f"{clim_label}_{row['soil']}_{row['vege']}"
+                          f"_{yr_start}_{yr_end}_{_sim_date}").replace(" ", "_")[:80]
+                st.download_button("⬇ Daily CSV", _dd.round(4).to_csv().encode(),
+                                   f"{_dsafe}_daily.csv", "text/csv",
+                                   key=f"daily_dl{row_idx}")
         else:
             st.info("Re-run the simulation to view the individual chart.")

@@ -108,6 +108,8 @@ if st.session_state.get("_dc_df") is not None:
     _run_soil = Path(st.session_state.get("_last_soil_path", "")).stem
     _lab = f"Current run: {_run_vege or 'Daily diagnostics'}"
     pred_sources[_lab] = normalise_predicted(st.session_state["_dc_df"])
+for _name, _d in (st.session_state.get("scenario_daily") or {}).items():
+    pred_sources[f"Scenario: {_name}"] = normalise_predicted(_d)
 for f in (pred_ups or []):
     try:
         pred_sources[f"Upload: {f.name}"] = _pred_from_bytes(f.getvalue())
@@ -123,15 +125,23 @@ if RESULTS_DIR.exists():
 
 if obs_df is None and not pred_sources:
     st.warning("No observed file and no model output found.")
-    st.page_link("pages/3_Daily_diagnostics.py", label="→ Run the model in Daily diagnostics")
+    try:
+        st.page_link("pages/1_Setup_scenarios.py", label="→ Run a scenario in Setup scenarios")
+    except Exception:
+        pass
     st.stop()
 
 sources = (["Observed"] if obs_df is not None else []) + list(pred_sources)
 
 if not pred_sources:
     st.info("No model output yet — you can compare observed series now. For O vs P, "
-            "run the model in **Daily diagnostics** (it saves a daily CSV this page "
-            "picks up) or upload a daily CSV under Data sources.")
+            "run a scenario in **Setup scenarios** (single or multiple) or "
+            "**Daily diagnostics**; their daily output appears here as a Y source. "
+            "You can also upload a daily CSV under Data sources.")
+    try:
+        st.page_link("pages/1_Setup_scenarios.py", label="→ Setup scenarios")
+    except Exception:
+        pass
 
 st_map = (obs_df.groupby("site")["treatment"].unique().apply(sorted).to_dict()
           if obs_df is not None else {})
@@ -143,9 +153,10 @@ g_site, g_trt = guess_site_treatment(_run_vege or (list(pred_sources)[0] if pred
 def picker(side: str, default_source: str, default_obs_col: str = None,
            default_pred: str = None):
     k = f"ovp_{side}"
-    src = st.selectbox("Source", sources,
-                       index=sources.index(default_source) if default_source in sources else 0,
-                       key=f"{k}_src")
+    if st.session_state.get(f"{k}_src") not in sources:
+        st.session_state[f"{k}_src"] = (default_source if default_source in sources
+                                        else sources[0])
+    src = st.selectbox("Source", sources, key=f"{k}_src")
     if src == "Observed":
         sites = sorted(st_map)
         s_def = g_site if g_site in sites else sites[0]
@@ -177,6 +188,18 @@ def picker(side: str, default_source: str, default_obs_col: str = None,
 
 
 first_pred = next(iter(pred_sources), None)
+
+
+def best_pred_for(site, trt):
+    """Predicted source whose name matches the observed site and treatment."""
+    for name in pred_sources:
+        if guess_site_treatment(name, st_map) == (site, trt):
+            return name
+    for name in pred_sources:
+        if guess_site_treatment(name, st_map)[0] == site:
+            return name
+    return first_pred
+
 cx, cy = st.columns(2)
 with cx:
     with st.container(border=True):
@@ -188,7 +211,15 @@ with cy:
         st.markdown("**Y — compared** (usually predicted)")
         _xcol = next((c for l, c in observed_variables(obs_df).items()
                       if sx.name.endswith(l)), None) if obs_df is not None else None
-        sy = picker("y", first_pred or "Observed",
+        _ydef = best_pred_for(sx.site, sx.treatment) if sx.kind == "obs" else first_pred
+        # follow X: when the observed site/treatment changes, switch Y to the
+        # matching model run (if Y is currently a model run)
+        _xkey = (sx.site, sx.treatment)
+        if (sx.kind == "obs" and st.session_state.get("_ovp_last_x") not in (None, _xkey)
+                and st.session_state.get("ovp_y_src") in pred_sources and _ydef):
+            st.session_state["ovp_y_src"] = _ydef
+        st.session_state["_ovp_last_x"] = _xkey
+        sy = picker("y", _ydef or "Observed",
                     default_obs_col="soil_movement_t_ha",
                     default_pred=OBS_TO_PRED.get(_xcol, "Runoff"))
 

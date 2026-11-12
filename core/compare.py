@@ -163,6 +163,7 @@ class Series:
     additive: bool = True
     unit: str = ""
     site: Optional[str] = None
+    treatment: Optional[str] = None
     parts: Optional[tuple] = None  # (num, den, factor) for ratio variables
     rain: Optional[pd.Series] = field(default=None, repr=False)
 
@@ -178,7 +179,7 @@ def observed_series(df, site, treatment, bay, col, label) -> Series:
             if "rain_mm" in sub.columns else None)
     meta = OBS_VARS.get(col, (col, "", False))
     return Series(name=label, kind="obs", values=vals, additive=meta[2],
-                  unit=meta[1], site=site, rain=rain)
+                  unit=meta[1], site=site, treatment=treatment, rain=rain)
 
 
 def predicted_series(df, col_or_ratio, label) -> Series:
