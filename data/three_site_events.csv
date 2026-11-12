@@ -1,0 +1,530 @@
+site,date,treatment,surface_condition,bay,soil,slope_pct,slope_length_m,LS,rain_mm,rain_prev10d_mm,i30_mm_h,ei30,runoff_mm,peak_runoff_mm_h,soil_movement_t_ha,rills_t_ha,fans_t_ha,suspended_sediment_t_ha,total_conc_g_l,suspended_conc_g_l,cover_pct,cover_source,roughness_1_5,roughness_source
+Greenmount,1976-10-26,Burnt,,,Black earth (Vertosol),7,60,1.43,52,,,,2.5,,1,,,0,40,0,5,interpolated from cover.csv,,
+Greenmount,1976-10-31,Burnt,,,Black earth (Vertosol),7,60,1.43,72.8,,,,5.2,,1,,,0,19.23,0,25,interpolated from cover.csv,,
+Greenmount,1976-11-09,Burnt,,,Black earth (Vertosol),7,60,1.43,29.7,,,,0.3,,,,,,,,25,interpolated from cover.csv,,
+Greenmount,1977-05-14,Burnt,,,Black earth (Vertosol),7,60,1.43,35.9,,,,2,,1,,,0,50,0,10,interpolated from cover.csv,,
+Greenmount,1977-05-15,Burnt,,,Black earth (Vertosol),7,60,1.43,16.7,,,,1.9,,,,,,,,10,interpolated from cover.csv,,
+Greenmount,1978-03-28,Burnt,,,Black earth (Vertosol),7,60,1.43,24.9,,,,0.2,,,,,,,,25,interpolated from cover.csv,,
+Greenmount,1978-12-23,Burnt,,,Black earth (Vertosol),7,60,1.43,53.5,,,,0.4,,0.1,,,0,25,0,12,interpolated from cover.csv,,
+Greenmount,1978-12-29,Burnt,,,Black earth (Vertosol),7,60,1.43,36.6,,,,6.9,,4.4,,,0.4,63.77,5.797,12,interpolated from cover.csv,,
+Greenmount,1979-03-03,Burnt,,,Black earth (Vertosol),7,60,1.43,57.7,,,,1,,,,,,,,5,interpolated from cover.csv,,
+Greenmount,1979-03-04,Burnt,,,Black earth (Vertosol),7,60,1.43,16.5,,,,4,,1.2,,,0,30,0,5,interpolated from cover.csv,,
+Greenmount,1979-03-15,Burnt,,,Black earth (Vertosol),7,60,1.43,68.2,,,,15.3,,29.4,,,3.3,192.2,21.57,5,interpolated from cover.csv,,
+Greenmount,1979-06-21,Burnt,,,Black earth (Vertosol),7,60,1.43,5.1,,,,0.5,,,,,,,,10,interpolated from cover.csv,,
+Greenmount,1980-01-27,Burnt,,,Black earth (Vertosol),7,60,1.43,51.2,,,,16.7,,20.6,,,2.1,123.4,12.57,2,interpolated from cover.csv,,
+Greenmount,1980-01-28,Burnt,,,Black earth (Vertosol),7,60,1.43,5.3,,,,0.6,,0,,,0,0,0,2,interpolated from cover.csv,,
+Greenmount,1980-02-05,Burnt,,,Black earth (Vertosol),7,60,1.43,95.5,,,,45.4,,98.8,,,8.2,217.6,18.06,2,interpolated from cover.csv,,
+Greenmount,1981-02-05,Burnt,,,Black earth (Vertosol),7,60,1.43,85.9,,,,25.6,,35.4,,,3.3,138.3,12.89,5,interpolated from cover.csv,,
+Greenmount,1981-02-06,Burnt,,,Black earth (Vertosol),7,60,1.43,27,,,,9.5,,,,,,,,5,interpolated from cover.csv,,
+Greenmount,1981-02-07,Burnt,,,Black earth (Vertosol),7,60,1.43,87.2,,,,79.2,,51,,,7,64.39,8.838,5,interpolated from cover.csv,,
+Greenmount,1981-02-09,Burnt,,,Black earth (Vertosol),7,60,1.43,14.6,,,,3.3,,0.1,,,0,3.03,0,5,interpolated from cover.csv,,
+Greenmount,1981-04-01,Burnt,,,Black earth (Vertosol),7,60,1.43,53.5,,,,2.5,,0,,,0,0,0,4,interpolated from cover.csv,,
+Greenmount,1981-04-04,Burnt,,,Black earth (Vertosol),7,60,1.43,26.7,,,,7.4,,5,,,0.2,67.57,2.703,4,interpolated from cover.csv,,
+Greenmount,1981-04-05,Burnt,,,Black earth (Vertosol),7,60,1.43,1.7,,,,0.3,,,,,,,,4,interpolated from cover.csv,,
+Greenmount,1981-04-07,Burnt,,,Black earth (Vertosol),7,60,1.43,11.2,,,,1,,0.1,,,0.1,10,10,4,interpolated from cover.csv,,
+Greenmount,1981-12-03,Burnt,,,Black earth (Vertosol),7,60,1.43,69.6,,,,28.9,,2,,,1.3,6.92,4.498,80,interpolated from cover.csv,,
+Greenmount,1981-12-20,Burnt,,,Black earth (Vertosol),7,60,1.43,28.4,,,,1,,0,,,0,0,0,10,interpolated from cover.csv,,
+Greenmount,1981-12-23,Burnt,,,Black earth (Vertosol),7,60,1.43,27.8,,,,4.4,,1,,,0.1,22.73,2.273,10,interpolated from cover.csv,,
+Greenmount,1982-02-24,Burnt,,,Black earth (Vertosol),7,60,1.43,53.9,,,,2.3,,0,,,,0,,5,interpolated from cover.csv,,
+Greenmount,1982-02-25,Burnt,,,Black earth (Vertosol),7,60,1.43,7,,,,0.7,,,,,,,,5,interpolated from cover.csv,,
+Greenmount,1982-03-01,Burnt,,,Black earth (Vertosol),7,60,1.43,13.4,,,,4.4,,0.2,,,0.1,4.545,2.273,5,interpolated from cover.csv,,
+Greenmount,1982-03-04,Burnt,,,Black earth (Vertosol),7,60,1.43,24.2,,,,10.7,,5.1,,,0.4,47.66,3.738,5,interpolated from cover.csv,,
+Greenmount,1982-03-06,Burnt,,,Black earth (Vertosol),7,60,1.43,27.2,,,,13.5,,0.1,,,,0.7407,,5,interpolated from cover.csv,,
+Greenmount,1982-03-07,Burnt,,,Black earth (Vertosol),7,60,1.43,9,,,,6.5,,0,,,,0,,5,interpolated from cover.csv,,
+Greenmount,1982-03-10,Burnt,,,Black earth (Vertosol),7,60,1.43,29.6,,,,6.3,,11,,,0,174.6,0,5,interpolated from cover.csv,,
+Greenmount,1982-03-11,Burnt,,,Black earth (Vertosol),7,60,1.43,3.3,,,,1.1,,,,,,,,5,interpolated from cover.csv,,
+Greenmount,1982-04-27,Burnt,,,Black earth (Vertosol),7,60,1.43,25.4,,,,4.8,,10.6,,,0,220.8,0,5,interpolated from cover.csv,,
+Greenmount,1983-05-01,Burnt,,,Black earth (Vertosol),7,60,1.43,55,,,,14.8,,0.4,,,0.4,2.703,2.703,2,interpolated from cover.csv,,
+Greenmount,1983-05-02,Burnt,,,Black earth (Vertosol),7,60,1.43,70.8,,,,58,,57.3,,,7.4,98.79,12.76,2,interpolated from cover.csv,,
+Greenmount,1983-05-03,Burnt,,,Black earth (Vertosol),7,60,1.43,0,,,,0.3,,,,,,,,2,interpolated from cover.csv,,
+Greenmount,1983-05-27,Burnt,,,Black earth (Vertosol),7,60,1.43,51.9,,,,7,,0.5,,,0,7.143,0,2,interpolated from cover.csv,,
+Greenmount,1983-06-21,Burnt,,,Black earth (Vertosol),7,60,1.43,76.5,,,,47.4,,10.4,,,1.1,21.94,2.321,2,interpolated from cover.csv,,
+Greenmount,1983-06-22,Burnt,,,Black earth (Vertosol),7,60,1.43,17.6,,,,25.2,,,,,,,,2,interpolated from cover.csv,,
+Greenmount,1984-03-09,Burnt,,,Black earth (Vertosol),7,60,1.43,27.6,,,,6.1,,16.1,,,1.5,263.9,24.59,2,interpolated from cover.csv,,
+Greenmount,1984-04-07,Burnt,,,Black earth (Vertosol),7,60,1.43,52.7,,,,3.3,,,,,,,,2,interpolated from cover.csv,,
+Greenmount,1984-04-08,Burnt,,,Black earth (Vertosol),7,60,1.43,51.2,,,,39.6,,3.7,,,0.4,9.343,1.01,2,interpolated from cover.csv,,
+Greenmount,1984-07-26,Burnt,,,Black earth (Vertosol),7,60,1.43,39.7,,,,16.3,,0,,,0,0,0,90,interpolated from cover.csv,,
+Greenmount,1984-07-27,Burnt,,,Black earth (Vertosol),7,60,1.43,0.9,,,,5.7,,,,,,,,90,interpolated from cover.csv,,
+Greenmount,1984-12-18,Burnt,,,Black earth (Vertosol),7,60,1.43,32.9,,,,4,,4.3,,,0.1,107.5,2.5,5,interpolated from cover.csv,,
+Greenmount,1986-01-07,Burnt,,,Black earth (Vertosol),7,60,1.43,0,,,,9.4,,,,,,,,9.789,interpolated from cover.csv,,
+Greenmount,1986-01-24,Burnt,,,Black earth (Vertosol),7,60,1.43,62.5,,,,2.4,,0.5,,,0,20.83,0,10,interpolated from cover.csv,,
+Greenmount,1986-02-07,Burnt,,,Black earth (Vertosol),7,60,1.43,40,,,,9.4,,13.3,,,2.4,141.5,25.53,10,interpolated from cover.csv,,
+Greenmount,1986-02-24,Burnt,,,Black earth (Vertosol),7,60,1.43,26.1,,,,6.6,,3.5,,,0.5,53.03,7.576,8,interpolated from cover.csv,,
+Greenmount,1987-01-19,Burnt,,,Black earth (Vertosol),7,60,1.43,24.2,,,,4.2,,5.2,,,0.8,123.8,19.05,5,interpolated from cover.csv,,
+Greenmount,1987-12-01,Burnt,,,Black earth (Vertosol),7,60,1.43,26.6,,,,12.9,,6.7,,,1.7,51.94,13.18,15,interpolated from cover.csv,,
+Greenmount,1987-12-10,Burnt,,,Black earth (Vertosol),7,60,1.43,25.8,,,,6.6,,2.6,,,1.1,39.39,16.67,20,interpolated from cover.csv,,
+Greenmount,1988-01-19,Burnt,,,Black earth (Vertosol),7,60,1.43,39.5,,,,0.5,,1,,,0,200,0,10,interpolated from cover.csv,,
+Greenmount,1988-02-12,Burnt,,,Black earth (Vertosol),7,60,1.43,67.6,,,,11.7,,0.5,,,0.5,4.274,4.274,10,interpolated from cover.csv,,
+Greenmount,1988-02-13,Burnt,,,Black earth (Vertosol),7,60,1.43,19.3,,,,6.8,,10.4,,,0.4,152.9,5.882,10,interpolated from cover.csv,,
+Greenmount,1988-03-31,Burnt,,,Black earth (Vertosol),7,60,1.43,111.7,,,,76.8,,50.7,,,7,66.02,9.115,5,interpolated from cover.csv,,
+Greenmount,1988-04-03,Burnt,,,Black earth (Vertosol),7,60,1.43,90.3,,,,65.6,,51,,,6,77.74,9.146,5,interpolated from cover.csv,,
+Greenmount,1988-04-04,Burnt,,,Black earth (Vertosol),7,60,1.43,10.8,,,,3.7,,0,,,,0,,5,interpolated from cover.csv,,
+Greenmount,1988-04-05,Burnt,,,Black earth (Vertosol),7,60,1.43,27.5,,,,12.3,,,,,,,,5,interpolated from cover.csv,,
+Greenmount,1988-04-06,Burnt,,,Black earth (Vertosol),7,60,1.43,6.1,,,,0.3,,0,,,,0,,5,interpolated from cover.csv,,
+Greenmount,1988-04-10,Burnt,,,Black earth (Vertosol),7,60,1.43,19.4,,,,42,,17,,,2.3,40.48,5.476,5,interpolated from cover.csv,,
+Greenmount,1988-06-04,Burnt,,,Black earth (Vertosol),7,60,1.43,2,,,,0.2,,1,,,0.2,500,100,10,interpolated from cover.csv,,
+Greenmount,1988-06-05,Burnt,,,Black earth (Vertosol),7,60,1.43,0,,,,0.8,,,,,,,,10,interpolated from cover.csv,,
+Greenmount,1990-01-15,Burnt,,,Black earth (Vertosol),7,60,1.43,54.1,,,,8.1,,6.8,,,1.8,83.95,22.22,10,interpolated from cover.csv,,
+Greenmount,1990-04-20,Burnt,,,Black earth (Vertosol),7,60,1.43,42.5,,,,1.4,,1,,,0.1,71.43,7.143,7,interpolated from cover.csv,,
+Greenmount,1990-05-22,Burnt,,,Black earth (Vertosol),7,60,1.43,41.7,,,,6.9,,2.5,,,0.5,36.23,7.246,7,interpolated from cover.csv,,
+Greenmount,1990-05-27,Burnt,,,Black earth (Vertosol),7,60,1.43,21.9,,,,6.7,,0.5,,,0,7.463,0,7,interpolated from cover.csv,,
+Greenmount,1976-10-26,Incorporated,,,Black earth (Vertosol),7,60,1.43,52,,,,0.2,,0.1,,,0,50,0,8,interpolated from cover.csv,4,last observation in cover.csv
+Greenmount,1976-10-31,Incorporated,,,Black earth (Vertosol),7,60,1.43,72.8,,,,14.9,,16,,,0,107.4,0,8,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1976-11-09,Incorporated,,,Black earth (Vertosol),7,60,1.43,29.7,,,,1.3,,0,,,,0,,12,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1976-11-10,Incorporated,,,Black earth (Vertosol),7,60,1.43,10.9,,,,0.4,,0,,,,0,,12,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1976-11-14,Incorporated,,,Black earth (Vertosol),7,60,1.43,25,,,,5.1,,4,,,0,78.43,0,12,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1977-01-16,Incorporated,,,Black earth (Vertosol),7,60,1.43,62.9,,,,12.4,,1.5,,,0,12.1,0,10,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1977-05-14,Incorporated,,,Black earth (Vertosol),7,60,1.43,35.9,,,,0.5,,0,,,,0,,60,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1978-07-02,Incorporated,,,Black earth (Vertosol),7,60,1.43,29.2,,,,0.6,,0,,,,0,,20,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1978-07-09,Incorporated,,,Black earth (Vertosol),7,60,1.43,20,,,,0.1,,0,,,,0,,20,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1978-09-06,Incorporated,,,Black earth (Vertosol),7,60,1.43,20.1,,,,3.1,,0,,,,0,,15,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1978-12-29,Incorporated,,,Black earth (Vertosol),7,60,1.43,36.6,,,,0.7,,0.1,,,0.03,14.29,4.286,55,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1979-03-04,Incorporated,,,Black earth (Vertosol),7,60,1.43,16.5,,,,0.1,,0,,,,0,,35,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1979-03-15,Incorporated,,,Black earth (Vertosol),7,60,1.43,68.2,,,,7.9,,6.8,,,0.5,86.08,6.329,35,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1979-06-20,Incorporated,,,Black earth (Vertosol),7,60,1.43,53.6,,,,0.1,,0,,,,0,,25,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1980-02-05,Incorporated,,,Black earth (Vertosol),7,60,1.43,95.5,,,,35,,4.9,,,1.7,14,4.857,40,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1981-02-05,Incorporated,,,Black earth (Vertosol),7,60,1.43,85.9,,,,23.8,,36.1,,,2.7,151.7,11.34,21,interpolated from cover.csv,5,last observation in cover.csv
+Greenmount,1981-02-06,Incorporated,,,Black earth (Vertosol),7,60,1.43,27,,,,71.6,,18.7,,,4.7,26.12,6.564,21,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1981-02-09,Incorporated,,,Black earth (Vertosol),7,60,1.43,14.6,,,,3.5,,0.1,,,0,2.857,0,21,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1981-04-01,Incorporated,,,Black earth (Vertosol),7,60,1.43,53.5,,,,4.9,,0.1,,,0.1,2.041,2.041,12,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1981-04-04,Incorporated,,,Black earth (Vertosol),7,60,1.43,26.7,,,,7.9,,10.4,,,0.4,131.6,5.063,12,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1981-04-07,Incorporated,,,Black earth (Vertosol),7,60,1.43,11.2,,,,2.9,,0.1,,,0.1,3.448,3.448,12,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1981-12-03,Incorporated,,,Black earth (Vertosol),7,60,1.43,69.6,,,,14.5,,0.9,,,0.1,6.207,0.6897,80,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1981-12-23,Incorporated,,,Black earth (Vertosol),7,60,1.43,27.8,,,,3.2,,0,,,0,0,0,75,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-01,Incorporated,,,Black earth (Vertosol),7,60,1.43,13.4,,,,0.1,,0.1,,,0,100,0,22,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1982-03-04,Incorporated,,,Black earth (Vertosol),7,60,1.43,24.2,,,,7.2,,0.1,,,0.1,1.389,1.389,21,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-05,Incorporated,,,Black earth (Vertosol),7,60,1.43,2,,,,0.1,,0,,,,0,,21,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-06,Incorporated,,,Black earth (Vertosol),7,60,1.43,27.2,,,,10,,0,,,,0,,21,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-07,Incorporated,,,Black earth (Vertosol),7,60,1.43,9,,,,2.3,,0,,,,0,,21,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-10,Incorporated,,,Black earth (Vertosol),7,60,1.43,29.6,,,,4.5,,0,,,,0,,21,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-04-27,Incorporated,,,Black earth (Vertosol),7,60,1.43,25.4,,,,2.2,,5.2,,,0,236.4,0,14,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1983-05-01,Incorporated,,,Black earth (Vertosol),7,60,1.43,55,,,,6.2,,0.1,,,0.1,1.613,1.613,10,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1983-05-02,Incorporated,,,Black earth (Vertosol),7,60,1.43,70.8,,,,57.9,,27.4,,,2.4,47.32,4.145,10,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1983-05-27,Incorporated,,,Black earth (Vertosol),7,60,1.43,51.9,,,,6.4,,0.1,,,0,1.562,0,7,interpolated from cover.csv,4,last observation in cover.csv
+Greenmount,1983-06-21,Incorporated,,,Black earth (Vertosol),7,60,1.43,76.5,,,,53.2,,1.5,,,0.1,2.82,0.188,5,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1984-03-09,Incorporated,,,Black earth (Vertosol),7,60,1.43,27.6,,,,0.1,,0.3,,,0,300,0,23,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1984-04-07,Incorporated,,,Black earth (Vertosol),7,60,1.43,52.7,,,,28.5,,0.1,,,0.1,0.3509,0.3509,20,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1984-07-25,Incorporated,,,Black earth (Vertosol),7,60,1.43,10.8,,,,16.9,,0,,,0,0,0,90,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1987-01-19,Incorporated,,,Black earth (Vertosol),7,60,1.43,24.2,,,,0.58,,0.56,,,0.1,96.55,17.24,40,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1987-12-01,Incorporated,,,Black earth (Vertosol),7,60,1.43,26.6,,,,10,,1,,,0.2,10,2,20,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1987-12-10,Incorporated,,,Black earth (Vertosol),7,60,1.43,25.8,,,,2,,0.5,,,,25,,20,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1988-01-19,Incorporated,,,Black earth (Vertosol),7,60,1.43,39.5,,,,0.01,,0.01,,,,100,,29.38,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1988-02-12,Incorporated,,,Black earth (Vertosol),7,60,1.43,67.6,,,,15.32,,2.1,,,0.4,13.71,2.611,35,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1988-02-13,Incorporated,,,Black earth (Vertosol),7,60,1.43,19.3,,,,3.01,,,,,,,,35,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1988-03-31,Incorporated,,,Black earth (Vertosol),7,60,1.43,111.7,,,,71.8,,9.5,,,1.4,13.23,1.95,30,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1988-04-03,Incorporated,,,Black earth (Vertosol),7,60,1.43,90.3,,,,69.72,,24,,,3.4,34.42,4.877,28,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1988-04-04,Incorporated,,,Black earth (Vertosol),7,60,1.43,10.8,,,,17,,,,,,,,27.86,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1988-04-06,Incorporated,,,Black earth (Vertosol),7,60,1.43,6.1,,,,2.5,,,,,,,,27.57,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1988-04-07,Incorporated,,,Black earth (Vertosol),7,60,1.43,5.4,,,,0.48,,,,,,,,27.43,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1988-04-10,Incorporated,,,Black earth (Vertosol),7,60,1.43,19.4,,,,37,,10,,,0.75,27.03,2.027,27,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1988-04-12,Incorporated,,,Black earth (Vertosol),7,60,1.43,10.3,,,,0.175,,0.1,,,,57.14,,27.11,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1988-06-04,Incorporated,,,Black earth (Vertosol),7,60,1.43,2,,,,4,,0.01,,,,0.25,,30,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1989-01-07,Incorporated,,,Black earth (Vertosol),7,60,1.43,28.9,,,,0.2,,0.5,,,0,250,0,30,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1989-04-25,Incorporated,,,Black earth (Vertosol),7,60,1.43,42.7,,,,10,,0.1,,,,1,,46,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1990-01-15,Incorporated,,,Black earth (Vertosol),7,60,1.43,54.1,,,,1.7,,0,,,,0,,80,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1990-04-20,Incorporated,,,Black earth (Vertosol),7,60,1.43,42.5,,,,12.4,,0.1,,,0.1,0.8065,0.8065,40,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1990-05-22,Incorporated,,,Black earth (Vertosol),7,60,1.43,41.7,,,,25,,1.7,,,0.7,6.8,2.8,20,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1990-05-27,Incorporated,,,Black earth (Vertosol),7,60,1.43,21.9,,,,8.4,,0.1,,,0,1.19,0,20,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1991-02-07,Incorporated,,,Black earth (Vertosol),7,60,1.43,90.4,,,,27,,0.5,,,,1.852,,50,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1978-09-06,Mulch,,,Black earth (Vertosol),7,60,1.43,20.1,,,,0.1,,0,,,,0,,20,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1978-12-29,Mulch,,,Black earth (Vertosol),7,60,1.43,36.6,,,,0.73,,0,,,,0,,65,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1979-03-04,Mulch,,,Black earth (Vertosol),7,60,1.43,16.5,,,,0.1,,0,,,,0,,50,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1979-03-15,Mulch,,,Black earth (Vertosol),7,60,1.43,68.2,,,,4.59,,1,,,0.09965,21.79,2.171,50,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1979-06-20,Mulch,,,Black earth (Vertosol),7,60,1.43,53.6,,,,0.1,,0,,,,0,,40,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1980-02-05,Mulch,,,Black earth (Vertosol),7,60,1.43,95.5,,,,30.3,,1.85,,,0.606,6.106,2,55,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1981-02-05,Mulch,,,Black earth (Vertosol),7,60,1.43,85.9,,,,5.61,,0.74,,,0.07775,13.19,1.386,42,interpolated from cover.csv,5,last observation in cover.csv
+Greenmount,1981-02-06,Mulch,,,Black earth (Vertosol),7,60,1.43,27,,,,45.36,,11.12,,,2.124,24.51,4.683,42,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1981-02-09,Mulch,,,Black earth (Vertosol),7,60,1.43,14.6,,,,0.49,,0.1,,,0,20.41,0,42,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1981-04-01,Mulch,,,Black earth (Vertosol),7,60,1.43,53.5,,,,5.54,,0.02,,,0.01706,0.361,0.308,30,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1981-04-04,Mulch,,,Black earth (Vertosol),7,60,1.43,26.7,,,,7.99,,0.1,,,0.03763,1.252,0.471,30,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1981-04-07,Mulch,,,Black earth (Vertosol),7,60,1.43,11.2,,,,1.49,,0.01,,,0.005051,0.6711,0.339,30,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1981-12-03,Mulch,,,Black earth (Vertosol),7,60,1.43,69.6,,,,29.07,,2.02,,,1.283,6.949,4.413,80,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1981-12-23,Mulch,,,Black earth (Vertosol),7,60,1.43,27.8,,,,0.1,,0,,,,0,,55,interpolated from cover.csv,5,last observation in cover.csv
+Greenmount,1982-02-24,Mulch,,,Black earth (Vertosol),7,60,1.43,53.9,,,,3.47,,0,,,,0,,36,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1982-02-27,Mulch,,,Black earth (Vertosol),7,60,1.43,11.3,,,,0.1,,0,,,,0,,36,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1982-02-28,Mulch,,,Black earth (Vertosol),7,60,1.43,9.9,,,,0.1,,0,,,,0,,36,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1982-03-01,Mulch,,,Black earth (Vertosol),7,60,1.43,13.4,,,,0.1,,0.1,,,0.00406,100,4.06,36,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-04,Mulch,,,Black earth (Vertosol),7,60,1.43,24.2,,,,6.28,,0.24,,,0.255,3.822,4.06,36,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-05,Mulch,,,Black earth (Vertosol),7,60,1.43,2,,,,0.1,,0,,,,0,,36,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-06,Mulch,,,Black earth (Vertosol),7,60,1.43,27.2,,,,9.7,,0,,,,0,,36,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-07,Mulch,,,Black earth (Vertosol),7,60,1.43,9,,,,2.27,,0,,,,0,,36,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-10,Mulch,,,Black earth (Vertosol),7,60,1.43,29.6,,,,8.53,,0,,,,0,,36,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-04-27,Mulch,,,Black earth (Vertosol),7,60,1.43,25.4,,,,0.1,,0,,,,0,,25,interpolated from cover.csv,4,last observation in cover.csv
+Greenmount,1983-05-01,Mulch,,,Black earth (Vertosol),7,60,1.43,55,,,,6.52,,0.037,,,0.03586,0.5675,0.55,25,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1983-05-02,Mulch,,,Black earth (Vertosol),7,60,1.43,70.8,,,,50.47,,11.68,,,1.698,23.14,3.365,25,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1983-05-27,Mulch,,,Black earth (Vertosol),7,60,1.43,51.9,,,,7.42,,0.05,,,0.04326,0.6739,0.583,15,interpolated from cover.csv,4,last observation in cover.csv
+Greenmount,1983-06-21,Mulch,,,Black earth (Vertosol),7,60,1.43,76.5,,,,68.04,,2.62,,,0.5239,3.851,0.77,10,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1984-03-09,Mulch,,,Black earth (Vertosol),7,60,1.43,27.6,,,,0.2,,0.22,,,0.04055,110,20.28,35,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1984-04-07,Mulch,,,Black earth (Vertosol),7,60,1.43,52.7,,,,36.61,,0.16,,,0.06407,0.437,0.175,25,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1984-07-25,Mulch,,,Black earth (Vertosol),7,60,1.43,10.8,,,,27.8,,0.001,,,0.01807,0.003597,0.065,90,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1987-12-01,Mulch,,,Black earth (Vertosol),7,60,1.43,26.6,,,,5.895,,0.48,,,0.1275,8.142,2.163,57.5,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1988-02-12,Mulch,,,Black earth (Vertosol),7,60,1.43,67.6,,,,12.6,,0.375,,,0.3922,2.977,3.114,35,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1988-02-13,Mulch,,,Black earth (Vertosol),7,60,1.43,19.3,,,,3.375,,2.1,,,0.1098,62.22,3.253,35,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1988-03-31,Mulch,,,Black earth (Vertosol),7,60,1.43,111.7,,,,40.9,,10.7,,,0.8318,26.16,2.034,29,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1988-04-03,Mulch,,,Black earth (Vertosol),7,60,1.43,90.3,,,,67.38,,24,,,0,35.62,0,27,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1988-04-04,Mulch,,,Black earth (Vertosol),7,60,1.43,10.8,,,,17.57,,0,,,,0,,27,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1988-04-06,Mulch,,,Black earth (Vertosol),7,60,1.43,6.1,,,,2.44,,0,,,,0,,27,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1988-04-07,Mulch,,,Black earth (Vertosol),7,60,1.43,5.4,,,,0.475,,0,,,,0,,27,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1988-04-10,Mulch,,,Black earth (Vertosol),7,60,1.43,19.4,,,,37.22,,10.04,,,0.8422,26.96,2.263,27,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1988-04-12,Mulch,,,Black earth (Vertosol),7,60,1.43,10.3,,,,0.175,,0,,,,0,,27,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1988-06-04,Mulch,,,Black earth (Vertosol),7,60,1.43,2,,,,2.505,,0,,,,0,,30,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1989-03-28,Mulch,,,Black earth (Vertosol),7,60,1.43,12.5,,,,0.1,,0,,,,0,,46,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1989-04-25,Mulch,,,Black earth (Vertosol),7,60,1.43,42.7,,,,7.945,,0.27,,,0.08219,3.398,1.035,41.5,interpolated from cover.csv,1.5,last observation in cover.csv
+Greenmount,1990-01-15,Mulch,,,Black earth (Vertosol),7,60,1.43,54.1,,,,0.69,,0,,,,0,,90,interpolated from cover.csv,3,last observation in cover.csv
+Greenmount,1990-04-20,Mulch,,,Black earth (Vertosol),7,60,1.43,42.5,,,,7.69,,0.06,,,0.1307,0.7802,1.7,60,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1990-05-22,Mulch,,,Black earth (Vertosol),7,60,1.43,41.7,,,,15.23,,1.2,,,0.6991,7.879,4.59,30,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1990-05-27,Mulch,,,Black earth (Vertosol),7,60,1.43,21.9,,,,10,,0,,,,0,,30,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1980-02-05,Zero till,,,Black earth (Vertosol),7,60,1.43,95.5,,,,21.13,,1,,,0,4.733,0,75,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1981-02-05,Zero till,,,Black earth (Vertosol),7,60,1.43,85.9,,,,12.11,,1,,,0.1157,8.258,0.955,70,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1981-02-06,Zero till,,,Black earth (Vertosol),7,60,1.43,27,,,,60.43,,2.86,,,0.3203,4.733,0.53,70,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1981-02-09,Zero till,,,Black earth (Vertosol),7,60,1.43,14.6,,,,0.78,,0.1,,,0,12.82,0,70,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1981-04-01,Zero till,,,Black earth (Vertosol),7,60,1.43,53.5,,,,13.86,,0.09,,,0.08219,0.6494,0.593,65,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1981-04-04,Zero till,,,Black earth (Vertosol),7,60,1.43,26.7,,,,10.35,,0.1,,,0.06562,0.9662,0.634,65,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1981-04-07,Zero till,,,Black earth (Vertosol),7,60,1.43,11.2,,,,1.78,,0.01,,,0.01337,0.5618,0.751,65,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1981-12-03,Zero till,,,Black earth (Vertosol),7,60,1.43,69.6,,,,32.05,,1.05,,,0.2769,3.276,0.864,80,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1981-12-20,Zero till,,,Black earth (Vertosol),7,60,1.43,28.4,,,,2.78,,0.01,,,0.01215,0.3597,0.437,75,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1981-12-23,Zero till,,,Black earth (Vertosol),7,60,1.43,27.8,,,,3.15,,0.02,,,0.02158,0.6349,0.685,75,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-02-24,Zero till,,,Black earth (Vertosol),7,60,1.43,53.9,,,,10.86,,0,,,,0,,60,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-02-28,Zero till,,,Black earth (Vertosol),7,60,1.43,9.9,,,,0.1,,0,,,,0,,60,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-01,Zero till,,,Black earth (Vertosol),7,60,1.43,13.4,,,,0.1,,0.05,,,0.000277,50,0.277,60,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-04,Zero till,,,Black earth (Vertosol),7,60,1.43,24.2,,,,7.12,,0.02,,,0.01972,0.2809,0.277,60,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-05,Zero till,,,Black earth (Vertosol),7,60,1.43,2,,,,0.1,,0,,,,0,,60,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-06,Zero till,,,Black earth (Vertosol),7,60,1.43,27.2,,,,12.24,,0,,,,0,,60,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-07,Zero till,,,Black earth (Vertosol),7,60,1.43,9,,,,3.02,,0,,,,0,,60,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-03-10,Zero till,,,Black earth (Vertosol),7,60,1.43,29.6,,,,6.54,,0,,,,0,,60,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1982-04-27,Zero till,,,Black earth (Vertosol),7,60,1.43,25.4,,,,0.1,,0,,,,0,,70,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1983-05-01,Zero till,,,Black earth (Vertosol),7,60,1.43,55,,,,12.23,,0.055,,,0.1064,0.4495,0.87,57,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1983-05-02,Zero till,,,Black earth (Vertosol),7,60,1.43,70.8,,,,52.93,,4.49,,,1,8.483,1.89,57,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1983-05-27,Zero till,,,Black earth (Vertosol),7,60,1.43,51.9,,,,13.82,,0.05,,,0.06426,0.3618,0.465,50,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1983-06-21,Zero till,,,Black earth (Vertosol),7,60,1.43,76.5,,,,65.03,,1.8,,,0.5007,2.768,0.77,30,interpolated from cover.csv,2,last observation in cover.csv
+Greenmount,1984-02-15,Zero till,,,Black earth (Vertosol),7,60,1.43,17.9,,,,2.31,,0.04,,,0.04592,1.732,1.988,63,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1984-03-09,Zero till,,,Black earth (Vertosol),7,60,1.43,27.6,,,,4.34,,0.59,,,0.1454,13.59,3.35,63,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1984-04-07,Zero till,,,Black earth (Vertosol),7,60,1.43,52.7,,,,41.32,,0.03,,,0.02479,0.0726,0.06,60,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1984-04-21,Zero till,,,Black earth (Vertosol),7,60,1.43,6.5,,,,1.18,,0.01,,,0.001569,0.8475,0.133,60,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1984-07-25,Zero till,,,Black earth (Vertosol),7,60,1.43,10.8,,,,20,,0.002,,,0.03,0.01,0.15,90,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1989-01-07,Zero till,,,Black earth (Vertosol),7,60,1.43,28.9,,,,0.51,,0.55,,,0.1281,107.8,25.12,54,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1989-03-28,Zero till,,,Black earth (Vertosol),7,60,1.43,12.5,,,,0.39,,0,,,,0,,51.5,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1989-04-25,Zero till,,,Black earth (Vertosol),7,60,1.43,42.7,,,,12.22,,0.02,,,0.02077,0.1637,0.17,66,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1990-01-15,Zero till,,,Black earth (Vertosol),7,60,1.43,54.1,,,,4.27,,1,,,0.05594,23.42,1.31,85,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1990-04-20,Zero till,,,Black earth (Vertosol),7,60,1.43,42.5,,,,19.43,,0.9,,,0.7733,4.632,3.98,80,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1990-05-22,Zero till,,,Black earth (Vertosol),7,60,1.43,41.7,,,,16.53,,1,,,0.967,6.05,5.85,75,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1990-05-27,Zero till,,,Black earth (Vertosol),7,60,1.43,21.9,,,,8.49,,0,,,,0,,75,interpolated from cover.csv,1,last observation in cover.csv
+Greenmount,1991-02-07,Zero till,,,Black earth (Vertosol),7,60,1.43,90.4,,,,27.57,,0.5,,,0,1.814,0,50,interpolated from cover.csv,2,last observation in cover.csv
+Greenwood,1978-12-26,Burnt,,3,Grey clay (Vertosol),5,35,0.72,58,23.5,51.4,73.1,3.28,5.04,0,,,0,0,0,2,event record,1,event record
+Greenwood,1979-03-15,Burnt,,3,Grey clay (Vertosol),5,35,0.72,44,0,39.4,37.5,5.18,4.44,0,,,0,0,0,5,event record,,event record
+Greenwood,1979-03-16,Burnt,,3,Grey clay (Vertosol),5,35,0.72,12,44,6,1.3,1.78,1.33,0,,,0,0,0,5,event record,1,event record
+Greenwood,1979-03-19,Burnt,,3,Grey clay (Vertosol),5,35,0.72,20,56,36.6,18.6,6.44,12.52,3.913,0,3.4,0.513,60.76,7.966,10,event record,1,event record
+Greenwood,1980-01-27,Burnt,,1,Grey clay (Vertosol),5,35,0.72,60.5,8.5,48.4,70.9,13.83,18.61,20.57,3.5,15,2.075,148.8,15,5,event record,1,event record
+Greenwood,1980-01-29,Burnt,,1,Grey clay (Vertosol),5,35,0.72,12,72,13.6,3,2.55,5.52,0.2305,,,0.2305,9.039,9.039,5,event record,1,event record
+Greenwood,1980-02-05,Burnt,,1,Grey clay (Vertosol),5,35,0.72,63,98.5,55.8,89.4,29.35,44.69,30.1,,27,3.103,102.6,10.57,5,event record,1,event record
+Greenwood,1980-11-25,Burnt,,2,Grey clay (Vertosol),5,35,0.72,72.8,2,75.6,138.7,8.37,7.64,8.168,,7,1.168,97.59,13.96,2,event record,5,event record
+Greenwood,1980-12-06,Burnt,,2,Grey clay (Vertosol),5,35,0.72,8,36.5,33.8,31.6,4.48,15.64,6.42,,6,0.4197,143.3,9.369,2,event record,1,event record
+Greenwood,1981-02-05,Burnt,,2,Grey clay (Vertosol),5,35,0.72,50.5,22.5,27.8,29.1,7.08,6.03,2.062,,1.5,0.56,29.12,7.91,2,event record,4,event record
+Greenwood,1981-02-06,Burnt,,2,Grey clay (Vertosol),5,35,0.72,156,73,55.8,150.1,110.6,53.72,101.3,8,75,18.29,91.58,16.54,2,event record,2,event record
+Greenwood,1981-02-08,Burnt,,2,Grey clay (Vertosol),5,35,0.72,39,229,27,24.2,27.05,30.15,2.586,,,2.59,9.56,9.575,2,event record,1,event record
+Greenwood,1981-04-04,Burnt,,2,Grey clay (Vertosol),5,35,0.72,23,57.5,26,13.2,3.86,3.46,0.2061,,,0.21,5.34,5.44,2,event record,3,event record
+Greenwood,1981-04-06,Burnt,,2,Grey clay (Vertosol),5,35,0.72,22,80.5,15.4,6.9,6.61,7.33,0.353,,,0.35,5.341,5.295,2,event record,2,event record
+Greenwood,1981-06-01,Burnt,,2,Grey clay (Vertosol),5,35,0.72,17.5,37.5,15.4,12.4,2.84,0.73,0.01363,,,0.01,0.48,0.3521,2,event record,2,event record
+Greenwood,1981-12-21,Burnt,,3,Grey clay (Vertosol),5,35,0.72,24.5,41,34,20.2,4.3,5.88,0.1676,,,0.17,3.898,3.953,5,event record,2,event record
+Greenwood,1981-12-24,Burnt,,3,Grey clay (Vertosol),5,35,0.72,38.5,77.5,50.2,47.7,17.16,31.26,4.962,,3,1.96,28.92,11.42,10,event record,3,event record
+Greenwood,1981-12-31,Burnt,,3,Grey clay (Vertosol),5,35,0.72,10,82,18.6,4.4,0.22,0.33,0.002015,,,0,0.916,0,10,event record,1,event record
+Greenwood,1982-12-01,Burnt,,5,Grey clay (Vertosol),5,35,0.72,52.1,0,58,74.8,0.37,0.24,0,,,0,0,0,5,event record,5,event record
+Greenwood,1982-12-02,Burnt,,5,Grey clay (Vertosol),5,35,0.72,29,52,16.8,9.5,7.59,4.8,0,,,0,0,0,5,event record,5,event record
+Greenwood,1982-12-03,Burnt,,5,Grey clay (Vertosol),5,35,0.72,24.5,81,42.4,26.9,13.01,17.6,6.459,0.5,5,0.96,49.65,7.379,5,event record,3,event record
+Greenwood,1982-12-19,Burnt,,5,Grey clay (Vertosol),5,35,0.72,16.5,12.5,27.2,10.8,3.25,3.28,0.2335,,,0.23,7.185,7.077,10,event record,1,event record
+Greenwood,1983-04-27,Burnt,,5,Grey clay (Vertosol),5,35,0.72,44,22.5,5.6,4,0.94,0.24,0.005264,,,0.01,0.56,1.064,2,event record,5,event record
+Greenwood,1983-04-28,Burnt,,5,Grey clay (Vertosol),5,35,0.72,5,66.5,1.4,0.1,1.96,0.23,0.01098,,,0.01,0.56,0.5102,2,event record,3,event record
+Greenwood,1983-04-30,Burnt,,5,Grey clay (Vertosol),5,35,0.72,26,73.5,6.2,2.6,4.43,0.52,0.02481,,,0.02,0.56,0.4515,2,event record,2,event record
+Greenwood,1983-05-01,Burnt,,5,Grey clay (Vertosol),5,35,0.72,38,99.5,20.4,14.3,13.81,2.33,0.3383,,,0.34,2.45,2.462,2,event record,2,event record
+Greenwood,1983-05-02,Burnt,,5,Grey clay (Vertosol),5,35,0.72,25.5,137.5,14,7.3,23.7,6.53,0.5806,,,0.58,2.45,2.447,2,event record,1,event record
+Greenwood,1983-05-27,Burnt,,5,Grey clay (Vertosol),5,35,0.72,44.5,13.5,11,9.4,6.51,1.61,8.427,5.5,2.92,0.01,129.4,0.1536,2,event record,3,event record
+Greenwood,1983-06-21,Burnt,,5,Grey clay (Vertosol),5,35,0.72,85.5,46.5,10.8,14.1,68.13,8.11,1.836,0.84,0.4,0.6,2.695,0.8807,2,event record,2,event record
+Greenwood,1983-06-25,Burnt,,5,Grey clay (Vertosol),5,35,0.72,6.5,102,7.8,1,0.01,,0,,,0,0,0,80,event record,1,event record
+Greenwood,1983-11-20,Burnt,,5,Grey clay (Vertosol),5,35,0.72,44,34,9.2,6.9,2.27,0.52,0,,,0,0,0,80,event record,1,event record
+Greenwood,1983-12-10,Burnt,,5,Grey clay (Vertosol),5,35,0.72,27.5,25.5,41.6,29,1.34,0.36,0,,,0,0,0,80,event record,1,event record
+Greenwood,1984-03-09,Burnt,,3,Grey clay (Vertosol),5,35,0.72,34,36,28.4,22.6,11.21,3.06,11.73,2.87,8,0.86,104.7,7.672,2,event record,2,event record
+Greenwood,1984-04-08,Burnt,,3,Grey clay (Vertosol),5,35,0.72,39.1,61.6,11,17,27.42,2.18,0.1692,,,0.17,0.617,0.62,2,event record,2,event record
+Greenwood,1979-03-15,Incorporated,,2,Grey clay (Vertosol),5,35,0.72,44,0,39.4,37.5,0.01,,0,,,0,0,0,40,event record,,event record
+Greenwood,1979-03-16,Incorporated,,2,Grey clay (Vertosol),5,35,0.72,12,44,6,1.3,0.4,0.24,0,,,0,0,0,40,event record,1,event record
+Greenwood,1979-03-19,Incorporated,,2,Grey clay (Vertosol),5,35,0.72,20,56,36.6,18.6,2.22,4.57,0.6633,0,0.5,0.1633,29.88,7.358,40,event record,1,event record
+Greenwood,1980-02-05,Incorporated,,3,Grey clay (Vertosol),5,35,0.72,63,98.5,55.8,89.4,21.83,26.7,5.037,,4,1.037,23.07,4.749,25,event record,2,event record
+Greenwood,1980-11-25,Incorporated,,5,Grey clay (Vertosol),5,35,0.72,72.8,2,75.6,138.7,7.24,6.8,0.724,,,0.724,10,10,35,event record,5,event record
+Greenwood,1980-12-06,Incorporated,,5,Grey clay (Vertosol),5,35,0.72,8,36.5,33.8,31.6,3.62,4.79,0.1701,,,0.1701,4.699,4.699,35,event record,2,event record
+Greenwood,1981-02-05,Incorporated,,5,Grey clay (Vertosol),5,35,0.72,50.5,22.5,27.8,29.1,2.09,1.32,0.0469,,,0.05,2.244,2.392,10,event record,4,event record
+Greenwood,1981-02-06,Incorporated,,5,Grey clay (Vertosol),5,35,0.72,156,73,55.8,150.1,103.8,28.5,34.18,5,20,9.18,32.92,8.844,10,event record,2,event record
+Greenwood,1981-02-08,Incorporated,,5,Grey clay (Vertosol),5,35,0.72,39,229,27,24.2,28.07,23.74,1.078,,,1.08,3.84,3.848,10,event record,1,event record
+Greenwood,1981-04-04,Incorporated,,5,Grey clay (Vertosol),5,35,0.72,23,57.5,26,13.2,3.83,2.42,0.08832,,,0.09,2.306,2.35,8,event record,3,event record
+Greenwood,1981-04-06,Incorporated,,5,Grey clay (Vertosol),5,35,0.72,22,80.5,15.4,6.9,4.62,4.31,0.1065,,,0.11,2.306,2.381,8,event record,2,event record
+Greenwood,1981-06-01,Incorporated,,5,Grey clay (Vertosol),5,35,0.72,17.5,37.5,15.4,12.4,1.94,0.57,0.01164,,,0.01,0.6,0.5155,5,event record,2,event record
+Greenwood,1981-12-24,Incorporated,,2,Grey clay (Vertosol),5,35,0.72,38.5,77.5,50.2,47.7,6.55,7.79,0.2374,,,0.24,3.625,3.664,41,event record,3,event record
+Greenwood,1982-10-13,Incorporated,,2,Grey clay (Vertosol),5,35,0.72,24,47.5,38.6,22.9,0.01,,0,,,0,0,0,80,event record,1,event record
+Greenwood,1982-12-01,Incorporated,,3,Grey clay (Vertosol),5,35,0.72,52.1,0,58,74.8,0.1,,0,,,0,0,0,26,event record,5,event record
+Greenwood,1982-12-02,Incorporated,,3,Grey clay (Vertosol),5,35,0.72,29,52,16.8,9.5,7.32,4.56,0,,,0,0,0,26,event record,5,event record
+Greenwood,1982-12-03,Incorporated,,3,Grey clay (Vertosol),5,35,0.72,24.5,81,42.4,26.9,11.62,15.4,2.714,,1.7,1.01,23.35,8.692,26,event record,3,event record
+Greenwood,1982-12-19,Incorporated,,3,Grey clay (Vertosol),5,35,0.72,16.5,12.5,27.2,10.8,1.96,1.98,0.08305,,,0.08,4.237,4.082,30,event record,1,event record
+Greenwood,1983-04-27,Incorporated,,3,Grey clay (Vertosol),5,35,0.72,44,22.5,5.6,4,0.02,0.06,7e-05,,,0,0.35,0,6,event record,5,event record
+Greenwood,1983-04-28,Incorporated,,3,Grey clay (Vertosol),5,35,0.72,5,66.5,1.4,0.1,1.53,0.14,0.005355,,,0.01,0.35,0.6536,6,event record,3,event record
+Greenwood,1983-04-30,Incorporated,,3,Grey clay (Vertosol),5,35,0.72,26,73.5,6.2,2.6,2.8,0.26,0.0098,,,0.01,0.35,0.3571,6,event record,3,event record
+Greenwood,1983-05-01,Incorporated,,3,Grey clay (Vertosol),5,35,0.72,38,99.5,20.4,14.3,8.01,1.68,0.04165,,,0.04,0.52,0.4994,6,event record,2,event record
+Greenwood,1983-05-02,Incorporated,,3,Grey clay (Vertosol),5,35,0.72,25.5,137.5,14,7.3,14.72,4.31,0.5564,,,0.56,3.78,3.804,6,event record,1,event record
+Greenwood,1983-05-27,Incorporated,,3,Grey clay (Vertosol),5,35,0.72,44.5,13.5,11,9.4,8.17,1.71,6.25,4.2,2.03,0.02,76.5,0.2448,4,event record,3,event record
+Greenwood,1983-06-21,Incorporated,,3,Grey clay (Vertosol),5,35,0.72,85.5,46.5,10.8,14.1,58.83,6.79,3.316,1.81,0.9,0.61,5.636,1.037,3,event record,2,event record
+Greenwood,1983-06-25,Incorporated,,3,Grey clay (Vertosol),5,35,0.72,6.5,102,7.8,1,0.01,,0,,,0,0,0,63,event record,1,event record
+Greenwood,1983-11-20,Incorporated,,3,Grey clay (Vertosol),5,35,0.72,44,34,9.2,6.9,1.1,0.14,0,,,0,0,0,80,event record,1,event record
+Greenwood,1983-12-10,Incorporated,,3,Grey clay (Vertosol),5,35,0.72,27.5,25.5,41.6,29,1.1,0.24,0,,,0,0,0,80,event record,1,event record
+Greenwood,1984-03-09,Incorporated,,5,Grey clay (Vertosol),5,35,0.72,34,36,28.4,22.6,8.66,2.4,4.54,2.85,1.69,0,52.42,0,13,event record,1,event record
+Greenwood,1984-04-08,Incorporated,,5,Grey clay (Vertosol),5,35,0.72,39.1,61.6,11,17,41.75,2.74,0.1557,,,0.16,0.373,0.3832,20,event record,1,event record
+Greenwood,1978-12-26,Mulch,,1,Grey clay (Vertosol),5,35,0.72,58,23.5,51.4,73.1,0,,0.01,,,0,,,60,event record,2,event record
+Greenwood,1979-03-15,Mulch,,1,Grey clay (Vertosol),5,35,0.72,44,0,39.4,37.5,0.01,,0,,,0,0,0,65,event record,,event record
+Greenwood,1979-03-19,Mulch,,1,Grey clay (Vertosol),5,35,0.72,20,56,36.6,18.6,0.2,0.02,0,,,0,0,0,65,event record,1,event record
+Greenwood,1979-06-21,Mulch,,1,Grey clay (Vertosol),5,35,0.72,3,60,14.2,16.1,0.6,0.12,0,,,0,0,0,15,event record,1,event record
+Greenwood,1980-02-05,Mulch,,2,Grey clay (Vertosol),5,35,0.72,63,98.5,55.8,89.4,6.7,10.78,0.1925,,,0.1925,2.873,2.873,55,event record,2,event record
+Greenwood,1981-02-06,Mulch,,3,Grey clay (Vertosol),5,35,0.72,156,73,55.8,150.1,92.45,26.26,20.76,5,11,4.76,22.46,5.149,20,event record,3,event record
+Greenwood,1981-02-08,Mulch,,3,Grey clay (Vertosol),5,35,0.72,39,229,27,24.2,24.89,22.94,0.575,,,0.57,2.31,2.29,20,event record,1,event record
+Greenwood,1981-04-04,Mulch,,3,Grey clay (Vertosol),5,35,0.72,23,57.5,26,13.2,1.01,0.34,0.00606,,,0.01,0.6,0.9901,15,event record,3,event record
+Greenwood,1981-04-06,Mulch,,3,Grey clay (Vertosol),5,35,0.72,22,80.5,15.4,6.9,3.9,2.52,0.0234,,,0.02,0.6,0.5128,15,event record,2,event record
+Greenwood,1981-06-01,Mulch,,3,Grey clay (Vertosol),5,35,0.72,17.5,37.5,15.4,12.4,1.69,0.52,0.01251,,,0.01,0.74,0.5917,8,event record,2,event record
+Greenwood,1981-12-24,Mulch,,5,Grey clay (Vertosol),5,35,0.72,38.5,77.5,50.2,47.7,5.37,4.15,0.1584,,,0.16,2.95,2.98,53,event record,3,event record
+Greenwood,1982-12-02,Mulch,,2,Grey clay (Vertosol),5,35,0.72,29,52,16.8,9.5,1.96,1.56,0,,,0,0,0,42,event record,5,event record
+Greenwood,1982-12-03,Mulch,,2,Grey clay (Vertosol),5,35,0.72,24.5,81,42.4,26.9,10.92,19,1.063,,0.2,0.86,9.735,7.875,42,event record,3,event record
+Greenwood,1982-12-19,Mulch,,2,Grey clay (Vertosol),5,35,0.72,16.5,12.5,27.2,10.8,1.86,2.66,0.1026,,,0.1,5.514,5.376,45,event record,1,event record
+Greenwood,1983-04-27,Mulch,,2,Grey clay (Vertosol),5,35,0.72,44,22.5,5.6,4,0.82,0.16,0.005658,,,0.01,0.69,1.22,11,event record,5,event record
+Greenwood,1983-04-28,Mulch,,2,Grey clay (Vertosol),5,35,0.72,5,66.5,1.4,0.1,1.02,0.12,0.007038,,,0.01,0.69,0.9804,11,event record,4,event record
+Greenwood,1983-04-30,Mulch,,2,Grey clay (Vertosol),5,35,0.72,26,73.5,6.2,2.6,3.64,0.39,0.02512,,,0.03,0.69,0.8242,11,event record,3,event record
+Greenwood,1983-05-01,Mulch,,2,Grey clay (Vertosol),5,35,0.72,38,99.5,20.4,14.3,13.24,5.15,0.02648,,,0.03,0.2,0.2266,11,event record,3,event record
+Greenwood,1983-05-02,Mulch,,2,Grey clay (Vertosol),5,35,0.72,25.5,137.5,14,7.3,19.38,8.98,0.03876,,,0.04,0.2,0.2064,11,event record,1,event record
+Greenwood,1983-05-27,Mulch,,2,Grey clay (Vertosol),5,35,0.72,44.5,13.5,11,9.4,11.72,2.42,8.902,5.15,3.74,0.01,75.95,0.08532,6,event record,3,event record
+Greenwood,1983-06-21,Mulch,,2,Grey clay (Vertosol),5,35,0.72,85.5,46.5,10.8,14.1,70.9,8.08,3.468,1.38,1.11,0.98,4.892,1.382,5,event record,2,event record
+Greenwood,1983-06-25,Mulch,,2,Grey clay (Vertosol),5,35,0.72,6.5,102,7.8,1,0.01,,0,,,0,0,0,83,event record,1,event record
+Greenwood,1983-11-20,Mulch,,2,Grey clay (Vertosol),5,35,0.72,44,34,9.2,6.9,1.25,0.36,0,,,0,0,0,80,event record,1,event record
+Greenwood,1983-12-10,Mulch,,2,Grey clay (Vertosol),5,35,0.72,27.5,25.5,41.6,29,4.48,1.32,0.0336,,,0.03,0.75,0.6696,80,event record,1,event record
+Greenwood,1984-03-09,Mulch,,1,Grey clay (Vertosol),5,35,0.72,34,36,28.4,22.6,0.01,,0,,,0,0,0,36,event record,2,event record
+Greenwood,1984-04-08,Mulch,,1,Grey clay (Vertosol),5,35,0.72,39.1,61.6,11,17,34.26,2.59,0.05996,,,0.06,0.175,0.1751,20,event record,1,event record
+Greenwood,1980-11-25,Zero till,,1,Grey clay (Vertosol),5,35,0.72,72.8,2,75.6,138.7,1.03,0.93,0.04534,,,0.04534,4.402,4.402,56,event record,1,event record
+Greenwood,1980-12-06,Zero till,,1,Grey clay (Vertosol),5,35,0.72,8,36.5,33.8,31.6,0.68,0.7,0.02198,,,0.02198,3.233,3.233,56,event record,1,event record
+Greenwood,1980-12-31,Zero till,,1,Grey clay (Vertosol),5,35,0.72,23.5,31.5,19.2,9.9,0.7,,0.0098,,,0.0098,1.4,1.4,56,event record,1,event record
+Greenwood,1981-02-05,Zero till,,1,Grey clay (Vertosol),5,35,0.72,50.5,22.5,27.8,29.1,5.09,2.7,0,,,0,0,0,24,event record,1,event record
+Greenwood,1981-02-06,Zero till,,1,Grey clay (Vertosol),5,35,0.72,156,73,55.8,150.1,96.17,37.75,8.074,0,2.4,5.67,8.396,5.896,24,event record,1,event record
+Greenwood,1981-02-08,Zero till,,1,Grey clay (Vertosol),5,35,0.72,39,229,27,24.2,24.9,26.15,0.8745,,,0.87,3.512,3.494,24,event record,1,event record
+Greenwood,1981-04-04,Zero till,,1,Grey clay (Vertosol),5,35,0.72,23,57.5,26,13.2,5.21,7.62,0.2339,,,0.23,4.49,4.415,25,event record,1,event record
+Greenwood,1981-04-06,Zero till,,1,Grey clay (Vertosol),5,35,0.72,22,80.5,15.4,6.9,4.97,6.03,0.2232,,,0.22,4.49,4.427,25,event record,1,event record
+Greenwood,1981-06-01,Zero till,,1,Grey clay (Vertosol),5,35,0.72,17.5,37.5,15.4,12.4,6.83,4.77,0.1468,,,0.15,2.15,2.196,25,event record,1,event record
+Greenwood,1981-12-21,Zero till,,1,Grey clay (Vertosol),5,35,0.72,24.5,41,34,20.2,0.09,0.12,0,,,0,0,0,56,event record,1,event record
+Greenwood,1981-12-24,Zero till,,1,Grey clay (Vertosol),5,35,0.72,38.5,77.5,50.2,47.7,12.13,15.69,0.1504,,,0.15,1.24,1.237,56,event record,1,event record
+Greenwood,1982-12-03,Zero till,,1,Grey clay (Vertosol),5,35,0.72,24.5,81,42.4,26.9,0.8,0.91,0,,,0,0,0,54,event record,1,event record
+Greenwood,1983-04-27,Zero till,,1,Grey clay (Vertosol),5,35,0.72,44,22.5,5.6,4,4.91,0.47,0.04174,,,0.04,0.85,0.8147,58,event record,1,event record
+Greenwood,1983-04-28,Zero till,,1,Grey clay (Vertosol),5,35,0.72,5,66.5,1.4,0.1,2.24,0.32,0.01904,,,0.02,0.85,0.8929,58,event record,1,event record
+Greenwood,1983-04-30,Zero till,,1,Grey clay (Vertosol),5,35,0.72,26,73.5,6.2,2.6,2.79,0.34,0.02371,,,0.02,0.85,0.7168,58,event record,1,event record
+Greenwood,1983-05-01,Zero till,,1,Grey clay (Vertosol),5,35,0.72,38,99.5,20.4,14.3,9.48,4.19,0.07205,,,0.07,0.76,0.7384,58,event record,1,event record
+Greenwood,1983-05-02,Zero till,,1,Grey clay (Vertosol),5,35,0.72,25.5,137.5,14,7.3,15.45,8.06,0.1699,,,0.17,1.1,1.1,58,event record,1,event record
+Greenwood,1983-05-27,Zero till,,1,Grey clay (Vertosol),5,35,0.72,44.5,13.5,11,9.4,13.25,2.77,0.03325,0.01,0.01,0.01,0.2509,0.07547,55,event record,1,event record
+Greenwood,1983-06-21,Zero till,,1,Grey clay (Vertosol),5,35,0.72,85.5,46.5,10.8,14.1,66.52,8.03,1.235,0.45,0.12,0.67,1.857,1.007,30,event record,2,event record
+Greenwood,1983-06-25,Zero till,,1,Grey clay (Vertosol),5,35,0.72,6.5,102,7.8,1,0.01,,0,,,0,0,0,78,event record,1,event record
+Greenwood,1983-11-20,Zero till,,1,Grey clay (Vertosol),5,35,0.72,44,34,9.2,6.9,1.33,0.58,0,,,0,0,0,80,event record,1,event record
+Greenwood,1983-12-10,Zero till,,1,Grey clay (Vertosol),5,35,0.72,27.5,25.5,41.6,29,1.11,0.12,0,,,0,0,0,90,event record,1,event record
+Greenwood,1984-03-09,Zero till,,2,Grey clay (Vertosol),5,35,0.72,34,36,28.4,22.6,6.94,1.76,0.2839,,0.1,0.18,4.091,2.594,62,event record,1,event record
+Greenwood,1984-04-08,Zero till,,2,Grey clay (Vertosol),5,35,0.72,39.1,61.6,11,17,40.36,3.49,0.09888,,,0.1,0.245,0.2478,60,event record,1,event record
+Wallumbilla,1983-05-03,Min till,Min Till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,59.4,111.5,10.1,10.6,35.22,7.32,0.7326,,,0.7326,2.08,2.08,22,event record,1,event record
+Wallumbilla,1983-05-23,Min till,Min Till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,33.1,33.5,11.1,7,22.5,9.72,2.563,,,2.563,11.39,11.39,12,event record,2,event record
+Wallumbilla,1983-05-28,Min till,Min Till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,40.1,66.5,17.2,13.5,32.92,8.89,14.77,2.46,10.09,2.222,44.87,6.75,12,event record,1,event record
+Wallumbilla,1983-06-21,Min till,Min Till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,66.4,12,7.2,13.5,41.3,5.58,2.756,1.2,0.5,1.056,6.674,2.558,12,event record,1,event record
+Wallumbilla,1983-11-28,Min till,Min Till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,31.13,74.5,21.7,14.8,16.52,3.85,0.3497,,,0.3497,2.117,2.117,60,event record,1,event record
+Wallumbilla,1983-12-29,Min till,Min Till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,55.04,15,94.6,150.3,19,5,0.95,,,0.95,5,5,60,event record,1,event record
+Wallumbilla,1984-01-03,Min till,Min Till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,47.7,70.5,42.9,48.4,23,8,0.8004,,,0.8004,3.48,3.48,60,event record,1,event record
+Wallumbilla,1984-01-30,Min till,Min Till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,45.12,67.5,29.3,30.6,28.51,16.44,3.73,1.3,0.9,1.53,13.08,5.365,33,event record,3,event record
+Wallumbilla,1984-07-17,Min till,Min Till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,16.75,35,6.3,1.5,11.89,2.52,0.4567,,0.1,0.3567,3.841,3,15,event record,1,event record
+Wallumbilla,1984-07-23,Min till,Min Till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,12.33,55,3.3,0.6,0.86,0.25,0.05001,,,0.05001,5.815,5.815,15,event record,1,event record
+Wallumbilla,1984-07-24,Min till,Min Till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,11.24,67.5,1.2,0.1,9.99,1.08,0.5809,,,0.5809,5.815,5.815,15,event record,1,event record
+Wallumbilla,1984-07-25,Min till,Min Till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,30.06,72.5,3.2,1.4,25.27,2.4,1.469,,,1.469,5.815,5.815,15,event record,1,event record
+Wallumbilla,1984-07-26,Min till,Min Till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,11.02,80.5,2.7,0.4,9.58,1.08,0.5571,,,0.5571,5.815,5.815,15,event record,1,event record
+Wallumbilla,1984-07-27,Min till,Min Till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,39.5,85.5,8.4,5.6,32.59,4.56,2.475,0.28,0.3,1.895,7.595,5.815,15,event record,1,event record
+Wallumbilla,1984-12-15,Min till,Min Till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,36.7,30,36.8,31.6,0.2,0.84,0.002,,,0.002,1,1,54,event record,1,event record
+Wallumbilla,1984-12-16,Min till,Min Till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,9.2,67.5,18.4,4.1,0.08,0.24,0.0008,,,0.0008,1,1,54,event record,1,event record
+Wallumbilla,1984-12-19,Min till,Min Till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,41.4,75,20,18.3,15.9,11.2,0.256,,,0.256,1.61,1.61,54,event record,1,event record
+Wallumbilla,1984-12-29,Min till,Min Till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,22.1,48,39.4,22.7,5.49,7.98,0.09772,,,0.09772,1.78,1.78,54,event record,1,event record
+Wallumbilla,1984-12-30,Min till,Min Till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,18,29,36,17.6,11.74,14.76,0.209,,,0.209,1.78,1.78,54,event record,1,event record
+Wallumbilla,1985-01-09,Min till,Min Till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,28.7,29,28,19.2,5.19,2.4,0.8415,,0.8,0.04152,16.21,0.8,54,event record,1,event record
+Wallumbilla,1985-07-08,Min till,Min Till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,42.92,2.5,8.4,5.8,2.28,2.6,0.04104,,,0.04104,1.8,1.8,20,event record,2,event record
+Wallumbilla,1986-02-12,Min till,Min till,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,45.24,18,75,96.4,0.75,1.8,0.0075,,,0.0075,1,1,45,event record,1,event record
+Wallumbilla,1986-02-13,Min till,Min till,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,23.51,63,44.7,28.5,6.33,3.7,0.09824,,0.04,0.05824,1.552,0.92,45,event record,1,event record
+Wallumbilla,1986-11-13,Min till,Min till,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,45.87,14.5,40.1,41.8,0.3,0.51,0.003,,,0.003,1,1,55,event record,1,event record
+Wallumbilla,1986-11-18,Min till,Min till,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,20.09,46.5,27.9,20.3,0.06,0.2,0.0006,,,0.0006,1,1,55,event record,1,event record
+Wallumbilla,1989-01-24,Min till,Min till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,31.06,0,50.1,42.3,0.08,0.3,0.0008,,,0.0008,1,1,53,event record,1,event record
+Wallumbilla,1989-01-24,Min till,Min till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,31.06,0,50.1,42.3,0.04,0.24,0.0004,,,0.0004,1,1,53,event record,1,event record
+Wallumbilla,1989-03-31,Min till,Min till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,44.29,15,28.3,27.7,5.31,2.91,0.3507,0.11,,0.2407,6.605,4.533,50,event record,1,event record
+Wallumbilla,1989-03-31,Min till,Min till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,44.29,15,28.3,27.7,3.47,3.3,0.2379,0.15,,0.08786,6.855,2.532,55,event record,1,event record
+Wallumbilla,1989-04-22,Min till,Min till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,31.2,7.5,37.2,26.6,4.91,5.8,0.0491,,,0.0491,1,1,50,event record,1,event record
+Wallumbilla,1989-04-22,Min till,Min till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,31.2,7.5,37.2,26.6,2.64,4.65,0.132,,,0.132,5,5,55,event record,1,event record
+Wallumbilla,1989-04-25,Min till,Min till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,48.84,36,8.4,7,25.5,3.45,1.403,,,1.403,5.5,5.5,50,event record,1,event record
+Wallumbilla,1989-04-25,Min till,Min till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,48.84,36,8.4,7,20.54,3.24,0.8011,,,0.8011,3.9,3.9,55,event record,1,event record
+Wallumbilla,1989-04-26,Min till,Min till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,11.78,82.5,3.8,0.6,3.9,1.68,1.214,,1,0.2145,31.14,5.5,50,event record,1,event record
+Wallumbilla,1989-04-26,Min till,Min till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,11.78,82.5,3.8,0.6,2.86,1.14,1.112,,1,0.1115,38.87,3.9,55,event record,1,event record
+Wallumbilla,1989-06-06,Min till,Min till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,15.54,40.5,6.5,1.6,6.42,1.71,0.1926,,,0.1926,3,3,20,event record,1,event record
+Wallumbilla,1989-06-06,Min till,Min till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,15.54,40.5,6.5,1.6,2.37,1.05,0.0711,,,0.0711,3,3,20,event record,1,event record
+Wallumbilla,1989-10-27,Min till,Min till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,30.14,97,59.6,51.7,13.66,14.4,0.1366,,,0.1366,1,1,80,event record,1,event record
+Wallumbilla,1989-10-27,Min till,Min till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,30.14,97,59.6,51.7,12.13,14.4,0.1213,,,0.1213,1,1,80,event record,1,event record
+Wallumbilla,1989-11-05,Min till,Min till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,46.71,32,27.8,33.4,19.33,10.8,0.7365,,,0.7365,3.81,3.81,80,event record,1,event record
+Wallumbilla,1989-11-05,Min till,Min till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,46.71,32,27.8,33.4,16.48,12.6,0.3461,,,0.3461,2.1,2.1,80,event record,1,event record
+Wallumbilla,1989-11-06,Min till,Min till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,42.05,78.5,32.5,32.6,31.19,17.83,1.188,,,1.188,3.81,3.81,80,event record,1,event record
+Wallumbilla,1989-11-06,Min till,Min till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,42.05,78.5,32.5,32.6,27.46,20.2,0.5767,,,0.5767,2.1,2.1,80,event record,1,event record
+Wallumbilla,1989-11-07,Min till,Min till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,7.08,90.5,13.8,2.5,2.17,2.4,0.08268,,,0.08268,3.81,3.81,80,event record,1,event record
+Wallumbilla,1989-11-07,Min till,Min till,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,7.08,90.5,13.8,2.5,2.23,2.6,0.04683,,,0.04683,2.1,2.1,80,event record,1,event record
+Wallumbilla,1992-01-01,Min till,Min till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,52.3,34,62.4,87.1,21.8,32.4,1.443,,,1.443,6.62,6.62,30,event record,3,event record
+Wallumbilla,1992-01-08,Min till,Min till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,35.51,79.5,47,48.4,13.63,13.2,1.402,0.1,0.4,0.9023,10.29,6.62,30,event record,1,event record
+Wallumbilla,1990-04-19,Pasture,Pasture,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,34.82,21,10.7,6.7,3.53,1.27,0.1483,,,0.1483,4.2,4.2,20,event record,5,event record
+Wallumbilla,1990-04-20,Pasture,Pasture,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,12.53,55.5,7.4,1.3,1,0.33,0.042,,,0.042,4.2,4.2,20,event record,4,event record
+Wallumbilla,1990-04-21,Pasture,Pasture,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,10.94,68,14.2,3.2,3.7,2.16,0.3554,,0.2,0.1554,9.605,4.2,20,event record,4,event record
+Wallumbilla,1991-05-22,Pasture,Pasture,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,26.89,23,8.2,3.5,1.02,0.48,0.0102,,,0.0102,1,1,50,event record,3,event record
+Wallumbilla,1992-01-01,Pasture,Pasture,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,52.3,34,62.4,87.1,6.45,8.4,0.18,,,0.18,2.79,2.79,80,event record,3,event record
+Wallumbilla,1992-01-08,Pasture,Pasture,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,35.51,79.5,47,48.4,3.7,3.6,0.3032,0.1,0.1,0.1032,8.195,2.79,80,event record,1,event record
+Wallumbilla,1993-12-08,Pasture,Pasture,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,41.24,48,65.8,72.9,2.49,2,0.1838,,0.1,0.08384,7.383,3.367,20,event record,1,event record
+Wallumbilla,1993-12-09,Pasture,Pasture,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,33.9,89.5,34.5,25.7,15.11,5,0.6088,,0.1,0.5088,4.029,3.367,20,event record,1,event record
+Wallumbilla,1994-02-04,Pasture,Pasture,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,25.5,81,34.5,,0.1,0.1,0.0005,,,0.0005,0.5,0.5,85,event record,1,event record
+Wallumbilla,1994-02-04,Pasture,Pasture,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,25.5,81,34.5,,0.1,0.1,0.0005,,,0.0005,0.5,0.5,85,event record,1,event record
+Wallumbilla,1994-03-09,Pasture,Pasture,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,72.5,64,34.5,,32.1,6.43,0.1801,,,0.1801,0.561,0.561,85,event record,1,event record
+Wallumbilla,1994-03-09,Pasture,Pasture,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,72.5,64,34.5,,13.07,4.91,0.115,,,0.115,0.88,0.88,85,event record,1,event record
+Wallumbilla,1994-03-10,Pasture,Pasture,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,14.5,136.5,20,,1.5,0.6,0.008415,,,0.008415,0.561,0.561,85,event record,1,event record
+Wallumbilla,1994-03-10,Pasture,Pasture,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,14.5,136.5,20,,2,1.02,0.0176,,,0.0176,0.88,0.88,85,event record,1,event record
+Wallumbilla,1995-02-15,Pasture,Pasture,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,46,56.5,8.8,,1.14,0.5,0.1502,,0.1,0.05016,13.17,4.4,80,event record,1,event record
+Wallumbilla,1995-02-15,Pasture,Pasture,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,46,56.5,8.8,,0.84,0.5,0.1393,,0.1,0.03934,16.59,4.683,80,event record,1,event record
+Wallumbilla,1983-05-03,Tilled,Scarify,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,59.4,111.5,10.1,10.6,28.01,8.4,5.109,1.86,2.4,0.8487,18.24,3.03,7.5,event record,3,event record
+Wallumbilla,1983-05-03,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,59.4,111.5,10.1,10.6,17.2,6.36,0.7094,0.34,0.12,0.2494,4.124,1.45,12,event record,3,event record
+Wallumbilla,1983-05-23,Tilled,Scarify,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,33.1,33.5,11.1,7,20.2,9.48,1.414,,,1.414,7,7,5,event record,2,event record
+Wallumbilla,1983-05-23,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,33.1,33.5,11.1,7,15.6,8.64,1.459,,,1.459,9.35,9.35,8,event record,2,event record
+Wallumbilla,1983-05-28,Tilled,Scarify,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,40.1,66.5,17.2,13.5,35.37,9.97,19.23,2.6,14.35,2.278,54.36,6.44,5,event record,1,event record
+Wallumbilla,1983-05-28,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,40.1,66.5,17.2,13.5,22.59,6.6,7.471,2.3,4.03,1.141,33.07,5.05,8,event record,1,event record
+Wallumbilla,1983-06-21,Tilled,Scarify,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,66.4,12,7.2,13.5,45.43,6.29,6.872,1.2,1.2,4.472,15.13,9.843,5,event record,1,event record
+Wallumbilla,1983-06-21,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,66.4,12,7.2,13.5,41.34,5.41,3.571,1.3,1.2,1.071,8.637,2.59,8,event record,1,event record
+Wallumbilla,1983-11-22,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,28.35,52,54.7,44.7,1.22,3.3,0.02247,0,0,0.02247,1.842,1.842,55,event record,1,event record
+Wallumbilla,1983-11-28,Tilled,Scarify,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,31.13,74.5,21.7,14.8,14.5,0,0.145,,,0.145,1,1,60,event record,1,event record
+Wallumbilla,1983-11-28,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,31.13,74.5,21.7,14.8,12.47,3.3,0.08866,,,0.08866,0.711,0.711,60,event record,1,event record
+Wallumbilla,1983-12-29,Tilled,Scarify,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,55.04,15,94.6,150.3,19,5,0.95,,,0.95,5,5,60,event record,1,event record
+Wallumbilla,1983-12-29,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,55.04,15,94.6,150.3,19,5,2.538,,,2.538,13.36,13.36,60,event record,1,event record
+Wallumbilla,1984-01-03,Tilled,Scarify,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,47.7,70.5,42.9,48.4,23.14,7.92,0.7798,,,0.7798,3.37,3.37,60,event record,1,event record
+Wallumbilla,1984-01-03,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,47.7,70.5,42.9,48.4,23.98,8.64,0.4964,,,0.4964,2.07,2.07,60,event record,1,event record
+Wallumbilla,1984-01-30,Tilled,Scarify,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,45.12,67.5,29.3,30.6,32.61,18.48,9.2,2.7,5,1.5,28.21,4.6,11,event record,2,event record
+Wallumbilla,1984-01-30,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,45.12,67.5,29.3,30.6,27.41,16.44,2.465,1.26,0.3,0.9045,8.991,3.3,47,event record,3,event record
+Wallumbilla,1984-07-17,Tilled,Scarify,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,16.75,35,6.3,1.5,11.19,2.64,0.6875,,0.1,0.5875,6.144,5.25,8,event record,1,event record
+Wallumbilla,1984-07-17,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,16.75,35,6.3,1.5,9.44,2.4,0.4044,,0.1,0.3044,4.284,3.225,8,event record,1,event record
+Wallumbilla,1984-07-23,Tilled,Scarify,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,12.33,55,3.3,0.6,1.78,0.48,0.0817,,,0.0817,4.59,4.59,8,event record,1,event record
+Wallumbilla,1984-07-23,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,12.33,55,3.3,0.6,2.89,0.84,0.06098,,,0.06098,2.11,2.11,8,event record,1,event record
+Wallumbilla,1984-07-24,Tilled,Scarify,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,11.24,67.5,1.2,0.1,4.68,0.48,0.2148,,,0.2148,4.59,4.59,8,event record,1,event record
+Wallumbilla,1984-07-24,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,11.24,67.5,1.2,0.1,6.46,0.84,0.1363,,,0.1363,2.11,2.11,8,event record,1,event record
+Wallumbilla,1984-07-25,Tilled,Scarify,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,30.06,72.5,3.2,1.4,18.25,2.04,0.8377,,,0.8377,4.59,4.59,8,event record,1,event record
+Wallumbilla,1984-07-25,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,30.06,72.5,3.2,1.4,21.84,1.92,0.4608,,,0.4608,2.11,2.11,8,event record,1,event record
+Wallumbilla,1984-07-26,Tilled,Scarify,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,11.02,80.5,2.7,0.4,4.74,0.55,0.2176,,,0.2176,4.59,4.59,8,event record,1,event record
+Wallumbilla,1984-07-26,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,11.02,80.5,2.7,0.4,5.68,0.36,0.1198,,,0.1198,2.11,2.11,8,event record,1,event record
+Wallumbilla,1984-07-27,Tilled,Scarify,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,39.5,85.5,8.4,5.6,32.37,4.77,2.266,0.38,0.4,1.486,7,4.59,8,event record,1,event record
+Wallumbilla,1984-07-27,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,39.5,85.5,8.4,5.6,28.75,4.08,1.407,0.4,0.4,0.6066,4.893,2.11,8,event record,1,event record
+Wallumbilla,1984-12-19,Tilled,Scarify,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,41.4,75,20,18.3,6,5,0.1722,,,0.1722,2.87,2.87,18,event record,1,event record
+Wallumbilla,1984-12-19,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,41.4,75,20,18.3,3,1.1,0.0642,,,0.0642,2.14,2.14,46,event record,2,event record
+Wallumbilla,1984-12-29,Tilled,Scarify,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,22.1,48,39.4,22.7,7,5,0.2891,,,0.2891,4.13,4.13,18,event record,1,event record
+Wallumbilla,1984-12-29,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,22.1,48,39.4,22.7,1.41,0.48,0.01368,,,0.01368,0.97,0.97,46,event record,2,event record
+Wallumbilla,1984-12-30,Tilled,Scarify,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,18,29,36,17.6,10,5,0.413,,,0.413,4.13,4.13,18,event record,1,event record
+Wallumbilla,1984-12-30,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,18,29,36,17.6,9.34,3.6,0.0906,,,0.0906,0.97,0.97,46,event record,1,event record
+Wallumbilla,1985-01-09,Tilled,Scarify,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,28.7,29,28,19.2,3,2,0.33,,0.3,0.03,11,1,18,event record,1,event record
+Wallumbilla,1985-01-09,Tilled,Blade,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,28.7,29,28,19.2,2.13,0.5,0.117,,0.1,0.01704,5.495,0.8,46,event record,1,event record
+Wallumbilla,1985-07-08,Tilled,Scarify,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,42.92,2.5,8.4,5.8,0.89,0.84,0.02465,,,0.02465,2.77,2.77,10,event record,2,event record
+Wallumbilla,1986-02-12,Tilled,Chisel,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,45.24,18,75,96.4,0.15,0.6,0.0012,,,0.0012,0.8,0.8,35,event record,5,event record
+Wallumbilla,1986-02-12,Tilled,Chisel,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,45.24,18,75,96.4,3.58,9.6,0.2864,,,0.2864,8,8,25,event record,4,event record
+Wallumbilla,1986-02-12,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,45.24,18,75,96.4,0.65,1.5,0.0065,,,0.0065,1,1,40,event record,5,event record
+Wallumbilla,1986-02-13,Tilled,Chisel,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,23.51,63,44.7,28.5,3.05,7.2,0.4976,,0.28,0.2176,16.31,7.133,35,event record,4,event record
+Wallumbilla,1986-02-13,Tilled,Chisel,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,23.51,63,44.7,28.5,6.51,14.64,0.502,,0.17,0.332,7.711,5.1,25,event record,3,event record
+Wallumbilla,1986-02-13,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,23.51,63,44.7,28.5,7.08,5.76,0.8035,,0.23,0.5735,11.35,8.1,40,event record,4,event record
+Wallumbilla,1986-11-13,Tilled,Chisel,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,45.87,14.5,40.1,41.8,0.21,0.5,0.0021,,,0.0021,1,1,55,event record,1,event record
+Wallumbilla,1986-11-13,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,45.87,14.5,40.1,41.8,0.2,0.47,0.002,,,0.002,1,1,55,event record,1,event record
+Wallumbilla,1986-11-18,Tilled,Chisel,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,20.09,46.5,27.9,20.3,0.91,3.8,0.0091,,,0.0091,1,1,55,event record,1,event record
+Wallumbilla,1986-11-18,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,20.09,46.5,27.9,20.3,0.37,0.48,0.0037,,,0.0037,1,1,55,event record,1,event record
+Wallumbilla,1987-01-07,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,16.84,38,29.1,12.4,0.51,3,0.0051,,,0.0051,1,1,5,event record,2,event record
+Wallumbilla,1987-01-10,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,7.63,55,12.4,2.1,0.28,0.34,0.0028,,,0.0028,1,1,5,event record,1,event record
+Wallumbilla,1987-01-30,Tilled,Blade,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,31.82,12,24.2,17.2,1.34,1.25,0.0134,,,0.0134,1,1,15,event record,2,event record
+Wallumbilla,1987-01-30,Tilled,Blade,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,31.82,12,24.2,17.2,0.32,0.6,0.0032,,,0.0032,1,1,20,event record,2,event record
+Wallumbilla,1987-01-30,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,31.82,12,24.2,17.2,0.7,0.96,0.007,,,0.007,1,1,3,event record,2,event record
+Wallumbilla,1987-01-30,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,31.82,12,24.2,17.2,1.04,0.47,0.0104,,,0.0104,1,1,8,event record,2,event record
+Wallumbilla,1987-11-10,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,15.11,17.5,25.7,9.9,1.36,9,0.0136,,,0.0136,1,1,5,event record,1,event record
+Wallumbilla,1987-11-15,Tilled,Blade,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,17.08,43,17.3,6,0.74,0.6,0.0074,,,0.0074,1,1,5,event record,1,event record
+Wallumbilla,1987-11-15,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,17.08,43,17.3,6,5.68,5.55,0.284,,,0.284,5,5,5,event record,1,event record
+Wallumbilla,1987-11-15,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,17.08,43,17.3,6,4.54,5.4,0.227,,,0.227,5,5,5,event record,1,event record
+Wallumbilla,1988-01-04,Tilled,Blade,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,37.48,7,28,24.2,0.18,0.6,0.509,,0.5,0.009,282.8,5,2,event record,1,event record
+Wallumbilla,1988-01-04,Tilled,Blade,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,37.48,7,28,24.2,5.02,7.5,2.927,,2.4,0.5271,58.31,10.5,2,event record,1,event record
+Wallumbilla,1988-01-04,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,37.48,7,28,24.2,3.99,6,1.695,,1.5,0.195,42.48,4.888,2,event record,1,event record
+Wallumbilla,1988-01-04,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,37.48,7,28,24.2,1.6,2.6,1.761,,1.53,0.2306,110,14.41,2,event record,1,event record
+Wallumbilla,1988-01-22,Tilled,Blade,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,35.48,5,62.4,62.3,13.95,30.9,2.706,,,2.706,19.4,19.4,2,event record,1,event record
+Wallumbilla,1988-01-22,Tilled,Blade,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,35.48,5,62.4,62.3,17.5,33.3,2.699,,,2.699,15.42,15.42,2,event record,1,event record
+Wallumbilla,1988-01-22,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,35.48,5,62.4,62.3,19.09,33,3.946,,,3.946,20.67,20.67,2,event record,1,event record
+Wallumbilla,1988-01-22,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,35.48,5,62.4,62.3,19.42,40.2,3.055,,,3.055,15.73,15.73,2,event record,1,event record
+Wallumbilla,1988-01-25,Tilled,Blade,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,25.01,40.5,17.3,9,8.69,7.4,0.869,,,0.869,10,10,2,event record,1,event record
+Wallumbilla,1988-01-25,Tilled,Blade,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,25.01,40.5,17.3,9,8.76,7.2,0.876,,,0.876,10,10,2,event record,1,event record
+Wallumbilla,1988-01-25,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,25.01,40.5,17.3,9,8.31,6.3,0.831,,,0.831,10,10,2,event record,1,event record
+Wallumbilla,1988-01-25,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,25.01,40.5,17.3,9,11.33,10.2,1.133,,,1.133,10,10,2,event record,1,event record
+Wallumbilla,1988-02-08,Tilled,Blade,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,17.61,4.5,18.6,7.1,5.09,9,0.509,,,0.509,10,10,4,event record,1,event record
+Wallumbilla,1988-02-08,Tilled,Blade,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,17.61,4.5,18.6,7.1,4.08,6.8,0.408,,,0.408,10,10,4,event record,1,event record
+Wallumbilla,1988-02-08,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,17.61,4.5,18.6,7.1,4.91,6.9,0.491,,,0.491,10,10,4,event record,1,event record
+Wallumbilla,1988-02-08,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,17.61,4.5,18.6,7.1,4.04,8.4,0.404,,,0.404,10,10,4,event record,1,event record
+Wallumbilla,1988-02-14,Tilled,Blade,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,49.7,17.5,34.6,40.2,25.32,30,3.494,,,3.494,13.8,13.8,6,event record,1,event record
+Wallumbilla,1988-02-14,Tilled,Blade,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,49.7,17.5,34.6,40.2,28.72,28.8,2.049,,,2.049,7.133,7.133,6,event record,1,event record
+Wallumbilla,1988-02-14,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,49.7,17.5,34.6,40.2,26.38,27.6,4.076,,,4.076,15.45,15.45,6,event record,1,event record
+Wallumbilla,1988-02-14,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,49.7,17.5,34.6,40.2,28.65,33,4.08,,,4.08,14.24,14.24,6,event record,1,event record
+Wallumbilla,1988-03-02,Tilled,Blade,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,16.88,50,6.7,1.9,0.49,0.48,0.0049,,,0.0049,1,1,2,event record,1,event record
+Wallumbilla,1988-03-02,Tilled,Blade,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,16.88,50,6.7,1.9,0.1,0.05,0.001,,,0.001,1,1,2,event record,1,event record
+Wallumbilla,1988-03-02,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,16.88,50,6.7,1.9,0.1,0.05,0.001,,,0.001,1,1,2,event record,1,event record
+Wallumbilla,1988-03-02,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,16.88,50,6.7,1.9,0.18,0.16,0.0018,,,0.0018,1,1,2,event record,1,event record
+Wallumbilla,1988-03-04,Tilled,Blade,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,20.74,69,2.9,0.8,1.84,0.9,0.0184,,,0.0184,1,1,2,event record,1,event record
+Wallumbilla,1988-03-04,Tilled,Blade,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,20.74,69,2.9,0.8,0.93,0.42,0.0093,,,0.0093,1,1,2,event record,1,event record
+Wallumbilla,1988-03-04,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,20.74,69,2.9,0.8,0.81,0.29,0.0081,,,0.0081,1,1,2,event record,1,event record
+Wallumbilla,1988-03-04,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,20.74,69,2.9,0.8,1.15,0.56,0.0115,,,0.0115,1,1,2,event record,1,event record
+Wallumbilla,1988-04-07,Tilled,Blade,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,26.79,53.5,29.4,17.3,12.77,10.2,1.571,,,1.571,12.3,12.3,2,event record,1,event record
+Wallumbilla,1988-04-07,Tilled,Blade,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,26.79,53.5,29.4,17.3,8.34,10.8,0.799,,,0.799,9.58,9.58,2,event record,1,event record
+Wallumbilla,1988-04-07,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,26.79,53.5,29.4,17.3,10.61,9.6,0.8965,,,0.8965,8.45,8.45,2,event record,1,event record
+Wallumbilla,1988-04-07,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,26.79,53.5,29.4,17.3,11.24,10.2,1.884,,,1.884,16.76,16.76,2,event record,1,event record
+Wallumbilla,1988-04-08,Tilled,Blade,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,10.18,81,16.3,3.8,8.34,19.2,1.026,,,1.026,12.3,12.3,2,event record,1,event record
+Wallumbilla,1988-04-08,Tilled,Blade,2,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,10.18,81,16.3,3.8,8.32,16.8,0.7971,,,0.7971,9.58,9.58,2,event record,1,event record
+Wallumbilla,1988-04-08,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,10.18,81,16.3,3.8,6.86,10.2,0.5797,,,0.5797,8.45,8.45,2,event record,1,event record
+Wallumbilla,1988-04-08,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,10.18,81,16.3,3.8,10.32,21,1.73,,,1.73,16.76,16.76,2,event record,1,event record
+Wallumbilla,1989-04-22,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,31.2,7.5,37.2,26.6,0.14,0.48,0.0014,,,0.0014,1,1,12,event record,5,event record
+Wallumbilla,1989-04-25,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,48.84,36,8.4,7,11.7,1.2,0.3305,,,0.3305,2.825,2.825,12,event record,5,event record
+Wallumbilla,1989-04-25,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,48.84,36,8.4,7,14.58,1.63,0.4119,,,0.4119,2.825,2.825,12,event record,5,event record
+Wallumbilla,1989-04-26,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,11.78,82.5,3.8,0.6,2.44,0.58,0.5689,,0.5,0.06893,23.32,2.825,12,event record,5,event record
+Wallumbilla,1989-04-26,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,11.78,82.5,3.8,0.6,3.01,0.9,0.585,,0.5,0.08503,19.44,2.825,12,event record,5,event record
+Wallumbilla,1989-06-06,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,15.54,40.5,6.5,1.6,2.03,0.44,0.0609,,,0.0609,3,3,5,event record,2,event record
+Wallumbilla,1989-06-06,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,15.54,40.5,6.5,1.6,2,10,0.06,,,0.06,3,3,5,event record,1,event record
+Wallumbilla,1989-10-27,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,30.14,97,59.6,51.7,10.29,6.96,0.1029,,,0.1029,1,1,80,event record,1,event record
+Wallumbilla,1989-10-27,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,30.14,97,59.6,51.7,10,7,0.1,,,0.1,1,1,80,event record,1,event record
+Wallumbilla,1989-11-05,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,46.71,32,27.8,33.4,16.22,9.8,0.223,,,0.223,1.375,1.375,80,event record,1,event record
+Wallumbilla,1989-11-05,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,46.71,32,27.8,33.4,16,10,0.32,,,0.32,2,2,80,event record,1,event record
+Wallumbilla,1989-11-06,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,42.05,78.5,32.5,32.6,28.54,13.61,0.3924,,,0.3924,1.375,1.375,80,event record,1,event record
+Wallumbilla,1989-11-06,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,42.05,78.5,32.5,32.6,30,15,0.6,,,0.6,2,2,80,event record,1,event record
+Wallumbilla,1989-11-07,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,7.08,90.5,13.8,2.5,2.64,2,0.0363,,,0.0363,1.375,1.375,80,event record,1,event record
+Wallumbilla,1989-11-07,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,7.08,90.5,13.8,2.5,2,2,0.04,,,0.04,2,2,80,event record,1,event record
+Wallumbilla,1990-04-19,Tilled,Chisel,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,34.82,21,10.7,6.7,4.24,0.86,0.0848,,,0.0848,2,2,10,event record,5,event record
+Wallumbilla,1990-04-19,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,34.82,21,10.7,6.7,7.73,2.24,0.1484,,,0.1484,1.92,1.92,10,event record,5,event record
+Wallumbilla,1990-04-19,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,34.82,21,10.7,6.7,5.32,2.31,0.1027,,,0.1027,1.93,1.93,5,event record,3,event record
+Wallumbilla,1990-04-20,Tilled,Chisel,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,12.53,55.5,7.4,1.3,1.95,0.26,0.039,,,0.039,2,2,10,event record,5,event record
+Wallumbilla,1990-04-20,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,12.53,55.5,7.4,1.3,3.78,0.67,0.07258,,,0.07258,1.92,1.92,10,event record,4,event record
+Wallumbilla,1990-04-20,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,12.53,55.5,7.4,1.3,2.26,0.55,0.04362,,,0.04362,1.93,1.93,5,event record,2,event record
+Wallumbilla,1990-04-21,Tilled,Chisel,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,10.94,68,14.2,3.2,3.82,0.78,0.2764,,0.2,0.0764,7.236,2,10,event record,5,event record
+Wallumbilla,1990-04-21,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,10.94,68,14.2,3.2,6.51,2.4,0.325,,0.2,0.125,4.992,1.92,10,event record,4,event record
+Wallumbilla,1990-04-21,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,10.94,68,14.2,3.2,5.3,2.78,1.102,,1,0.1023,20.8,1.93,5,event record,1,event record
+Wallumbilla,1991-05-22,Tilled,Chisel,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,26.89,23,8.2,3.5,3.84,0.85,0.0768,,,0.0768,2,2,5,event record,3,event record
+Wallumbilla,1991-05-22,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,26.89,23,8.2,3.5,4.81,1.32,0.0962,,,0.0962,2,2,5,event record,2,event record
+Wallumbilla,1991-05-22,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,26.89,23,8.2,3.5,2.04,0.51,0.0204,,,0.0204,1,1,5,event record,3,event record
+Wallumbilla,1992-01-01,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,52.3,34,62.4,87.1,11.1,9.9,0.747,,,0.747,6.73,6.73,20,event record,2,event record
+Wallumbilla,1992-01-01,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,52.3,34,62.4,87.1,20.7,36.6,2.039,,,2.039,9.85,9.85,10,event record,1,event record
+Wallumbilla,1992-01-08,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,35.51,79.5,47,48.4,17.33,18.3,9.166,2,6,1.166,52.89,6.73,20,event record,2,event record
+Wallumbilla,1992-01-08,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,35.51,79.5,47,48.4,16.34,26.4,7.309,1.7,4,1.609,44.73,9.85,10,event record,3,event record
+Wallumbilla,1993-12-08,Tilled,Min till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,41.24,48,65.8,72.9,1.61,1.2,0.1644,,0.1,0.0644,10.21,4,15,event record,1,event record
+Wallumbilla,1993-12-08,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,41.24,48,65.8,72.9,4.98,4.8,0.2347,,0.1,0.1347,4.712,2.704,15,event record,1,event record
+Wallumbilla,1993-12-08,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,41.24,48,65.8,72.9,4.72,1.8,0.2872,,0.1,0.1872,6.086,3.967,15,event record,1,event record
+Wallumbilla,1993-12-09,Tilled,Min till,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,33.9,89.5,34.5,25.7,10.2,3.6,0.508,,0.1,0.408,4.98,4,15,event record,1,event record
+Wallumbilla,1993-12-09,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,33.9,89.5,34.5,25.7,9.16,3,0.3477,,0.1,0.2477,3.796,2.704,15,event record,1,event record
+Wallumbilla,1993-12-09,Tilled,Chisel,4,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,33.9,89.5,34.5,25.7,11.05,2.4,0.5384,,0.1,0.4384,4.872,3.967,15,event record,1,event record
+Wallumbilla,1994-02-04,Tilled,Chisel,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,25.5,81,34.5,,12.49,3.8,0.7111,,0.1,0.6111,5.694,4.893,15,event record,3,event record
+Wallumbilla,1994-02-04,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,25.5,81,34.5,,12.03,5.25,0.6647,,0.1,0.5647,5.525,4.694,15,event record,3,event record
+Wallumbilla,1994-03-09,Tilled,Chisel,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,72.5,64,34.5,,50.4,13.2,2.466,,,2.466,4.893,4.893,15,event record,3,event record
+Wallumbilla,1994-03-09,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,72.5,64,34.5,,52.6,12.9,2.469,,,2.469,4.694,4.694,15,event record,3,event record
+Wallumbilla,1994-03-10,Tilled,Chisel,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,14.5,136.5,20,,12.89,8.1,4.131,2.9,0.6,0.6307,32.05,4.893,15,event record,3,event record
+Wallumbilla,1994-03-10,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,14.5,136.5,20,,12.91,8.1,12.11,6.4,5.1,0.606,93.77,4.694,15,event record,3,event record
+Wallumbilla,1995-02-15,Tilled,Chisel,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,46,56.5,8.8,,32.7,10,6.373,,1,5.373,19.49,16.43,10,event record,2,event record
+Wallumbilla,1995-02-15,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,46,56.5,8.8,,29.82,10,5.69,,1,4.69,19.08,15.73,10,event record,2,event record
+Wallumbilla,1995-02-19,Tilled,Chisel,1,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,10,73.5,19.2,,4.04,1,0.6638,,,0.6638,16.43,16.43,10,event record,2,event record
+Wallumbilla,1995-02-19,Tilled,Chisel,3,Brown clay (Grey Vertosol to Black Sodosol),2,100,0.45,10,73.5,19.2,,7.37,5,1.159,,,1.159,15.73,15.73,10,event record,2,event record
