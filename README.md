@@ -52,6 +52,7 @@ streamlit run app.py
 - **Run summaries** — annual water balance table with statistics
 - **Daily outputs** — interactive daily trace with zoom and variable selection
 - **Climate summary** — monthly climate averages
+- **Observed vs predicted** — compare any two variables (O vs P, two model outputs or two observed series) as time series, cumulative totals and a scatter, with n, P:O, r², NSE and RMSE. Observed events default to the three contour-bay sites (`data/three_site_events.csv`); predicted values come from the current Daily diagnostics run, saved daily CSVs in `results/`, or an uploaded daily CSV
 
 ---
 
@@ -266,7 +267,8 @@ Watbal2026/
 │   ├── 1_Simulate.py          ← Scenario setup and run
 │   ├── 2_Run_summaries.py     ← Browse and compare results
 │   ├── 3_Daily_outputs.py     ← Interactive daily trace
-│   └── 4_Climate_summary.py   ← Monthly climate averages
+│   ├── 4_Climate_summary.py   ← Monthly climate averages
+│   └── 5_Observed_vs_predicted.py ← O vs P time series, cumulative, scatter, stats
 ├── core/
 │   ├── waterbalance.py        ← Daily water balance engine
 │   ├── run_simulation.py      ← Simulation runner and statistics
@@ -276,9 +278,11 @@ Watbal2026/
 │   ├── cover_excel.py         ← Excel vegetation cover reader
 │   ├── read_p51.py            ← P51 climate file reader
 │   ├── silo.py                ← SILO API client
-│   └── input_summaries.py     ← Soil/vege summary charts
+│   ├── input_summaries.py     ← Soil/vege summary charts
+│   └── compare.py             ← Pairing and statistics for Observed vs predicted
 ├── data/
-│   └── silo_reliability.csv   ← Station reliability data
+│   ├── silo_reliability.csv   ← Station reliability data
+│   └── three_site_events.csv  ← Observed events, Greenmount/Greenwood/Wallumbilla
 ├── Climate files/             ← Local P51 climate files
 ├── Soils/                     ← Soil description files
 ├── Vegetation descriptions/   ← Vegetation cover files
