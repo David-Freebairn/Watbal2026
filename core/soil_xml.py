@@ -148,10 +148,6 @@ def read_soil_xml(filepath):
         el = st.find(tag)
         if el is not None and (el.text or '').strip():
             setattr(profile, attr, cast(float(el.text)))
-    # Optional root extraction-rate limit (fraction of layer PAW per day)
-    kl_el = st.find('RootExtractionKl')
-    if kl_el is not None and (kl_el.text or '').strip():
-        profile.kl = float(kl_el.text)
     return profile
 
 

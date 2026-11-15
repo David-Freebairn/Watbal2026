@@ -25,7 +25,6 @@
     <RillRatio LastModified="10/01/2021">1</RillRatio>
     <SoilCrack state="false"/>
     <AMCMode>howleaky</AMCMode>
-    <RootExtractionKl>0.037</RootExtractionKl>
     <MaxInfiltIntoCracks LastModified="10/01/2021">25</MaxInfiltIntoCracks>
     <SedDelivRatio LastModified="10/01/2021">0.4</SedDelivRatio>
     <OrganicCarbon LastModified="10/01/2021">0</OrganicCarbon>

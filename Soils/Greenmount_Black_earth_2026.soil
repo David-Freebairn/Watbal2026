@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SoilDataTemplate>
-  <SoilType href="Z:\Documents\Projects\Howleaky\Project data\HL projects\Greenmount 2020\Soil\Black earth 4 layer.soil" text="Greenmount 2026" Description="Black Earth" Comments="Nov 2026: Watbal2026 joint three-site calibration (Greenmount, Greenwood, Wallumbilla) on cumulative P:O, run from revised vege files with no soil water resets. Shared: CN reduction at full cover 14.8, zero-till CN2 offset +5.4, SedCoverCoef 0.057, AMC howleaky, seasonal sediment factor off. Site: CN2, K, Cona, U, bottom drainage. See calibration/joint_2026 in the Southern Queensland small catchment data repository.&#xA;Greenmount black earth 4 layer soil description&#xA;Based on PAW using mean LL and DUL PAWC 288mm&#xA;&#xA;DMF 17/1/2012 adjusted 28/2/2021">
+  <SoilType href="Z:\Documents\Projects\Howleaky\Project data\HL projects\Greenmount 2020\Soil\Black earth 4 layer.soil" text="Greenmount 2026" Description="Black Earth" Comments="Nov 2026 (15 Nov): kl removed; U set to 0; no-stress PAW fraction 0.75 in all vege files; Cona and CN2 refitted per site (runoff P:O = 1, minimum PAW RMSE), input-file mode from the revised vege files with no soil water resets; K rescaled for soil movement P:O = 1. Engine fix: days since wetting reset from the stage II total after rain (needed for U = 0).&#xA;Nov 2026: Watbal2026 joint three-site calibration (Greenmount, Greenwood, Wallumbilla) on cumulative P:O, run from revised vege files with no soil water resets. Shared: CN reduction at full cover 14.8, zero-till CN2 offset +5.4, SedCoverCoef 0.057, AMC howleaky, seasonal sediment factor off. Site: CN2, K, Cona, U, bottom drainage. See calibration/joint_2026 in the Southern Queensland small catchment data repository.&#xA;Greenmount black earth 4 layer soil description&#xA;Based on PAW using mean LL and DUL PAWC 288mm&#xA;&#xA;DMF 17/1/2012 adjusted 28/2/2021">
     <HorizonCount LastModified="04/05/2011">4</HorizonCount>
     <SoilCaptions>Lay1</SoilCaptions>
     <LayerDepth Count="4" value1="100" value2="300" value3="900" value4="1500" Units="mm" LastModified="17/01/2012"/>
@@ -12,13 +12,13 @@
     <BulkDensity Count="4" value1="1" value2="1.2" value3="1.4" value4="1.4" Units="g/cm^3" LastModified="04/05/2011"/>
     <PAWC Count="4" value1="20" value2="46" value3="138" value4="84" Units="mm" Comments=" (Total = 288mm)"/>
     <MaxDailyDrainVolume Count="4" value1="18" value2="20" value3="54" value4="60" Units="mm"/>
-    <Stage2SoilEvap_Cona LastModified="28/01/2021">6.96</Stage2SoilEvap_Cona>
-    <Stage1SoilEvap_U Comments="Set to zero as removes one variable and no data to support another value&#xA;DMF 19/1/2012" LastModified="28/01/2021">0.01</Stage1SoilEvap_U>
-    <RunoffCurveNumber LastModified="28/01/2021">91.4</RunoffCurveNumber>
+    <Stage2SoilEvap_Cona LastModified="28/01/2021">6.82</Stage2SoilEvap_Cona>
+    <Stage1SoilEvap_U Comments="Set to zero as removes one variable and no data to support another value&#xA;DMF 19/1/2012" LastModified="28/01/2021">0</Stage1SoilEvap_U>
+    <RunoffCurveNumber LastModified="28/01/2021">90.6</RunoffCurveNumber>
     <RedInCNAtFullCover LastModified="28/01/2021">14.8</RedInCNAtFullCover>
     <MaxRedInCNDueToTill Comments="Set to zero as removes one variable &#xA;DMF 19/1/2012" LastModified="28/01/2021">0</MaxRedInCNDueToTill>
     <RainToRemoveRough LastModified="28/01/2021">0</RainToRemoveRough>
-    <USLE_K LastModified="28/01/2021">0.483</USLE_K>
+    <USLE_K LastModified="28/01/2021">0.450</USLE_K>
     <USLE_P Comments="Set to 1 as removes one variable and no data to support another value&#xA;DMF 19/1/2012" LastModified="28/01/2021">1</USLE_P>
     <FieldSlope LastModified="28/01/2021">7</FieldSlope>
     <SlopeLength LastModified="28/01/2021">60</SlopeLength>

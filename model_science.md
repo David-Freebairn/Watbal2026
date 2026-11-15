@@ -320,6 +320,6 @@ An annual balance error < 0.01 mm/yr confirms numerical integrity. This is repor
 | AMC | S from CN1 | Cap at S(CN2) by default; HowLeaky form per soil | `<AMCMode>howleaky</AMCMode>`; CN2 ≈ 6–7 higher |
 | Potential transpiration | Green cover | Green cover (fixed Oct 2026; was total cover) | Soil evaporation and CN use total cover |
 | Transpiration stress | Per-layer supply only | Profile factor + per-layer | More gradual seasonal drawdown |
-| Root extraction rate | — | Optional `kl` (fraction of layer PAW per day) | `profile.kl`; off by default |
+| Root extraction rate | — | No separate limit (kl removed Nov 2026) | Crop water use set by green cover, root depth and the no-stress PAW fraction in the vege file; `<RootExtractionKl>` is ignored |
 | Soil cracking | Optional | Removed (Oct 2026) | Rarely mattered; `<SoilCrack>` is ignored |
 | Irrigation | Yes | No | Future development |
