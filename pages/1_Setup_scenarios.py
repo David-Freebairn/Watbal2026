@@ -1018,7 +1018,7 @@ if not multiple:
                     {"Parameter":"Name",     "Value": str(profile.name)},
                     {"Parameter":"Layers",   "Value": str(len(profile.layers))},
                     {"Parameter":"PAWC mm",  "Value": f"{getattr(profile, 'pawc_total', None) or getattr(profile, 'pawc', 0):.0f}"},
-                    {"Parameter":"CN2 bare", "Value": str(profile.cn2_bare)},
+                    {"Parameter":"CN bare", "Value": str(getattr(profile, 'cn_input', None) or profile.cn2_bare)},
                     {"Parameter":"Cona",     "Value": str(profile.cona)},
                     {"Parameter":"U mm",     "Value": str(profile.u)},
                     {"Parameter":"K erod.",  "Value": str(profile.musle_k)},

@@ -247,7 +247,7 @@ def calc_soil_evap(sw, layers, eos, u, cona, sumes1, sumes2, t_since_wet):
     return es, sse1, sse2, t_since_wet
 
 
-def reset_evap_accumulators(rain_mm, sumes1, sumes2, t_since_wet, u, infil_mm=None):
+def reset_evap_accumulators(rain_mm, sumes1, sumes2, t_since_wet, u, infil_mm=None, cona=None):
     """
     Reset evaporation accumulators after infiltration.
     HowLeaky V5 equations 3-29 and 3-30:
@@ -271,6 +271,13 @@ def reset_evap_accumulators(rain_mm, sumes1, sumes2, t_since_wet, u, infil_mm=No
     # eq 3-30: sse1 reduced by infiltration
     sse1 = max(0.0, sse1 - infil)
 
+    # Days since wetting follow the reduced stage II total (dsr = (sse2/Cona)^2), as the
+    # stage I branch of calc_soil_evap already does. Without this, U = 0 never enters that
+    # branch, dsr is never reset, and after each rain soil evaporation runs at the potential
+    # rate until sse2 catches up with Cona*sqrt(dsr). With U > 0 the result is unchanged.
+    if cona is not None and cona > 0:
+        t_since_wet = (sse2 / cona) ** 2
+
     return sse1, sse2, t_since_wet
 
 
@@ -278,7 +285,7 @@ def reset_evap_accumulators(rain_mm, sumes1, sumes2, t_since_wet, u, infil_mm=No
 # 4. Transpiration / root water extraction
 # ---------------------------------------------------------------------------
 
-def calc_transpiration(sw, layers, ep, root_depth_mm, sw_prop_no_stress=0.2, kl=None):
+def calc_transpiration(sw, layers, ep, root_depth_mm, sw_prop_no_stress=0.2):
     """
     Transpiration extraction with whole-profile stress factor.
 
@@ -376,10 +383,6 @@ def calc_transpiration(sw, layers, ep, root_depth_mm, sw_prop_no_stress=0.2, kl=
         # Limit to available water above LL
         sw_rel_wp = max(0.0, sw[i] - layers[i].ll_mm)
         layer_transp[i] = min(layer_transp[i], sw_rel_wp)
-        # Optional extraction-rate limit (APSIM-style kl): at most kl x available
-        # water per layer per day, so roots cannot strip a layer in a few days.
-        if kl is not None:
-            layer_transp[i] = min(layer_transp[i], kl * sw_rel_wp)
         psup += layer_transp[i]
 
     # Scale down if total supply exceeds potential
@@ -607,7 +610,7 @@ def daily_water_balance(
     # Reset evap accumulators based on actual infiltration (rain - runoff)
     _infil_for_reset = max(0.0, rain - runoff)
     sumes1, sumes2, t_since_wet = reset_evap_accumulators(
-        rain, sumes1, sumes2, t_since_wet, soil.u, infil_mm=_infil_for_reset)
+        rain, sumes1, sumes2, t_since_wet, soil.u, infil_mm=_infil_for_reset, cona=soil.cona)
 
     # -- 3-6. Exact HowLeaky UpdateWaterBalance seepage loop ------------------
     # HL: CalculateSoilEvap() and CalculateTranspiration() compute amounts only.
@@ -641,8 +644,7 @@ def daily_water_balance(
     # Step B: compute transpiration per layer (not yet applied)
     ep_actual = ep
     _, sw_t = calc_transpiration(sw, layers, ep_actual, root_depth_mm,
-                                  sw_prop_no_stress=(sw_prop_no_stress if sw_prop_no_stress is not None else getattr(soil,'sw_prop_no_stress',0.2)),
-                                  kl=getattr(soil, 'kl', None))
+                                  sw_prop_no_stress=(sw_prop_no_stress if sw_prop_no_stress is not None else getattr(soil,'sw_prop_no_stress',0.2)))
     lt = np.maximum(0.0, sw - sw_t)       # LayerTranspiration[i]
 
     # Step C: UpdateWaterBalance seepage loop (exact C# port)

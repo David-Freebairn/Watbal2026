@@ -4,7 +4,7 @@
     <ModelType index="1"/>
     <TimeSeriesList>undefined</TimeSeriesList>
     <PanPlantDay>145</PanPlantDay>
-    <SWPropForNoStress>0.2</SWPropForNoStress>
+    <SWPropForNoStress>0.75</SWPropForNoStress>
     <DaysPlantingToHarvest>150</DaysPlantingToHarvest>
     <CoverInputOptions index="0" text="User-defined"/>
     <CropFactorMatrix Count="13">

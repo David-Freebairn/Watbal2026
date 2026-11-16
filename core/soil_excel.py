@@ -34,6 +34,8 @@ Optional rows (matched by label, any position; leave out for the defaults):
   Sediment winter fraction,         0-1  (default 1 = no season effect)
   Cover effect winter fraction,     0-1  (default 1)
   Storm season peak DOY,            day of year (default 15)
+  CN reference wetness,             0-1 (with AMC howleaky: the CN row is the bare-soil CN at this
+                                    wetness and is converted to the internal CN2; ignored for capped)
 
 The profile returned is the same SoilProfile class that soil_xml.read_soil_xml
 returns, with the same attribute names, so an Excel soil and the equivalent
@@ -44,9 +46,9 @@ from __future__ import annotations
 import pandas as pd
 from pathlib import Path
 try:
-    from .soil import SoilProfile, SoilLayer
+    from .soil import SoilProfile, SoilLayer, apply_cn_reference
 except ImportError:
-    from core.soil import SoilProfile, SoilLayer
+    from core.soil import SoilProfile, SoilLayer, apply_cn_reference
 
 
 def _get_row(df: pd.DataFrame, *keywords) -> pd.Series | None:
@@ -198,4 +200,10 @@ def read_soil_excel(path: str | Path) -> SoilProfile:
             vs = _row_values(row, 1)
             if vs:
                 setattr(profile, attr, cast(vs[0]))
+    # CN at average wetness (uncapped AMC only): convert to the internal CN2
+    ref = _get_row(df, 'cn', 'reference', 'wet')
+    if ref is not None:
+        vs = _row_values(ref, 1)
+        if vs:
+            apply_cn_reference(profile, vs[0])
     return profile

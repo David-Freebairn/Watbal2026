@@ -69,6 +69,25 @@ CN3 = CN2 × exp(0.00673 × (100 − CN2))
 
 (Earlier versions of this document quoted the CREAMS polynomial CN1 = −16.91 + 1.348·CN2 − 0.01379·CN2² + 0.0001177·CN2³. The code has never used it.)
 
+### Entering CN at average wetness (uncapped AMC)
+
+Under the uncapped ("howleaky") form, runoff is driven by the dry-soil retention Smax = S(CN1), and CN1 comes from CN2 through the formula above. Fitted CN2 values are therefore 90–100, and they don't look like the curve numbers people know from PERFECT. A soil file can give `<CNReferenceWetness>` (Excel row "CN reference wetness"). The runoff curve number entered is then the **bare-soil CN at that soil wetness** (sumh20, normally 0.25), which is close to the meaning of CN2 in the SCS handbook: the curve number at average antecedent condition. It is converted once, on reading, to the internal CN2:
+
+```
+S_ref      = 25400 / CN_entered − 254
+Smax       = S_ref / (1 − wetness)
+CN1        = 25400 / (Smax + 254)
+CN2_intern = 2.383 · CN1 / (1 + 0.0123 · CN1)        # inverse of the CN1 formula
+```
+
+Nothing else changes: cover reduction, the wetness response and runoff use the internal CN2 exactly as before. The conversion applies only with `<AMCMode>howleaky</AMCMode>`. Capped soils, and files without `<CNReferenceWetness>`, read CN as before.
+
+How the entered CN compares with old (capped) PERFECT values: across ten climates (Nov 2026), entering an old capped CN gives similar long-term runoff to within about ±3 CN units at northern summer-rainfall sites (Dalby, Emerald, Moree, Roma, and the three catchment sites). The match is poorer in dry winter-rainfall climates (Horsham, Merredin), where the uncapped form gives more runoff. The 2026 catchment fits, entered this way: Greenmount 77 tilled / 84 zero till; Greenwood 83 / 90; Wallumbilla 84.
+
+### Zero tillage
+
+Zero-till surfaces usually need a curve number **5–7 units higher** than tilled surfaces on the same soil, even though they carry more cover. An untilled surface is consolidated, with no tillage roughness or depression storage, so stubble cover reduces runoff less than on a cultivated surface. At Greenwood and Greenmount (1976–1990) zero till needed about +6 to +7 CN (entered at average wetness) over the stubble burnt, incorporated and mulch treatments. Earlier practice used CN 86 tilled and 90 zero till on these clays. Watbal2026 has no tillage operations; describe a zero-till field with its own soil file, using the higher CN.
+
 ### Cover reduction
 
 ```
@@ -293,7 +312,7 @@ An annual balance error < 0.01 mm/yr confirms numerical integrity. This is repor
 | Max drainage rate | ksat | mm/day | 5–200 |
 | Stage 1 evap limit | U | mm | 0–6 |
 | Stage 2 evap coeff | Cona | mm/day^0.5 | 2.5–5.5 |
-| Runoff curve number | CN2 | — | 65–95 |
+| Runoff curve number | CN2 (or CN at average wetness with `<CNReferenceWetness>`) | — | 65–95 |
 | CN cover reduction | — | CN units | 10–20 |
 | Erodibility | K | metric | 0.1–0.6 |
 | Slope | S | % | 1–15 |
@@ -320,6 +339,6 @@ An annual balance error < 0.01 mm/yr confirms numerical integrity. This is repor
 | AMC | S from CN1 | Cap at S(CN2) by default; HowLeaky form per soil | `<AMCMode>howleaky</AMCMode>`; CN2 ≈ 6–7 higher |
 | Potential transpiration | Green cover | Green cover (fixed Oct 2026; was total cover) | Soil evaporation and CN use total cover |
 | Transpiration stress | Per-layer supply only | Profile factor + per-layer | More gradual seasonal drawdown |
-| Root extraction rate | — | Optional `kl` (fraction of layer PAW per day) | `profile.kl`; off by default |
+| Root extraction rate | — | No separate limit (kl removed Nov 2026) | Crop water use set by green cover, root depth and the no-stress PAW fraction in the vege file; `<RootExtractionKl>` is ignored |
 | Soil cracking | Optional | Removed (Oct 2026) | Rarely mattered; `<SoilCrack>` is ignored |
 | Irrigation | Yes | No | Future development |

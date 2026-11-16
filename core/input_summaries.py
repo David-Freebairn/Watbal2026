@@ -90,7 +90,9 @@ def make_soil_summary(profile, out_path, created='', modified=''):
         ('11.', 'Stage 2 evap. (Cona)',         'purple',
                 [f'{profile.cona:.3g}'],  'mm/day^0.5'),
         ('12.', 'Runoff Curve Number (CN)',     '',
-                [f'{profile.cn2_bare:g}'],  'CN units (bare soil)'),
+                [f"{getattr(profile, 'cn_input', None) if getattr(profile, 'cn_input', None) is not None else profile.cn2_bare:g}"],
+                ('CN units (bare soil)' if getattr(profile, 'cn_input', None) is None else
+                 f"bare, wetness {profile.cn_reference_wetness:g}; internal {profile.cn2_bare:.1f}")),
         ('13.', 'CN reduction cover',           '',
                 [f'{profile.cn_cover_reduction:g}'],  'CN units at 100% cover'),
         ('14.', 'Erodibility (K)',              'green',
