@@ -238,6 +238,52 @@ def make_soil_summary(profile, out_path, created='', modified=''):
 # VEGETATION SUMMARY
 # ══════════════════════════════════════════════════════════════════════════
 
+def make_soil_profile_chart(profile, out_path):
+    """Water limits against depth (evaporation limit, wilting point, field capacity,
+    saturation), drawn as steps over each layer, with the plant available water shaded.
+
+    The evaporation limit is the lowest water content the model allows, as in
+    PERFECT/HowLeaky: layer 1 dries to air dry, layer 2 to halfway between air dry
+    and wilting point, and deeper layers to wilting point."""
+    _rc()
+    tops, bots = [], []
+    prev = 0.0
+    for l in profile.layers:
+        tops.append(prev); bots.append(l.depth_mm); prev = l.depth_mm
+    def steps(vals):
+        y, x = [], []
+        for t, b, v in zip(tops, bots, vals):
+            y += [t, b]; x += [v * 100, v * 100]
+        return np.array(x), np.array(y)
+    floor = [l.airdry if i == 0 else (l.airdry + 0.5 * (l.ll - l.airdry) if i == 1 else l.ll)
+             for i, l in enumerate(profile.layers)]
+    series = [('Evaporation limit (L1 air dry; L2 halfway to WP)', floor, '#9E9B95', (0, (4, 3))),
+              ('Wilting point', [l.ll for l in profile.layers], '#C2410C', '-'),
+              ('Field capacity', [l.dul for l in profile.layers], '#2563EB', '-'),
+              ('Saturation', [l.sat for l in profile.layers], '#5A5550', (0, (1, 2)))]
+    fig, ax = plt.subplots(figsize=(5.2, 6.2))
+    x_ll, y = steps(series[1][1]); x_dul, _ = steps(series[2][1])
+    ax.fill_betweenx(y, x_ll, x_dul, color='#2563EB', alpha=0.12, lw=0,
+                     label=f'PAWC {getattr(profile, "pawc_total", 0):.0f} mm')
+    for name, vals, col, ls in series:
+        x, yy = steps(vals)
+        ax.plot(x, yy, color=col, lw=2, ls=ls, label=name)
+    ax.set_ylim(bots[-1], 0)
+    ax.set_xlim(0, max(60, max(l.sat for l in profile.layers) * 100 + 5))
+    ax.set_xlabel('Volumetric water (%)', color=FG2)
+    ax.set_ylabel('Depth (mm)', color=FG2)
+    ax.set_title(f'{profile.name}: soil water limits', loc='left', color=FG, fontsize=FS_HDR, fontweight='bold')
+    ax.grid(True, color=BG3, lw=0.8); ax.set_axisbelow(True)
+    for sp in ('top', 'right'):
+        ax.spines[sp].set_visible(False)
+    ax.tick_params(colors=FG2)
+    ax.legend(loc='lower left', fontsize=8.5, frameon=False)
+    plt.tight_layout()
+    plt.savefig(out_path, dpi=150, bbox_inches='tight', facecolor=BG)
+    plt.close(fig)
+    return out_path
+
+
 def make_vege_summary(vege, out_path, created='', modified=''):
     _rc()
     run_dt = datetime.now().strftime('%d %b %Y  %H:%M')
