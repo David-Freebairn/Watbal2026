@@ -11,12 +11,12 @@ import xml.etree.ElementTree as ET
 import numpy as np
 from pathlib import Path
 try:
-    from .soil import SoilProfile, SoilLayer
+    from .soil import SoilProfile, SoilLayer, apply_cn_reference
 except ImportError:
     try:
-        from core.soil import SoilProfile, SoilLayer
+        from core.soil import SoilProfile, SoilLayer, apply_cn_reference
     except ImportError:
-        from soil import SoilProfile, SoilLayer
+        from soil import SoilProfile, SoilLayer, apply_cn_reference
 
 
 def _get_values(st, tag, n):
@@ -148,6 +148,10 @@ def read_soil_xml(filepath):
         el = st.find(tag)
         if el is not None and (el.text or '').strip():
             setattr(profile, attr, cast(float(el.text)))
+    # Optional: CN given at average soil wetness (uncapped AMC only)
+    ref_el = st.find('CNReferenceWetness')
+    if ref_el is not None and (ref_el.text or '').strip():
+        apply_cn_reference(profile, float(ref_el.text))
     return profile
 
 

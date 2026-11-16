@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SoilDataTemplate>
-  <SoilType href="\\Mac\Home\Documents\Projects\Howleaky\Project data\HL projects\Wallumbilla\Soil\Brown sodosol.soil" text="Wallumbilla 2026" Description="Brown clay" Comments="Nov 2026 (15 Nov): kl removed; U set to 0; no-stress PAW fraction 0.75 in all vege files; Cona and CN2 refitted per site (runoff P:O = 1, minimum PAW RMSE), input-file mode from the revised vege files with no soil water resets; K rescaled for soil movement P:O = 1. Engine fix: days since wetting reset from the stage II total after rain (needed for U = 0).&#xA;Nov 2026: Watbal2026 joint three-site calibration (Greenmount, Greenwood, Wallumbilla) on cumulative P:O, run from revised vege files with no soil water resets. Shared: CN reduction at full cover 14.8, zero-till CN2 offset +5.4, SedCoverCoef 0.057, AMC howleaky, seasonal sediment factor off. Site: CN2, K, Cona, U, bottom drainage. See calibration/joint_2026 in the Southern Queensland small catchment data repository.&#xA;Brown Soodosol  Reference soil description - cropped catchment Wallumbilla catchment study &#xA;Best bet PAW description based on new LL and density from base file (.xls)&#xA;CN  of 85 and CN cover response of 10 best good fit&#xA;K factor 0.4 for the site, &#xA;Delivery ratio  0.4 - larger catchment, higher channel transport resulting in higher proportion being fines&#xA;Freebairn et al 2011, Aust. J Soil Research DMF  24/2/2018, 15/1/2021&#xA;Oct 2026: Watbal2026 calibration with Wheat fallow slower roots vege, pooled tilled + min-till Wallumbilla 1983-1999, runoff and sediment P:O = 1 (AMC howleaky, bottom drain, kl, CN2, CN cover reduction, Cona, U, K)&#xA;">
+  <SoilType href="\\Mac\Home\Documents\Projects\Howleaky\Project data\HL projects\Wallumbilla\Soil\Brown sodosol.soil" text="Wallumbilla 2026" Description="Brown clay" Comments="Nov 2026 (16 Nov): RunoffCurveNumber is now the bare-soil CN at average wetness (CNReferenceWetness 0.25), converted on reading to the internal CN2 used by the uncapped AMC. Runoff unchanged.&#xA;Nov 2026 (15 Nov): kl removed; U set to 0; no-stress PAW fraction 0.75 in all vege files; Cona and CN2 refitted per site (runoff P:O = 1, minimum PAW RMSE), input-file mode from the revised vege files with no soil water resets; K rescaled for soil movement P:O = 1. Engine fix: days since wetting reset from the stage II total after rain (needed for U = 0).&#xA;Nov 2026: Watbal2026 joint three-site calibration (Greenmount, Greenwood, Wallumbilla) on cumulative P:O, run from revised vege files with no soil water resets. Shared: CN reduction at full cover 14.8, zero-till CN2 offset +5.4, SedCoverCoef 0.057, AMC howleaky, seasonal sediment factor off. Site: CN2, K, Cona, U, bottom drainage. See calibration/joint_2026 in the Southern Queensland small catchment data repository.&#xA;Brown Soodosol  Reference soil description - cropped catchment Wallumbilla catchment study &#xA;Best bet PAW description based on new LL and density from base file (.xls)&#xA;CN  of 85 and CN cover response of 10 best good fit&#xA;K factor 0.4 for the site, &#xA;Delivery ratio  0.4 - larger catchment, higher channel transport resulting in higher proportion being fines&#xA;Freebairn et al 2011, Aust. J Soil Research DMF  24/2/2018, 15/1/2021&#xA;Oct 2026: Watbal2026 calibration with Wheat fallow slower roots vege, pooled tilled + min-till Wallumbilla 1983-1999, runoff and sediment P:O = 1 (AMC howleaky, bottom drain, kl, CN2, CN cover reduction, Cona, U, K)&#xA;">
     <HorizonCount>6</HorizonCount>
     <SoilCaptions>Lay1</SoilCaptions>
     <LayerDepth Count="6" value1="100" value2="300" value3="600" value4="900" value5="1200" value6="1500" Units="mm"/>
@@ -14,7 +14,7 @@
     <MaxDailyDrainVolume Count="6" value1="13" value2="10" value3="15" value4="15" value5="15" value6="15" Units="mm"/>
     <Stage2SoilEvap_Cona LastModified="10/01/2021">7.86</Stage2SoilEvap_Cona>
     <Stage1SoilEvap_U LastModified="10/01/2021">0</Stage1SoilEvap_U>
-    <RunoffCurveNumber default="85" LastModified="15/01/2021">95.6</RunoffCurveNumber>
+    <RunoffCurveNumber default="85" LastModified="15/01/2021">83.5</RunoffCurveNumber>
     <RedInCNAtFullCover LastModified="10/01/2021">14.8</RedInCNAtFullCover>
     <MaxRedInCNDueToTill LastModified="10/01/2021">0</MaxRedInCNDueToTill>
     <RainToRemoveRough LastModified="10/01/2021">0</RainToRemoveRough>
@@ -25,6 +25,7 @@
     <RillRatio LastModified="10/01/2021">1</RillRatio>
     <SoilCrack state="false"/>
     <AMCMode>howleaky</AMCMode>
+    <CNReferenceWetness>0.25</CNReferenceWetness>
     <MaxInfiltIntoCracks LastModified="10/01/2021">25</MaxInfiltIntoCracks>
     <SedDelivRatio LastModified="10/01/2021">0.4</SedDelivRatio>
     <OrganicCarbon LastModified="10/01/2021">0</OrganicCarbon>

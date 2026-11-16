@@ -52,6 +52,45 @@ class SoilProfile:
     pawc_total  : float = 0.0
 
 
+# ── Curve number entered at average soil wetness ────────────────────────────
+# With the uncapped (HowLeaky) AMC the model works from a dry-soil retention,
+# Smax = S(CN1), and CN1 is derived from an internal CN2. Fitted internal CN2
+# values are therefore high (90-100) and unlike the CNs people know. A soil file
+# can instead give the bare-soil CN at a reference wetness (sumh20, default 0.25):
+# the CN the model uses when the profile is at that wetness. It is converted once,
+# on reading, to the internal CN2; the runoff calculation itself is unchanged.
+CN_REFERENCE_WETNESS_DEFAULT = 0.25
+
+
+def cn_input_to_internal(cn_input, wetness=CN_REFERENCE_WETNESS_DEFAULT):
+    """Bare-soil CN at reference wetness -> internal CN2 for the uncapped AMC."""
+    s_ref = 25400.0 / cn_input - 254.0                 # retention at reference wetness
+    smax = s_ref / (1.0 - wetness)                     # dry-soil retention
+    cn1 = 25400.0 / (smax + 254.0)
+    return 2.383 * cn1 / (1.0 + 0.0123 * cn1)          # inverse of CN1 = CN2/(2.383 - 0.0123 CN2)
+
+
+def cn_internal_to_input(cn2, wetness=CN_REFERENCE_WETNESS_DEFAULT):
+    """Internal CN2 -> bare-soil CN at reference wetness (inverse of cn_input_to_internal)."""
+    cn1 = cn2 / (2.383 - 0.0123 * cn2)
+    smax = 25400.0 / cn1 - 254.0
+    return 25400.0 / ((1.0 - wetness) * smax + 254.0)
+
+
+def apply_cn_reference(profile, wetness):
+    """If a reference wetness is given and the soil runs the uncapped AMC, treat
+    profile.cn2_bare as the CN at that wetness and replace it with the internal CN2.
+    Keeps the entered value as profile.cn_input for display."""
+    if wetness is None:
+        return profile
+    if (getattr(profile, 'amc_mode', None) or 'capped') != 'howleaky':
+        return profile                                  # capped soils read CN exactly as before
+    profile.cn_input = profile.cn2_bare
+    profile.cn_reference_wetness = float(wetness)
+    profile.cn2_bare = cn_input_to_internal(profile.cn2_bare, float(wetness))
+    return profile
+
+
 def read_prm(filepath):
     """Parse a PERFECT .PRM soil parameter file."""
     lines = [l.rstrip() for l in open(filepath, encoding='utf-8', errors='replace')]

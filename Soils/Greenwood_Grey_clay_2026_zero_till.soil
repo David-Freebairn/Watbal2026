@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SoilDataTemplate>
-  <SoilType href="Z:\Documents\Projects\Howleaky\Project data\HL projects\Greenwood\Soil\Greenwood Grey clay.soil" text="Greenwood zero till 2026" Description="Greenwood Grey clay" Comments="Nov 2026 (15 Nov): kl removed; U set to 0; no-stress PAW fraction 0.75 in all vege files; Cona and CN2 refitted per site (runoff P:O = 1, minimum PAW RMSE), input-file mode from the revised vege files with no soil water resets; K rescaled for soil movement P:O = 1. Engine fix: days since wetting reset from the stage II total after rain (needed for U = 0).&#xA;Nov 2026: Watbal2026 joint three-site calibration (Greenmount, Greenwood, Wallumbilla) on cumulative P:O, run from revised vege files with no soil water resets. Shared: CN reduction at full cover 14.8, zero-till CN2 offset +5.4, SedCoverCoef 0.057, AMC howleaky, seasonal sediment factor off. Site: CN2, K, Cona, U, bottom drainage. See calibration/joint_2026 in the Southern Queensland small catchment data repository. Zero-till file: CN2 = base + 5.4.&#xA;6 layer profile Based on measured soil water 1978 -1984&#xA;PAWC 240 mm&#xA;Measured using gravimetric soil cores to 150 cm depth in 0-10, 10,30, 30-60, 60-90,90-120, 120-150 cm increments&#xA;DMF 16/1/2012">
+  <SoilType href="Z:\Documents\Projects\Howleaky\Project data\HL projects\Greenwood\Soil\Greenwood Grey clay.soil" text="Greenwood zero till 2026" Description="Greenwood Grey clay" Comments="Nov 2026 (16 Nov): RunoffCurveNumber is now the bare-soil CN at average wetness (CNReferenceWetness 0.25), converted on reading to the internal CN2 used by the uncapped AMC. Runoff unchanged.&#xA;Nov 2026 (15 Nov): kl removed; U set to 0; no-stress PAW fraction 0.75 in all vege files; Cona and CN2 refitted per site (runoff P:O = 1, minimum PAW RMSE), input-file mode from the revised vege files with no soil water resets; K rescaled for soil movement P:O = 1. Engine fix: days since wetting reset from the stage II total after rain (needed for U = 0).&#xA;Nov 2026: Watbal2026 joint three-site calibration (Greenmount, Greenwood, Wallumbilla) on cumulative P:O, run from revised vege files with no soil water resets. Shared: CN reduction at full cover 14.8, zero-till CN2 offset +5.4, SedCoverCoef 0.057, AMC howleaky, seasonal sediment factor off. Site: CN2, K, Cona, U, bottom drainage. See calibration/joint_2026 in the Southern Queensland small catchment data repository. Zero-till file: CN2 = base + 5.4.&#xA;6 layer profile Based on measured soil water 1978 -1984&#xA;PAWC 240 mm&#xA;Measured using gravimetric soil cores to 150 cm depth in 0-10, 10,30, 30-60, 60-90,90-120, 120-150 cm increments&#xA;DMF 16/1/2012">
     <HorizonCount Comments="Nuimber of layers in soil sampling" LastModified="16/01/2012">6</HorizonCount>
     <SoilCaptions>Lay1</SoilCaptions>
     <LayerDepth Count="6" value1="150" value2="300" value3="600" value4="900" value5="1200" value6="1500" Units="mm" LastModified="16/01/2012"/>
@@ -14,7 +14,7 @@
     <MaxDailyDrainVolume Count="6" value1="15" value2="15" value3="30" value4="30" value5="30" value6="30" Units="mm"/>
     <Stage2SoilEvap_Cona LastModified="25/01/2021">8.33</Stage2SoilEvap_Cona>
     <Stage1SoilEvap_U Comments="Set to zero intially to a) remove a parameter and b) no evidence that stage 1 really exists" LastModified="25/01/2021">0</Stage1SoilEvap_U>
-    <RunoffCurveNumber Comments="base value for greenmount  to be optimised" LastModified="25/01/2021">100.3</RunoffCurveNumber>
+    <RunoffCurveNumber Comments="base value for greenmount  to be optimised" LastModified="25/01/2021">90.1</RunoffCurveNumber>
     <RedInCNAtFullCover Comments="base value for greenmount" LastModified="25/01/2021">14.8</RedInCNAtFullCover>
     <MaxRedInCNDueToTill Comments="No evidence to set to any value other than zero" LastModified="25/01/2021">0</MaxRedInCNDueToTill>
     <RainToRemoveRough Comments="No evidence to set to any value other than zero" LastModified="25/01/2021">0</RainToRemoveRough>
@@ -27,6 +27,7 @@
     <MaxInfiltIntoCracks LastModified="25/01/2021">15</MaxInfiltIntoCracks>
     <SedDelivRatio LastModified="25/01/2021">0.14</SedDelivRatio>
       <AMCMode>howleaky</AMCMode>
+      <CNReferenceWetness>0.25</CNReferenceWetness>
       <SedCoverCoef>0.057</SedCoverCoef>
       <SedimentWinterFraction>1</SedimentWinterFraction>
   </SoilType>
