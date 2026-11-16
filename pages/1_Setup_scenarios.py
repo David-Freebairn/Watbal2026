@@ -1013,6 +1013,10 @@ if not multiple:
                 make_soil_summary(profile, out_path=_tp)
                 st.image(_tp, width="stretch")
                 os.unlink(_tp)
+                from core.input_summaries import make_soil_profile_chart
+                make_soil_profile_chart(profile, out_path=_tp)
+                st.image(_tp, width="stretch")
+                os.unlink(_tp)
             except Exception as _e:
                 rows_s = [
                     {"Parameter":"Name",     "Value": str(profile.name)},
