@@ -239,8 +239,12 @@ def make_soil_summary(profile, out_path, created='', modified=''):
 # ══════════════════════════════════════════════════════════════════════════
 
 def make_soil_profile_chart(profile, out_path):
-    """Water limits against depth (air dry, wilting point, field capacity, saturation),
-    drawn as steps over each layer, with the plant available water shaded."""
+    """Water limits against depth (evaporation limit, wilting point, field capacity,
+    saturation), drawn as steps over each layer, with the plant available water shaded.
+
+    The evaporation limit is the lowest water content the model allows, as in
+    PERFECT/HowLeaky: layer 1 dries to air dry, layer 2 to halfway between air dry
+    and wilting point, and deeper layers to wilting point."""
     _rc()
     tops, bots = [], []
     prev = 0.0
@@ -251,7 +255,9 @@ def make_soil_profile_chart(profile, out_path):
         for t, b, v in zip(tops, bots, vals):
             y += [t, b]; x += [v * 100, v * 100]
         return np.array(x), np.array(y)
-    series = [('Air dry', [l.airdry for l in profile.layers], '#9E9B95', (0, (4, 3))),
+    floor = [l.airdry if i == 0 else (l.airdry + 0.5 * (l.ll - l.airdry) if i == 1 else l.ll)
+             for i, l in enumerate(profile.layers)]
+    series = [('Evaporation limit (L1 air dry; L2 halfway to WP)', floor, '#9E9B95', (0, (4, 3))),
               ('Wilting point', [l.ll for l in profile.layers], '#C2410C', '-'),
               ('Field capacity', [l.dul for l in profile.layers], '#2563EB', '-'),
               ('Saturation', [l.sat for l in profile.layers], '#5A5550', (0, (1, 2)))]
