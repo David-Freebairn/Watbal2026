@@ -145,9 +145,11 @@ sse1 = max(0, sse1 − infil)
 
 ### Layer extraction
 
-- **Layer 0:** extracted down to airdry limit
-- **Layer 1:** extracted down to midpoint of (airdry, LL)
-- **Deeper layers:** not directly evaporated
+- **Layer 1 (top; index 0 in code):** dries to air dry
+- **Layer 2 (index 1):** dries only to halfway between air dry and wilting point, air dry + 0.5 × (LL − air dry), as in PERFECT and HowLeaky. The air-dry value entered for layer 2 is therefore not reached.
+- **Deeper layers:** not directly evaporated, and not dried below wilting point
+
+The soil water limits chart in Setup scenarios plots this effective limit.
 
 ---
 
