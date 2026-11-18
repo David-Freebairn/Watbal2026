@@ -110,7 +110,7 @@ def make_soil_summary(profile, out_path, created='', modified=''):
         ('20.', 'Rill/interrill ratio',         '',
                 [f'{profile.rill_ratio:g}'],  ''),
         ('21.', 'AMC mode',                     '',
-                [str(getattr(profile, 'amc_mode', None) or 'capped')],  'runoff moisture adjustment'),
+                [str(getattr(profile, 'amc_mode', None) or 'howleaky')],  'runoff moisture adjustment'),
         ('22.', 'Sediment cover curve',         'green',
                 [(f"{profile.sed_cover_coef:g}" if getattr(profile, 'sed_cover_coef', None) else 'PERFECT')],
                 'exp. coefficient per % cover'),

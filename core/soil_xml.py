@@ -148,10 +148,10 @@ def read_soil_xml(filepath):
         el = st.find(tag)
         if el is not None and (el.text or '').strip():
             setattr(profile, attr, cast(float(el.text)))
-    # Optional: CN given at average soil wetness (uncapped AMC only)
+    # AMC mode (default uncapped) and CN at average wetness -> internal CN2
     ref_el = st.find('CNReferenceWetness')
-    if ref_el is not None and (ref_el.text or '').strip():
-        apply_cn_reference(profile, float(ref_el.text))
+    ref = float(ref_el.text) if ref_el is not None and (ref_el.text or '').strip() else None
+    apply_cn_reference(profile, ref)
     return profile
 
 

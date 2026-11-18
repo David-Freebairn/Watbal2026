@@ -362,6 +362,10 @@ def _make_soil_from_dict(soil_dict):
     )
     profile.total_depth = sum(l.thickness for l in layers)
     profile.pawc_total  = sum(l.pawc for l in layers)
+    if soil_dict.get('amc_mode'):
+        profile.amc_mode = str(soil_dict['amc_mode']).lower()
+    from core.soil import apply_cn_reference
+    apply_cn_reference(profile, soil_dict.get('cn_reference_wetness'))
     return profile
 
 
