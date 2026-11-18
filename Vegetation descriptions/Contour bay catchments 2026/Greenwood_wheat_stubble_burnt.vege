@@ -30,7 +30,7 @@
     <LinkToRootDepth index="0" text="undefined"/>
     <RootBioMassToDepthFactor LastModified="24/01/2021">1</RootBioMassToDepthFactor>
     <MaxAllowTotalCover LastModified="24/01/2021">1</MaxAllowTotalCover>
-    <WaterUseEffic LastModified="24/01/2021">30</WaterUseEffic>
+    <WaterUseEffic LastModified="24/01/2021">45</WaterUseEffic>
     <PanHarvestIndex LastModified="24/01/2021">0.4</PanHarvestIndex>
   </VegetationType>
 </CoverVegTemplate>
