@@ -29,13 +29,13 @@ Expected layout (sheet "Soil description"):
   Row 22: Rill/interrill ratio,     value
 
 Optional rows (matched by label, any position; leave out for the defaults):
-  AMC mode,                         howleaky | capped   (default capped)
+  AMC mode,                         howleaky | capped   (default howleaky, uncapped)
   Sediment cover coefficient,       b in conc = 16.52*exp(-b*cover%)  (default: PERFECT curve)
   Sediment winter fraction,         0-1  (default 1 = no season effect)
   Cover effect winter fraction,     0-1  (default 1)
   Storm season peak DOY,            day of year (default 15)
-  CN reference wetness,             0-1 (with AMC howleaky: the CN row is the bare-soil CN at this
-                                    wetness and is converted to the internal CN2; ignored for capped)
+  CN reference wetness,             0-1 (default 0.25; with AMC howleaky the CN row is the bare-soil CN
+                                    at this wetness and is converted to the internal CN2; ignored for capped)
 
 The profile returned is the same SoilProfile class that soil_xml.read_soil_xml
 returns, with the same attribute names, so an Excel soil and the equivalent
@@ -200,10 +200,8 @@ def read_soil_excel(path: str | Path) -> SoilProfile:
             vs = _row_values(row, 1)
             if vs:
                 setattr(profile, attr, cast(vs[0]))
-    # CN at average wetness (uncapped AMC only): convert to the internal CN2
+    # AMC mode (default uncapped) and CN at average wetness -> internal CN2
     ref = _get_row(df, 'cn', 'reference', 'wet')
-    if ref is not None:
-        vs = _row_values(ref, 1)
-        if vs:
-            apply_cn_reference(profile, vs[0])
+    vs = _row_values(ref, 1) if ref is not None else []
+    apply_cn_reference(profile, vs[0] if vs else None)
     return profile

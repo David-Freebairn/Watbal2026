@@ -23,9 +23,10 @@ import numpy as np
 #   "capped"   — same formula but S limited to S(CN2), so wetness can only add runoff
 #                (Watbal2026 behaviour before Oct 2026).
 # A SoilProfile may override this with an `amc_mode` attribute (soil XML: <AMCMode>).
-# The default stays "capped" for now: CN2 values in existing soil files were tuned
-# for it and give much less runoff under "howleaky" (about 6-7 CN units higher needed).
-DEFAULT_AMC_MODE = "capped"
+# Since Nov 2026 the default is "howleaky". Soil readers set the mode explicitly and
+# convert the entered CN (bare-soil CN at average wetness) to the internal CN2 that
+# this function uses (core.soil.apply_cn_reference). Capped soils read CN as is.
+DEFAULT_AMC_MODE = "howleaky"   # Nov 2026: uncapped is the default (soil readers set it explicitly)
 
 
 # ---------------------------------------------------------------------------

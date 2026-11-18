@@ -14,7 +14,7 @@
     <MaxDailyDrainVolume Count="4" value1="15" default1="16" value2="5" default2="12" value3="6" default3="19.5" value4="7.5" default4="13.5" Units="mm"/>
     <Stage2SoilEvap_Cona LastModified="29/06/2012">4</Stage2SoilEvap_Cona>
     <Stage1SoilEvap_U LastModified="29/06/2012">6</Stage1SoilEvap_U>
-    <RunoffCurveNumber LastModified="29/06/2012">85</RunoffCurveNumber>
+    <RunoffCurveNumber LastModified="18/11/2026">88</RunoffCurveNumber>
     <RedInCNAtFullCover LastModified="29/06/2012">20</RedInCNAtFullCover>
     <MaxRedInCNDueToTill LastModified="29/06/2012">0</MaxRedInCNDueToTill>
     <RainToRemoveRough LastModified="29/06/2012">0</RainToRemoveRough>

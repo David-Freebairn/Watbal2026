@@ -52,11 +52,11 @@ Only the top (n−1) layers are included (HowLeaky source, line 1066).
 
 ```
 smx = 254 × (100/CN1 − 1)            # S at CN1 (dry profile)
-S   = int(smx × (1 − sumh20))                  # amc_mode = "howleaky"
-S   = min(S(CN2), int(smx × (1 − sumh20)))     # amc_mode = "capped" (default)
+S   = int(smx × (1 − sumh20))                  # amc_mode = "howleaky" (default)
+S   = min(S(CN2), int(smx × (1 − sumh20)))     # amc_mode = "capped" (original PERFECT)
 ```
 
-The "howleaky" form follows HowLeaky/CREAMS: a dry profile produces less runoff than CN2 and a wet one more. The capped form limits S to S(CN2), so wetness can only add runoff. With the CN1 formula below, `smx × (1 − sumh20)` stays above S(CN2) until the profile is wetter than DUL, so the capped form behaves as a near-constant curve number. Against the Wallumbilla tilled and minimum-till catchments (1983–1997) the uncapped form fitted runoff clearly better (pooled 3-day NSE 0.72 uncapped, at most about 0.60 capped). Large storms on wet profiles were under-predicted by about half with the cap. Select it per soil with `<AMCMode>howleaky</AMCMode>` in the .soil/.xml file (or `profile.amc_mode`). The default remains "capped" because CN2 values in existing soil files were tuned for it. Under "howleaky" the same CN2 gives much less runoff: about 6–7 CN units higher was needed at Wallumbilla (CN2 83 → 90).
+The "howleaky" form follows HowLeaky/CREAMS: a dry profile produces less runoff than CN2 and a wet one more. The capped form limits S to S(CN2), so wetness can only add runoff. With the CN1 formula below, `smx × (1 − sumh20)` stays above S(CN2) until the profile is wetter than DUL, so the capped form behaves as a near-constant curve number. Against the Wallumbilla tilled and minimum-till catchments (1983–1997) the uncapped form fitted runoff clearly better (pooled 3-day NSE 0.72 uncapped, at most about 0.60 capped). Large storms on wet profiles were under-predicted by about half with the cap. **Since 18 Nov 2026 the uncapped form is the default for every soil**, and the curve number entered in a soil file is read as the bare-soil CN at average wetness (next section), so existing files keep familiar values. A soil can keep the original PERFECT method with `<AMCMode>capped</AMCMode>` (Excel: AMC mode = capped); its CN is then used as entered.
 
 ### CN1 and CN3
 
@@ -71,7 +71,7 @@ CN3 = CN2 × exp(0.00673 × (100 − CN2))
 
 ### Entering CN at average wetness (uncapped AMC)
 
-Under the uncapped ("howleaky") form, runoff is driven by the dry-soil retention Smax = S(CN1), and CN1 comes from CN2 through the formula above. Fitted CN2 values are therefore 90–100, and they don't look like the curve numbers people know from PERFECT. A soil file can give `<CNReferenceWetness>` (Excel row "CN reference wetness"). The runoff curve number entered is then the **bare-soil CN at that soil wetness** (sumh20, normally 0.25), which is close to the meaning of CN2 in the SCS handbook: the curve number at average antecedent condition. It is converted once, on reading, to the internal CN2:
+Under the uncapped ("howleaky") form, runoff is driven by the dry-soil retention Smax = S(CN1), and CN1 comes from CN2 through the formula above. The internal CN2 values are therefore 90–100, and they don't look like the curve numbers people know from PERFECT. So the runoff curve number entered in a soil file is the **bare-soil CN at average soil wetness**: the CN the model uses when sumh20 is at a reference value of 0.25. This is close to the handbook meaning of CN2, the curve number at average antecedent condition. A soil file may set its own reference with `<CNReferenceWetness>` (Excel row "CN reference wetness"); otherwise 0.25 is used. The entered CN is converted once, on reading, to the internal CN2:
 
 ```
 S_ref      = 25400 / CN_entered − 254
@@ -80,7 +80,9 @@ CN1        = 25400 / (Smax + 254)
 CN2_intern = 2.383 · CN1 / (1 + 0.0123 · CN1)        # inverse of the CN1 formula
 ```
 
-Nothing else changes: cover reduction, the wetness response and runoff use the internal CN2 exactly as before. The conversion applies only with `<AMCMode>howleaky</AMCMode>`. Capped soils, and files without `<CNReferenceWetness>`, read CN as before.
+Nothing else changes: cover reduction, the wetness response and runoff use the internal CN2 exactly as before. The conversion applies to every uncapped soil (the default). Soils set to `capped` read CN as entered.
+
+Library soils run with the same CN, uncapped against the original capped method (Dalby, Emerald, Moree and Horsham; winter and summer crop; 1980 on): long-term runoff ratio new ÷ old 0.94–1.26 for heavy clays (CN 73), 0.86–1.27 for light clays (75), 0.45–0.98 for sandy loams (65). The clay loams at CN 85 came out 0.48–0.78, so their CN was raised to 88 (giving 0.74–0.97). The median over all soils is about 0.94. A reference wetness of 0.2–0.25 gave the best overall match.
 
 How the entered CN compares with old (capped) PERFECT values: across ten climates (Nov 2026), entering an old capped CN gives similar long-term runoff to within about ±3 CN units at northern summer-rainfall sites (Dalby, Emerald, Moree, Roma, and the three catchment sites). The match is poorer in dry winter-rainfall climates (Horsham, Merredin), where the uncapped form gives more runoff. The 2026 catchment fits, entered this way: Greenmount 77 tilled / 84 zero till; Greenwood 83 / 90; Wallumbilla 84.
 

@@ -53,12 +53,15 @@ class SoilProfile:
 
 
 # ── Curve number entered at average soil wetness ────────────────────────────
-# With the uncapped (HowLeaky) AMC the model works from a dry-soil retention,
-# Smax = S(CN1), and CN1 is derived from an internal CN2. Fitted internal CN2
-# values are therefore high (90-100) and unlike the CNs people know. A soil file
-# can instead give the bare-soil CN at a reference wetness (sumh20, default 0.25):
-# the CN the model uses when the profile is at that wetness. It is converted once,
-# on reading, to the internal CN2; the runoff calculation itself is unchanged.
+# Watbal2026 runs the uncapped (HowLeaky) AMC by default. It works from a dry-soil
+# retention, Smax = S(CN1), with CN1 derived from an internal CN2, so internal CN2
+# values are high (90-100) and unlike the CNs people know. The runoff curve number
+# in a soil file is therefore the bare-soil CN at average wetness (reference
+# wetness 0.25, the CN the model uses when the profile is at that wetness), close
+# to the handbook meaning of CN2 and to PERFECT entries. It is converted once, on
+# reading, to the internal CN2; the runoff calculation itself is unchanged.
+# A soil that sets AMC mode "capped" keeps the original PERFECT method and reads CN as is.
+AMC_MODE_DEFAULT = 'howleaky'
 CN_REFERENCE_WETNESS_DEFAULT = 0.25
 
 
@@ -77,17 +80,25 @@ def cn_internal_to_input(cn2, wetness=CN_REFERENCE_WETNESS_DEFAULT):
     return 25400.0 / ((1.0 - wetness) * smax + 254.0)
 
 
-def apply_cn_reference(profile, wetness):
-    """If a reference wetness is given and the soil runs the uncapped AMC, treat
-    profile.cn2_bare as the CN at that wetness and replace it with the internal CN2.
-    Keeps the entered value as profile.cn_input for display."""
-    if wetness is None:
+def apply_cn_reference(profile, wetness=None):
+    """Settle the AMC mode and, for the uncapped AMC, convert the entered CN.
+
+    Called once by every soil reader after the profile is built. The AMC mode is
+    the soil's own setting, else AMC_MODE_DEFAULT (uncapped). For uncapped soils
+    profile.cn2_bare is taken as the bare-soil CN at the reference wetness (the
+    soil's own value, else 0.25) and replaced with the internal CN2; the entered
+    value is kept as profile.cn_input for display. Capped soils read CN as is."""
+    if getattr(profile, '_cn_converted', False):
         return profile
-    if (getattr(profile, 'amc_mode', None) or 'capped') != 'howleaky':
-        return profile                                  # capped soils read CN exactly as before
+    mode = (getattr(profile, 'amc_mode', None) or AMC_MODE_DEFAULT).lower()
+    profile.amc_mode = mode
+    if mode != 'howleaky':
+        return profile
+    w = CN_REFERENCE_WETNESS_DEFAULT if wetness is None else float(wetness)
     profile.cn_input = profile.cn2_bare
-    profile.cn_reference_wetness = float(wetness)
-    profile.cn2_bare = cn_input_to_internal(profile.cn2_bare, float(wetness))
+    profile.cn_reference_wetness = w
+    profile.cn2_bare = cn_input_to_internal(profile.cn2_bare, w)
+    profile._cn_converted = True
     return profile
 
 
@@ -198,6 +209,7 @@ def read_prm(filepath):
     )
     profile.total_depth = sum(l.thickness for l in layers)
     profile.pawc_total  = sum(l.pawc for l in layers)
+    apply_cn_reference(profile)
     return profile
 
 
