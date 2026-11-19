@@ -31,7 +31,7 @@
     <RootBioMassToDepthFactor>1</RootBioMassToDepthFactor>
     <MaxAllowTotalCover>1</MaxAllowTotalCover>
     <MaxRootDepth>1</MaxRootDepth>
-    <WaterUseEffic>36</WaterUseEffic>
+    <WaterUseEffic>34</WaterUseEffic>
     <PanHarvestIndex>0.35</PanHarvestIndex>
   </VegetationType>
 </CoverVegTemplate>
