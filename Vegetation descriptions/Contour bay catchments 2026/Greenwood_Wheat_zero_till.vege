@@ -5,7 +5,7 @@
     <TimeSeriesList>undefined</TimeSeriesList>
     <PanPlantDay default="1">150</PanPlantDay>
     <SWPropForNoStress default="0.3" LastModified="24/01/2021">0.75</SWPropForNoStress>
-    <DaysPlantingToHarvest default="365">150</DaysPlantingToHarvest>
+    <DaysPlantingToHarvest default="365">175</DaysPlantingToHarvest>
     <CoverInputOptions index="0" text="User-defined"/>
     <CropFactorMatrix Count="13">
       <Data x="1" y="0" z="56" a="0"/>
@@ -18,7 +18,7 @@
       <Data x="212" y="30" z="20" a="450"/>
       <Data x="243" y="85" z="15" a="1200"/>
       <Data x="273" y="95" z="10" a="1500"/>
-      <Data x="320" y="95" z="95" a="0"/>
+      <Data x="320" y="95" z="95" a="1500"/>
       <Data x="335" y="0" z="63" a="0"/>
       <Data x="365" y="0" z="56" a="0"/>
     </CropFactorMatrix>
@@ -31,7 +31,7 @@
     <RootBioMassToDepthFactor>1</RootBioMassToDepthFactor>
     <MaxAllowTotalCover>1</MaxAllowTotalCover>
     <MaxRootDepth>1</MaxRootDepth>
-    <WaterUseEffic default="3" LastModified="24/01/2021">45</WaterUseEffic>
+    <WaterUseEffic default="3" LastModified="24/01/2021">36</WaterUseEffic>
     <PanHarvestIndex default="0.35" LastModified="24/01/2021">0.4</PanHarvestIndex>
   </VegetationType>
 </CoverVegTemplate>
