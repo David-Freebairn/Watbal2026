@@ -44,8 +44,6 @@ class SoilProfile:
     slope_length: float
     rill_ratio  : float
     bulk_density: float
-    cracking    : bool
-    crack_infil : float   # max infiltration via cracks (mm)
 
     # computed
     total_depth : float = 0.0
@@ -175,20 +173,6 @@ def read_prm(filepath):
      musle_k, musle_p, slope_pct, slope_len, rill,
      bulk_density) = scalar_lines[:12]
 
-    # Cracking
-    crack_line = [l for l in data_lines if l.strip().lower().startswith(('y','n')) and
-                  'crack' not in l.lower()[:2]]
-    cracking_line = [l for l in lines if 'crack' in l.lower() and
-                     l.strip()[0].lower() in ('y','n')]
-    cracking = False
-    crack_infil = float(scalar_lines[12]) if len(scalar_lines) > 12 else 10.0
-    for l in lines:
-        stripped = l.strip().lower()
-        if stripped.startswith('y') and 'crack' in l.lower():
-            cracking = True
-        elif stripped.startswith('n') and 'crack' in l.lower():
-            cracking = False
-
     profile = SoilProfile(
         name        = name,
         layers      = layers,
@@ -204,8 +188,6 @@ def read_prm(filepath):
         slope_length= slope_len,
         rill_ratio  = rill,
         bulk_density= bulk_density,
-        cracking    = False,      # cracking removed from engine (Oct 2026)
-        crack_infil = 0.0,
     )
     profile.total_depth = sum(l.thickness for l in layers)
     profile.pawc_total  = sum(l.pawc for l in layers)

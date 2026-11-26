@@ -110,9 +110,6 @@ def read_soil_xml(filepath):
     slope = _get_scalar(st, 'FieldSlope',            default=3.0)
     sl    = _get_scalar(st, 'SlopeLength',           default=100.0)
     rill  = _get_scalar(st, 'RillRatio',             default=1.0)
-    # Soil cracking removed from the engine (Oct 2026); <SoilCrack> is ignored.
-    cracking = False
-    crack_infil = 0.0
 
     profile = SoilProfile(
         name                = name,
@@ -129,8 +126,6 @@ def read_soil_xml(filepath):
         slope_length        = sl,
         rill_ratio          = rill,
         bulk_density        = sum(bulk_d) / len(bulk_d),  # mean, kept for compat
-        cracking            = cracking,
-        crack_infil         = crack_infil,
     )
     profile.total_depth       = depths[-1]
     profile.pawc_total        = sum(l.pawc for l in layers)

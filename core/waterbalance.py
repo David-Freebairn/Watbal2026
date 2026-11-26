@@ -569,9 +569,10 @@ def daily_water_balance(
         _season = 1.0
     _cn_red = soil.cn_cover_reduction * (_wcn + (1.0 - _wcn) * _season)
 
-    # Soil cracking (HowLeaky ModelSoilCracking) was removed in Oct 2026: it rarely
-    # mattered and added parameters. Any <SoilCrack>/<MaxInfiltIntoCracks> in a soil
-    # file is ignored.
+    # Soil cracking (HowLeaky ModelSoilCracking) was removed in Oct 2026. Tested
+    # Nov 2026 on the ten contour bay catchments: after refitting it gave runoff
+    # NSE +0.01 and worse PAW (+0.8 mm RMSE) for an extra parameter. The soil
+    # file elements were removed from all soils.
     eff_rain = rain
 
     # -- 1. Runoff — uses TOTAL cover (green + residue) -----------------------

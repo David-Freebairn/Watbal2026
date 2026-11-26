@@ -358,7 +358,6 @@ def _make_soil_from_dict(soil_dict):
         cn_roughness_rain  = 0.0,
         musle_k     = 0.48, musle_p=1.0, slope_pct=3.0,
         slope_length=100.0, rill_ratio=1.0, bulk_density=1.55,
-        cracking=False, crack_infil=10.0,
     )
     profile.total_depth = sum(l.thickness for l in layers)
     profile.pawc_total  = sum(l.pawc for l in layers)

@@ -179,7 +179,7 @@ def read_soil_excel(path: str | Path) -> SoilProfile:
         cn_tillage_max=till_cn,            # engine name (was tillage_cn_reduction: never used)
         cn_roughness_rain=rain_r,          # engine name (was rain_to_remove_rough: never used)
         musle_k=k, musle_p=p_fac, slope_pct=slope, slope_length=length, rill_ratio=rill,
-        bulk_density=sum(bd) / len(bd), cracking=False, crack_infil=0.0)
+        bulk_density=sum(bd) / len(bd))
     profile.total_depth = depths[-1]
     profile.pawc_total = sum(l.pawc for l in layers)
     profile.pawc = profile.pawc_total
