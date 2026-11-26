@@ -295,7 +295,7 @@ Watbal2026/
 
 1. **CN value** — Use CN ≈ 2 units lower than HowLeaky to get equivalent runoff, due to minor AMC implementation differences.
 2. **Transpiration** — Watbal2026 typically produces 10–15% less annual transpiration than HowLeaky. The `PAW no-stress threshold` parameter controls late-season drawdown.
-3. **Soil cracking** — not implemented (removed from HowLeaky-Core March 2022).
+3. **Soil cracking** — removed (Oct 2026). Tested on the ten contour bay catchments (Nov 2026): after refitting, runoff NSE +0.01 and soil water RMSE +0.8 mm, for one more parameter. The `<SoilCrack>` and `<MaxInfiltIntoCracks>` elements are no longer in the soil files and are ignored if present.
 4. **Irrigation** — not implemented.
 5. **Tillage** — CN tillage reduction is read from soil files but not dynamically scheduled.
 

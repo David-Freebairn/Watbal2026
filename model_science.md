@@ -84,7 +84,7 @@ Nothing else changes: cover reduction, the wetness response and runoff use the i
 
 Library soils run with the same CN, uncapped against the original capped method (Dalby, Emerald, Moree and Horsham; winter and summer crop; 1980 on): long-term runoff ratio new ÷ old 0.94–1.26 for heavy clays (CN 73), 0.86–1.27 for light clays (75), 0.45–0.98 for sandy loams (65). The clay loams at CN 85 came out 0.48–0.78, so their CN was raised to 88 (giving 0.74–0.97). The median over all soils is about 0.94. A reference wetness of 0.2–0.25 gave the best overall match.
 
-How the entered CN compares with old (capped) PERFECT values: across ten climates (Nov 2026), entering an old capped CN gives similar long-term runoff to within about ±3 CN units at northern summer-rainfall sites (Dalby, Emerald, Moree, Roma, and the three catchment sites). The match is poorer in dry winter-rainfall climates (Horsham, Merredin), where the uncapped form gives more runoff. The 2026 catchment fits, entered this way: Greenmount 77 tilled / 84 zero till; Greenwood 83 / 90; Wallumbilla 84.
+How the entered CN compares with old (capped) PERFECT values: across ten climates (Nov 2026), entering an old capped CN gives similar long-term runoff to within about ±3 CN units at northern summer-rainfall sites (Dalby, Emerald, Moree, Roma, and the three catchment sites). The match is poorer in dry winter-rainfall climates (Horsham, Merredin), where the uncapped form gives more runoff. The 2026 catchment fits, entered this way: Greenmount 77 tilled / 84 zero till; Greenwood 83 / 90; Wallumbilla 80.5 (revised soil, 19 Nov 2026).
 
 ### Zero tillage
 
@@ -340,9 +340,9 @@ An annual balance error < 0.01 mm/yr confirms numerical integrity. This is repor
 
 | Feature | HowLeaky | Watbal2026 | Notes |
 |---------|----------|-----------|-------|
-| AMC | S from CN1 | Cap at S(CN2) by default; HowLeaky form per soil | `<AMCMode>howleaky</AMCMode>`; CN2 ≈ 6–7 higher |
+| AMC | S from CN1 | HowLeaky (uncapped) form by default since 18 Nov 2026; capped PERFECT form per soil | `<AMCMode>capped</AMCMode>` keeps the old method; CN entered at average wetness |
 | Potential transpiration | Green cover | Green cover (fixed Oct 2026; was total cover) | Soil evaporation and CN use total cover |
 | Transpiration stress | Per-layer supply only | Profile factor + per-layer | More gradual seasonal drawdown |
 | Root extraction rate | — | No separate limit (kl removed Nov 2026) | Crop water use set by green cover, root depth and the no-stress PAW fraction in the vege file; `<RootExtractionKl>` is ignored |
-| Soil cracking | Optional | Removed (Oct 2026) | Rarely mattered; `<SoilCrack>` is ignored |
+| Soil cracking | Optional | Removed (Oct 2026) | No better fit after refitting (runoff NSE +0.01, PAW RMSE +0.8 mm) for one more parameter; elements removed from soil files |
 | Irrigation | Yes | No | Future development |
