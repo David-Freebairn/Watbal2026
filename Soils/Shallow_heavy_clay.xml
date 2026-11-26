@@ -23,7 +23,6 @@
     <FieldSlope LastModified="29/06/2012">9</FieldSlope>
     <SlopeLength LastModified="29/06/2012">22</SlopeLength>
     <RillRatio LastModified="29/06/2012">0.5</RillRatio>
-    <SoilCrack state="false"/>
     <SedDelivRatio LastModified="29/06/2012">0.14</SedDelivRatio>
     <OrganicCarbon LastModified="29/06/2012">1.2</OrganicCarbon>
     <CarbonNitrogenRatio LastModified="29/06/2012">10</CarbonNitrogenRatio>

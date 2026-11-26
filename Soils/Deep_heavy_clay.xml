@@ -23,8 +23,6 @@
     <FieldSlope LastModified="02/07/2012">9</FieldSlope>
     <SlopeLength LastModified="02/07/2012">22</SlopeLength>
     <RillRatio LastModified="02/07/2012">0.5</RillRatio>
-    <SoilCrack state="false"/>
-    <MaxInfiltIntoCracks LastModified="02/07/2012">0</MaxInfiltIntoCracks>
     <SedDelivRatio LastModified="02/07/2012">0.14</SedDelivRatio>
     <OrganicCarbon LastModified="02/07/2012">1.2</OrganicCarbon>
     <CarbonNitrogenRatio LastModified="02/07/2012">10</CarbonNitrogenRatio>
